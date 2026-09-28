@@ -1,0 +1,2428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>赵王城 · 黄昏第一版</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #2a2118; overflow: hidden; touch-action: none; }
+  canvas { display: block; width: 100%; height: 100%; }
+  #boot {
+    position: fixed; inset: 0; display: grid; place-items: center;
+    color: #f3e6d0; font: 16px/1.4 "Songti SC", "Noto Serif SC", "STSong", Palatino, serif;
+    letter-spacing: 0.12em; background: #2a2118;
+  }
+  #hud {
+    position: fixed; inset: 0; pointer-events: none; color: #f6efe4;
+    font-family: "Songti SC", "Noto Serif SC", "STSong", Palatino, serif;
+    text-shadow: 0 1px 2px rgba(20, 12, 6, 0.72);
+  }
+  #title { position: absolute; top: 16px; left: 18px; }
+  #title h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: 0.14em; }
+  #title p { margin: 6px 0 0; font-size: 13px; letter-spacing: 0.04em; opacity: 0.92; }
+  #note {
+    position: absolute; left: 18px; bottom: 16px; max-width: 28rem;
+    font-size: 11px; line-height: 1.55; opacity: 0.78;
+  }
+  #gate {
+    position: absolute; left: 50%; bottom: 11%; transform: translateX(-50%);
+    font-size: 18px; letter-spacing: 0.28em; opacity: 0;
+    transition: opacity 0.6s linear; white-space: nowrap;
+  }
+  #gate.on { opacity: 1; }
+  #hint {
+    position: absolute; top: 68px; left: 18px; font-size: 13px; letter-spacing: 0.08em;
+    opacity: 0; transition: opacity 0.5s linear;
+  }
+  #hint.on { opacity: 0.95; }
+  #joy {
+    display: none; pointer-events: auto; position: absolute; left: 16px; bottom: 16px;
+    width: 112px; height: 112px; border-radius: 50%;
+    background: rgba(246, 239, 228, 0.1);
+    border: 1px solid rgba(246, 239, 228, 0.38);
+    box-sizing: border-box; touch-action: none;
+  }
+  #knob {
+    position: absolute; left: 36px; top: 36px; width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(246, 239, 228, 0.62); box-sizing: border-box;
+  }
+  html.phone #joy { display: block; }
+  html.phone #note { bottom: 140px; max-width: min(28rem, calc(100vw - 150px)); }
+  html.phone #title h1 { font-size: 16px; }
+  #hours {
+    position: absolute; top: 16px; right: 16px; display: flex; gap: 8px;
+    pointer-events: auto; z-index: 2;
+  }
+  #hours button {
+    width: 12px; height: 12px; border-radius: 50%; padding: 0; cursor: pointer;
+    border: 1px solid rgba(246, 239, 228, 0.72); background: #d06a32;
+  }
+  #hours button[data-hour="night"] { background: #1b2438; }
+  #hours button[data-hour="mist"] { background: #d7d8dc; }
+  #hours button.on { transform: scale(1.35); box-shadow: 0 0 0 1px rgba(246, 239, 228, 0.95); }
+
+</style>
+</head>
+<body>
+<div id="boot">赵王城 · 黄昏</div>
+<div id="hud">
+  <div id="title">
+    <h1>赵王城 · 黄昏第一版</h1>
+    <p id="help">WASD / 方向键划船，鼠标拖动转视角</p>
+  </div>
+  <div id="hint">横屏体验更好</div>
+  <div id="gate">南门 · 抬头看双阙</div>
+  <div id="note">布局按赵王城品字形宫城压缩；双阙形制参考西城西门发掘，位置放在开场南门。</div>
+  <div id="joy"><div id="knob"></div></div>
+  <div id="hours">
+    <button type="button" data-hour="dusk" class="on" aria-label="黄昏"></button>
+    <button type="button" data-hour="night" aria-label="夜火"></button>
+    <button type="button" data-hour="mist" aria-label="晨雾"></button>
+  </div>
+</div>
+<script>
+window.__html = 1;
+window.addEventListener("error", (e) => { window.__bootErr = (e.message || "") + " @ " + (e.filename || "") + ":" + (e.lineno || 0); });
+</script>
+<script type="module">
+import * as THREE from "https://unpkg.com/three@0.170.0/build/three.module.js";
+window.__stage = "start";
+
+const WAY = [
+  [168, -34], [158, -36], [148, -40], [128, -40], [108, -40], [98, -36],
+  [70, -28], [20, -28], [-28, -28], [-28, 40], [-28, 120], [-28, 220],
+  [-28, 248], [62, 248], [62, 300], [62, 408], [180, 408], [280, 408],
+  [378, 408], [378, 300], [378, 180], [378, 80], [378, -28], [280, -28],
+  [220, -28], [190, -28], [175, -32],
+];
+
+const CONTOUR = [
+  [0, 0], [350, 0], [350, 380], [90, 380], [90, 220], [0, 220],
+];
+
+const OUTER_WATER = [
+  [-44, -44], [98, -44], [98, -59], [158, -59], [158, -44], [394, -44],
+  [394, 424], [46, 424], [46, 264], [-44, 264],
+];
+const INNER_WATER = [
+  [-12, -12], [98, -12], [98, -16], [158, -16], [158, -12], [362, -12],
+  [362, 392], [78, 392], [78, 232], [-12, 232],
+];
+
+// 规格 z 朝北；Three.js 右手系里 X 东、Y 上时 +Z 朝南。进入场景时统一取反。
+function specToWorld(x, y, z) { return [x, y, -z]; }
+function wz(z) { return -z; }
+
+const SUN_DIR = new THREE.Vector3(...specToWorld(-0.913, 0.174, -0.369));
+const MAX_SPEED = 4.5;
+const DAMP = 3.2;
+const ACCEL = DAMP * MAX_SPEED;
+const MAX_YAW_RATE = 0.9;
+const DEG = Math.PI / 180;
+
+const params = new URLSearchParams(location.search);
+const topView = params.has("top");
+
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+function hypot2(x, z) { return Math.hypot(x, z); }
+
+function detectPhone() {
+  const ua = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
+  const shortSide = Math.min(window.innerWidth, window.innerHeight);
+  return ua || (coarse && shortSide < 900) || /phone=1/.test(location.search);
+}
+
+function pointInPoly(x, z, poly) {
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const xi = poly[i][0], zi = poly[i][1];
+    const xj = poly[j][0], zj = poly[j][1];
+    if ((zi > z) !== (zj > z) && x < ((xj - xi) * (z - zi)) / (zj - zi) + xi) inside = !inside;
+  }
+  return inside;
+}
+
+function intersectLine(l1, l2) {
+  const det = l1.dx * l2.dz - l1.dz * l2.dx;
+  if (Math.abs(det) < 1e-9) return [l1.px, l1.pz];
+  const t = ((l2.px - l1.px) * l2.dz - (l2.pz - l1.pz) * l2.dx) / det;
+  return [l1.px + l1.dx * t, l1.pz + l1.dz * t];
+}
+
+function offsetPoly(pts, distAtEdge) {
+  const n = pts.length;
+  const lines = [];
+  for (let i = 0; i < n; i++) {
+    const a = pts[i], b = pts[(i + 1) % n];
+    const dx = b[0] - a[0], dz = b[1] - a[1];
+    const len = Math.hypot(dx, dz) || 1;
+    const lx = -dz / len, lz = dx / len;
+    const d = typeof distAtEdge === "function" ? distAtEdge(i, a, b) : distAtEdge;
+    lines.push({ px: a[0] + lx * d, pz: a[1] + lz * d, dx, dz });
+  }
+  const out = [];
+  for (let i = 0; i < n; i++) out.push(intersectLine(lines[(i - 1 + n) % n], lines[i]));
+  return out;
+}
+
+function filletClosed(pts, radiusAt) {
+  const n = pts.length;
+  const data = pts.map((p, i) => {
+    const prev = pts[(i - 1 + n) % n];
+    const next = pts[(i + 1) % n];
+    const inX = p[0] - prev[0], inZ = p[1] - prev[1];
+    const outX = next[0] - p[0], outZ = next[1] - p[1];
+    const inL = Math.hypot(inX, inZ) || 1, outL = Math.hypot(outX, outZ) || 1;
+    const ix = inX / inL, iz = inZ / inL, ox = outX / outL, oz = outZ / outL;
+    const cross = ix * oz - iz * ox;
+    const dot = clamp(ix * ox + iz * oz, -1, 1);
+    return { ix, iz, ox, oz, outL, signed: Math.atan2(cross, dot) };
+  });
+  const wantR = data.map((d, i) => {
+    const r = radiusAt(pts[i], d.signed, i) || 0;
+    return r > 0 && Math.abs(d.signed) > 0.02 ? r : 0;
+  });
+  const L = wantR.map((r, i) => (r ? r * Math.tan(Math.abs(data[i].signed) / 2) : 0));
+  const usedR = wantR.slice();
+  for (let iter = 0; iter < 6; iter++) {
+    for (let i = 0; i < n; i++) {
+      const need = L[i] + L[(i + 1) % n];
+      const edgeLen = data[i].outL;
+      if (need > edgeLen * 0.96 && need > 1e-8) {
+        const scale = (edgeLen * 0.96) / need;
+        L[i] *= scale; L[(i + 1) % n] *= scale;
+        usedR[i] *= scale; usedR[(i + 1) % n] *= scale;
+      }
+    }
+  }
+  const out = [];
+  const notes = [];
+  for (let i = 0; i < n; i++) {
+    if (wantR[i] > 0 && usedR[i] < wantR[i] - 0.05) {
+      notes.push({ i, want: +wantR[i].toFixed(2), used: +usedR[i].toFixed(2), at: pts[i] });
+    }
+    const p = pts[i], d = data[i];
+    if (L[i] < 0.04) { out.push([p[0], p[1]]); continue; }
+    const r = L[i] / Math.tan(Math.abs(d.signed) / 2);
+    const t0x = p[0] - d.ix * L[i], t0z = p[1] - d.iz * L[i];
+    const t1x = p[0] + d.ox * L[i], t1z = p[1] + d.oz * L[i];
+    const side = d.signed > 0 ? 1 : -1;
+    const cx = t0x + side * (-d.iz) * r;
+    const cz = t0z + side * d.ix * r;
+    const a0 = Math.atan2(t0z - cz, t0x - cx);
+    const a1 = Math.atan2(t1z - cz, t1x - cx);
+    let delta = a1 - a0;
+    while (delta > Math.PI) delta -= Math.PI * 2;
+    while (delta < -Math.PI) delta += Math.PI * 2;
+    if (d.signed > 0 && delta < 0) delta += Math.PI * 2;
+    if (d.signed < 0 && delta > 0) delta -= Math.PI * 2;
+    const steps = Math.max(2, Math.ceil(Math.abs(delta) / (8 * DEG)));
+    for (let k = 0; k <= steps; k++) {
+      const ang = a0 + delta * (k / steps);
+      out.push([cx + Math.cos(ang) * r, cz + Math.sin(ang) * r]);
+    }
+  }
+  return { pts: dedupe(out), notes };
+}
+
+function dedupe(pts) {
+  const o = [];
+  for (const p of pts) {
+    if (!o.length || hypot2(p[0] - o[o.length - 1][0], p[1] - o[o.length - 1][1]) > 0.03) o.push(p);
+  }
+  if (o.length > 1 && hypot2(o[0][0] - o[o.length - 1][0], o[0][1] - o[o.length - 1][1]) < 0.03) o.pop();
+  return o;
+}
+
+function nearPoint(p, list, r) {
+  return list.some((t) => hypot2(p[0] - t[0], p[1] - t[1]) < r);
+}
+
+const route = filletClosed(WAY, (_p, signed) => (signed < -0.04 ? 12 : 0));
+const routePts = route.pts;
+const segs = [];
+let routeLen = 0;
+for (let i = 0; i < routePts.length; i++) {
+  const a = routePts[i], b = routePts[(i + 1) % routePts.length];
+  const dx = b[0] - a[0], dz = b[1] - a[1];
+  const len = Math.hypot(dx, dz);
+  if (len < 1e-4) continue;
+  segs.push({ ax: a[0], az: a[1], dx, dz, len, s0: routeLen });
+  routeLen += len;
+}
+
+function project(x, z, hint) {
+  let best = null;
+  for (let i = 0; i < segs.length; i++) {
+    const sg = segs[i];
+    let t = ((x - sg.ax) * sg.dx + (z - sg.az) * sg.dz) / (sg.len * sg.len);
+    t = clamp(t, 0, 1);
+    const px = sg.ax + sg.dx * t, pz = sg.az + sg.dz * t;
+    const d = hypot2(x - px, z - pz);
+    let hintPen = 0;
+    if (hint != null) {
+      let di = Math.abs(i - hint);
+      di = Math.min(di, segs.length - di);
+      if (di > 4) hintPen = 0.35;
+    }
+    const score = d + hintPen;
+    if (!best || score < best.score - 1e-6 || (Math.abs(score - best.score) < 0.25 && hint != null && hintPen < best.hintPen)) {
+      best = { x: px, z: pz, d, s: sg.s0 + sg.len * t, i, dx: sg.dx, dz: sg.dz, len: sg.len, score, hintPen };
+    }
+  }
+  return best;
+}
+
+const wpS = WAY.map((p) => project(p[0], p[1], null).s);
+function forwardSpan(s, a, b) {
+  const u = (s - a + routeLen) % routeLen;
+  const ub = (b - a + routeLen) % routeLen;
+  return { u, ub, on: u <= ub + 1e-3 };
+}
+function halfWidth(s) {
+  const span = forwardSpan(s, wpS[0], wpS[1]);
+  if (span.on) return 10 + (6 - 10) * (span.ub < 1e-4 ? 1 : span.u / span.ub);
+  if (forwardSpan(s, wpS[1], wpS[5]).on) return 6;
+  return 10;
+}
+function inBSegment(s) { return forwardSpan(s, wpS[1], wpS[5]).on; }
+
+const innerPoly = INNER_WATER;
+
+function isBFront(a, b) {
+  const mx = (a[0] + b[0]) / 2, mz = (a[1] + b[1]) / 2;
+  const dx = Math.abs(b[0] - a[0]), dz = Math.abs(b[1] - a[1]);
+  return mz < -15.3 && mz > -16.8 && mx > 99.5 && mx < 156.5 && dx > dz;
+}
+function innerBankDist(_i, a, b) { return isBFront(a, b) ? 5 : 3; }
+
+function onBOuter(x, z) {
+  return x >= 97.2 && x <= 158.8 && z <= -43.2 && z >= -59.8;
+}
+function southQuiet(x, z) {
+  if (z > -30) return 1;
+  if (x >= 70 && x <= 186) return 0;
+  if (x >= 50 && x < 70) return (70 - x) / 20;
+  if (x > 186 && x <= 210) return (x - 186) / 24;
+  return 1;
+}
+function notchMute(x, z) {
+  const d = Math.hypot(x - 46, z - 264);
+  if (d < 28) return 0;
+  if (d < 48) return (d - 28) / 20;
+  return 1;
+}
+function shoreNoise(x, z) {
+  const a = Math.sin(x * 0.078 + z * 0.061);
+  const b = Math.sin(x * 0.052 - z * 0.083 + 1.7);
+  const c = Math.sin((x + z) * 0.094 + 0.4);
+  const n = a * 0.42 + b * 0.36 + c * 0.22;
+  return (n * 0.5 + 0.5) * 28;
+}
+const BAYS = [
+  { x: -44, z: -44, r: 115, amp: 52 },
+  { x: -44, z: 264, r: 105, amp: 46 },
+  { x: 46, z: 424, r: 125, amp: 50 },
+  { x: 394, z: 424, r: 115, amp: 46 },
+  { x: 394, z: -44, r: 105, amp: 40 },
+];
+function bayExtra(x, z) {
+  let e = 0;
+  for (const bay of BAYS) {
+    const d = Math.hypot(x - bay.x, z - bay.z);
+    if (d >= bay.r) continue;
+    const t = 1 - d / bay.r;
+    const s = t * t * (3 - 2 * t);
+    if (s > e) e = bay.amp * s;
+  }
+  return e;
+}
+function extraOut(x, z) {
+  if (onBOuter(x, z)) return 0;
+  const mute = southQuiet(x, z) * notchMute(x, z);
+  if (mute <= 0) return 0;
+  return mute * (shoreNoise(x, z) + bayExtra(x, z));
+}
+function densifyOffset(poly, extraFn) {
+  const out = [];
+  const n = poly.length;
+  for (let i = 0; i < n; i++) {
+    const a = poly[i], b = poly[(i + 1) % n];
+    const dx = b[0] - a[0], dz = b[1] - a[1];
+    const len = Math.hypot(dx, dz) || 1;
+    const ox = dz / len, oz = -dx / len;
+    const steps = Math.max(1, Math.ceil(len / 8));
+    for (let s = 0; s < steps; s++) {
+      const t = s / steps;
+      const x = a[0] + dx * t, z = a[1] + dz * t;
+      const e = extraFn(x, z);
+      out.push([x + ox * e, z + oz * e]);
+    }
+  }
+  return dedupe(out);
+}
+function pushOutsideRoute(pts) {
+  return pts.map(([x, z]) => {
+    const p = project(x, z, null);
+    if (p.d >= 16 - 1e-3) return [x, z];
+    const len = p.d || 1;
+    const ux = (x - p.x) / len, uz = (z - p.z) / len;
+    if (!Number.isFinite(ux)) return [x, z];
+    return [p.x + ux * 16, p.z + uz * 16];
+  });
+}
+const outerPoly = pushOutsideRoute(densifyOffset(OUTER_WATER, extraOut));
+
+function slopeWidthAt(x, z) {
+  const t = 0.5 + 0.5 * Math.sin(x * 0.019 + z * 0.014 + 0.6);
+  return 4 + 6 * t;
+}
+function crestHeight(x, z) {
+  const n = Math.sin(x * 0.021 + 0.3) * 0.62 + Math.sin(z * 0.017 - 0.8) * 0.38;
+  return 0.8 + (n * 0.5 + 0.5) * 1.5;
+}
+
+function waveY(x, z, t) {
+  return Math.sin(x * 0.16 + t * 0.9) * 0.018
+    + Math.sin(z * 0.13 - t * 0.7 + 1.7) * 0.015
+    + Math.sin((x + z) * 0.09 + t * 0.5) * 0.012;
+}
+function inWater(x, z) {
+  return pointInPoly(x, z, outerPoly) && !pointInPoly(x, z, innerPoly);
+}
+
+class Buf {
+  constructor(flipZ = true) { this.pos = []; this.nrm = []; this.flipZ = flipZ; }
+  tri(a, b, c, n) {
+    const z = (v) => (this.flipZ ? -v : v);
+    const nz = this.flipZ ? -n[2] : n[2];
+    const p = this.flipZ ? [a, c, b] : [a, b, c];
+    for (const v of p) this.pos.push(v[0], v[1], z(v[2]));
+    this.nrm.push(n[0], n[1], nz, n[0], n[1], nz, n[0], n[1], nz);
+  }
+  quad(p0, p1, p2, p3, hint) {
+    const ax = p1[0] - p0[0], ay = p1[1] - p0[1], az = p1[2] - p0[2];
+    const bx = p3[0] - p0[0], by = p3[1] - p0[1], bz = p3[2] - p0[2];
+    let nx = ay * bz - az * by, ny = az * bx - ax * bz, nz = ax * by - ay * bx;
+    const len = Math.hypot(nx, ny, nz) || 1;
+    nx /= len; ny /= len; nz /= len;
+    const flip = hint && nx * hint[0] + ny * hint[1] + nz * hint[2] < 0;
+    if (flip) { nx = -nx; ny = -ny; nz = -nz; }
+    const n = [nx, ny, nz];
+    if (flip) { this.tri(p0, p3, p2, n); this.tri(p0, p2, p1, n); }
+    else { this.tri(p0, p1, p2, n); this.tri(p0, p2, p3, n); }
+  }
+  box(cx, cy, cz, sx, sy, sz) {
+    this.orientedBox(cx, cy, cz, sx, sy, sz, 0);
+  }
+  orientedBox(cx, cy, cz, sx, sy, sz, yaw) {
+    const c = Math.cos(yaw), s = Math.sin(yaw);
+    const R = (x, y, z) => [cx + x * c + z * s, cy + y, cz - x * s + z * c];
+    const x = sx / 2, y = sy / 2, z = sz / 2;
+    const p = [
+      R(-x, -y, -z), R(x, -y, -z), R(x, -y, z), R(-x, -y, z),
+      R(-x, y, -z), R(x, y, -z), R(x, y, z), R(-x, y, z),
+    ];
+    this.quad(p[7], p[6], p[5], p[4], [0, 1, 0]);
+    this.quad(p[0], p[1], p[2], p[3], [0, -1, 0]);
+    this.quad(p[1], p[5], p[6], p[2], [1, 0, 0]);
+    this.quad(p[3], p[7], p[4], p[0], [-1, 0, 0]);
+    this.quad(p[4], p[5], p[1], p[0], [0, 0, -1]);
+    this.quad(p[3], p[2], p[6], p[7], [0, 0, 1]);
+  }
+  mesh(material) {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(this.pos, 3));
+    g.setAttribute("normal", new THREE.Float32BufferAttribute(this.nrm, 3));
+    const m = new THREE.Mesh(g, material);
+    m.castShadow = SHADOW;
+    m.receiveShadow = SHADOW;
+    return m;
+  }
+}
+
+function bandsBetween(y0, y1) {
+  const bands = [];
+  let y = y0;
+  while (y < y1 - 1e-4) {
+    let boundary = Math.ceil((y + 1e-6) / 0.5) * 0.5;
+    if (boundary <= y + 1e-4) boundary += 0.5;
+    const yEnd = Math.min(y1, boundary);
+    const onSeam = Math.abs(y / 0.5 - Math.round(y / 0.5)) < 1e-3;
+    if (onSeam) {
+      const yd = Math.min(yEnd, y + 0.065);
+      bands.push([y, yd, true]);
+      if (yd < yEnd - 1e-4) bands.push([yd, yEnd, false]);
+    } else bands.push([y, yEnd, false]);
+    y = yEnd;
+  }
+  return bands;
+}
+
+const isPhone = detectPhone();
+const SHADOW = !isPhone && !topView;
+document.documentElement.classList.toggle("phone", isPhone);
+const help = document.getElementById("help");
+if (isPhone) help.textContent = "左下摇杆划船，右半屏滑动转视角";
+
+const renderer = new THREE.WebGLRenderer({ antialias: !isPhone, powerPreference: "high-performance" });
+renderer.setPixelRatio(isPhone ? Math.min(1.25, window.devicePixelRatio || 1) : Math.min(2, window.devicePixelRatio || 1));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.12;
+renderer.shadowMap.enabled = SHADOW;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setClearColor(0xc98448, 1);
+document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+const scene = new THREE.Scene();
+if (!topView) scene.fog = new THREE.Fog(0xc98448, 42, 230);
+
+const rammed = new THREE.MeshStandardMaterial({ color: 0x9c7b55, roughness: 0.94, metalness: 0 });
+const rammedDark = new THREE.MeshStandardMaterial({ color: 0x7e6244, roughness: 0.94, metalness: 0 });
+const tileMat = new THREE.MeshStandardMaterial({
+  color: 0x5e6468, roughness: 0.62, metalness: 0.04,
+  polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1,
+});
+const roofMat = new THREE.MeshStandardMaterial({ color: 0x5e6468, roughness: 0.6, metalness: 0.04, side: THREE.DoubleSide });
+const woodCol = new THREE.MeshStandardMaterial({ color: 0x4a3226, roughness: 0.74, metalness: 0 });
+const lacquer = new THREE.MeshStandardMaterial({ color: 0x6e2e22, roughness: 0.68, metalness: 0 });
+const doorMat = new THREE.MeshStandardMaterial({ color: 0x1c1612, roughness: 0.55, metalness: 0.08 });
+const sealMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+const woodMat = new THREE.MeshStandardMaterial({ color: 0x5a4330, roughness: 0.84, metalness: 0 });
+const boatMat = new THREE.MeshStandardMaterial({ color: 0x4a3628, roughness: 0.76, metalness: 0 });
+const groundMat = new THREE.MeshStandardMaterial({ color: 0x6f6243, roughness: 0.97, metalness: 0, side: THREE.DoubleSide });
+// 水平岸地只吃到约 10° 的阳光，ACES 会把它压成近黑。同色自发光把底色抬回 #6F6243，方向光仍叠加在上面。
+groundMat.emissive.setHex(0x6f6243);
+groundMat.emissiveIntensity = 0.32;
+const waterMat = new THREE.MeshStandardMaterial({
+  color: 0x2f2a24, metalness: 0.12, roughness: 0.62, transparent: true, opacity: 0.92, depthWrite: false,
+});
+
+const skyMat = new THREE.ShaderMaterial({
+  side: THREE.BackSide,
+  depthWrite: false,
+  depthTest: false,
+  fog: false,
+  uniforms: {
+    sunDir: { value: SUN_DIR.clone().normalize() },
+    horizon: { value: new THREE.Color(0xc98448) },
+    zenith: { value: new THREE.Color(0xa85a30) },
+    sunGlow: { value: new THREE.Color(0xffc48a) },
+    bottom: { value: new THREE.Color(0x1b2438) },
+    midc: { value: new THREE.Color(0x141c30) },
+    topc: { value: new THREE.Color(0x0a0f1e) },
+    afterglow: { value: new THREE.Color(0x5a2a20) },
+    uBlend: { value: 0 },
+    uAfter: { value: 0 },
+    uSoft: { value: 0 },
+  },
+  vertexShader: `
+    varying vec3 vWorld;
+    void main() {
+      vec4 w = modelMatrix * vec4(position, 1.0);
+      vWorld = w.xyz;
+      gl_Position = projectionMatrix * viewMatrix * w;
+    }
+  `,
+  fragmentShader: `
+    uniform vec3 horizon;
+    uniform vec3 zenith;
+    uniform vec3 sunGlow;
+    uniform vec3 sunDir;
+    uniform vec3 bottom;
+    uniform vec3 midc;
+    uniform vec3 topc;
+    uniform vec3 afterglow;
+    uniform float uBlend;
+    uniform float uAfter;
+    uniform float uSoft;
+    varying vec3 vWorld;
+    void main() {
+      vec3 d = normalize(vWorld - cameraPosition);
+      float h = clamp(d.y * 0.55 + 0.15, 0.0, 1.0);
+      vec3 duskCol = mix(horizon, zenith, smoothstep(0.05, 0.75, h));
+      float s = max(dot(d, normalize(sunDir)), 0.0);
+      duskCol = mix(duskCol, sunGlow, pow(s, 8.0) * 0.12);
+      duskCol += sunGlow * pow(s, 280.0) * 0.55;
+      float elev = clamp(d.y * 0.5 + 0.5, 0.0, 1.0);
+      vec3 graded = mix(bottom, midc, smoothstep(0.02, 0.42, elev));
+      graded = mix(graded, topc, smoothstep(0.34, 0.95, elev));
+      float west = smoothstep(0.2, -0.7, d.x) * smoothstep(0.42, 0.02, d.y);
+      graded = mix(graded, afterglow, west * uAfter);
+      graded += sunGlow * pow(s, 6.0) * uSoft;
+      graded *= mix(1.0, 2.7, uAfter);
+      gl_FragColor = vec4(mix(duskCol, graded, uBlend), 1.0);
+    }
+  `,
+});
+const sky = new THREE.Mesh(new THREE.SphereGeometry(30, 48, 24), skyMat);
+sky.name = "sky";
+sky.frustumCulled = false;
+sky.renderOrder = -2;
+scene.add(sky);
+
+const baseBuf = new Buf();
+const darkBuf = new Buf();
+const tileBuf = new Buf();
+const colBuf = new Buf();
+const beamBuf = new Buf();
+const redBuf = new Buf();
+const doorBuf = new Buf();
+const occluders = [];
+
+function pushRammedBox(cx, cy, cz, sx, sy, sz) {
+  const y0 = cy - sy / 2, y1 = cy + sy / 2;
+  for (const [a, b, dark] of bandsBetween(y0, y1)) {
+    (dark ? darkBuf : baseBuf).box(cx, (a + b) / 2, cz, sx, b - a, sz);
+  }
+}
+
+function wallInsets(y) {
+  const t = clamp((y - 0.8) / 10, 0, 1);
+  return { outer: 2.25 * t, inner: 9 - 2.25 * t };
+}
+function lerp2(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+
+const ySet = new Set([0.8, 10.8]);
+for (const band of bandsBetween(0.8, 10.8)) { ySet.add(band[0]); ySet.add(band[1]); }
+const insetCache = new Map();
+for (const y of ySet) {
+  const ins = wallInsets(y);
+  insetCache.set(y, {
+    o: offsetPoly(CONTOUR, ins.outer),
+    i: offsetPoly(CONTOUR, ins.inner),
+  });
+}
+
+function edgePoint(poly, i, t) {
+  const a = poly[i], b = poly[(i + 1) % poly.length];
+  return lerp2(a, b, t);
+}
+function addWallPiece(edge, t0, t1, capStart, capEnd) {
+  const a = CONTOUR[edge], b = CONTOUR[(edge + 1) % CONTOUR.length];
+  const dx = b[0] - a[0], dz = b[1] - a[1];
+  const len = Math.hypot(dx, dz) || 1;
+  const inward = [-dz / len, dx / len];
+  const hintOut = [-inward[0], 0.45, -inward[1]];
+  const hintIn = [inward[0], 0.45, inward[1]];
+  const sample = (which, y, t) => {
+    const poly = insetCache.get(y)[which];
+    const p = edgePoint(poly, edge, t);
+    return p;
+  };
+  for (const [yA, yB, dark] of bandsBetween(0.8, 10.8)) {
+    const buf = dark ? darkBuf : baseBuf;
+    const oA0 = sample("o", yA, t0), oA1 = sample("o", yA, t1);
+    const oB0 = sample("o", yB, t0), oB1 = sample("o", yB, t1);
+    const iA0 = sample("i", yA, t0), iA1 = sample("i", yA, t1);
+    const iB0 = sample("i", yB, t0), iB1 = sample("i", yB, t1);
+    const P = (xz, y) => [xz[0], y, xz[1]];
+    buf.quad(P(oA0, yA), P(oA1, yA), P(oB1, yB), P(oB0, yB), hintOut);
+    buf.quad(P(iA1, yA), P(iA0, yA), P(iB0, yB), P(iB1, yB), hintIn);
+    if (capStart) {
+      const dir = t0 < 0.5 ? [-dx / len, 0, -dz / len] : [dx / len, 0, dz / len];
+      buf.quad(P(oA0, yA), P(oB0, yB), P(iB0, yB), P(iA0, yA), dir);
+    }
+    if (capEnd) {
+      const dir = [dx / len, 0, dz / len];
+      buf.quad(P(oA1, yA), P(iA1, yA), P(iB1, yB), P(oB1, yB), dir);
+    }
+  }
+  const y = 10.8;
+  const o0 = sample("o", y, t0), o1 = sample("o", y, t1);
+  const i0 = sample("i", y, t0), i1 = sample("i", y, t1);
+  baseBuf.quad([o0[0], y, o0[1]], [i0[0], y, i0[1]], [i1[0], y, i1[1]], [o1[0], y, o1[1]], [0, 1, 0]);
+  const mid = offsetPoly(CONTOUR, 4.5);
+  const m0 = edgePoint(mid, edge, t0), m1 = edgePoint(mid, edge, t1);
+  const mx = (m0[0] + m1[0]) / 2, mz = (m0[1] + m1[1]) / 2;
+  const mdx = m1[0] - m0[0], mdz = m1[1] - m0[1];
+  const mlen = Math.hypot(mdx, mdz);
+  if (mlen > 0.2) tileBuf.orientedBox(mx, 10.8 + 0.14, mz, 4.2, 0.28, mlen, Math.atan2(mdx, mdz));
+}
+
+const gap0 = 119 / 350, gap1 = 137 / 350;
+for (let e = 0; e < CONTOUR.length; e++) {
+  if (e === 0) {
+    addWallPiece(0, 0, gap0, false, true);
+    addWallPiece(0, gap1, 1, true, false);
+  } else addWallPiece(e, 0, 1, false, false);
+}
+
+function addCenteredWall(ax, az, bx, bz) {
+  const dx = bx - ax, dz = bz - az;
+  const len = Math.hypot(dx, dz) || 1;
+  const nx = -dz / len, nz = dx / len;
+  const hw = (y) => 4.5 - 2.25 * clamp((y - 0.8) / 10, 0, 1);
+  const side = (x, z, y, h, s) => [x + nx * h * s, y, z + nz * h * s];
+  for (const [yA, yB, dark] of bandsBetween(0.8, 10.8)) {
+    const buf = dark ? darkBuf : baseBuf;
+    const hA = hw(yA), hB = hw(yB);
+    buf.quad(side(ax, az, yA, hA, 1), side(bx, bz, yA, hA, 1), side(bx, bz, yB, hB, 1), side(ax, az, yB, hB, 1), [nx, 0.4, nz]);
+    buf.quad(side(bx, bz, yA, hA, -1), side(ax, az, yA, hA, -1), side(ax, az, yB, hB, -1), side(bx, bz, yB, hB, -1), [-nx, 0.4, -nz]);
+  }
+  const y = 10.8, h = hw(y);
+  baseBuf.quad(side(ax, az, y, h, -1), side(bx, bz, y, h, -1), side(bx, bz, y, h, 1), side(ax, az, y, h, 1), [0, 1, 0]);
+  const yaw = Math.atan2(dx, dz);
+  tileBuf.orientedBox((ax + bx) / 2, 10.94, (az + bz) / 2, 4.2, 0.28, len, yaw);
+}
+addCenteredWall(220, 6.75, 220, 220);
+addCenteredWall(96.75, 220, 343.25, 220);
+
+pushRammedBox(128, 4.5, 4, 3.5, 9, 8);
+
+function addHall(cx, cz) {
+  const xs = [cx - 5, cx - 5 / 3, cx + 5 / 3, cx + 5];
+  const zs = [cz - 3.5, cz, cz + 3.5];
+  for (const x of xs) for (const z of zs) colBuf.box(x, 10.6, z, 0.38, 3.2, 0.38);
+  for (const z of zs) {
+    const red = Math.abs(z - (cz - 3.5)) < 0.01;
+    for (let i = 0; i < xs.length - 1; i++) {
+      const x0 = xs[i], x1 = xs[i + 1];
+      (red ? redBuf : beamBuf).box((x0 + x1) / 2, 12.02, z, x1 - x0, 0.36, 0.42);
+    }
+  }
+  for (const x of xs) {
+    for (let i = 0; i < zs.length - 1; i++) {
+      const z0 = zs[i], z1 = zs[i + 1];
+      beamBuf.box(x, 12.02, (z0 + z1) / 2, 0.42, 0.36, z1 - z0);
+    }
+  }
+  const roof = new Buf();
+  const y0 = 12.2, y1 = 13.8, hx = 6.1, hz = 4.5, rh = 1.6;
+  const sw = [cx - hx, y0, cz - hz], se = [cx + hx, y0, cz - hz];
+  const ne = [cx + hx, y0, cz + hz], nw = [cx - hx, y0, cz + hz];
+  const r0 = [cx - rh, y1, cz], r1 = [cx + rh, y1, cz];
+  roof.quad(sw, se, r1, r0, [0, 1, -1]);
+  roof.quad(ne, nw, r0, r1, [0, 1, 1]);
+  roof.tri(nw, sw, r0, [-1, 1, 0]);
+  roof.tri(se, ne, r1, [1, 1, 0]);
+  const mesh = roof.mesh(roofMat);
+  scene.add(mesh);
+  occluders.push(mesh);
+}
+
+// 西道净宽按坐标为 7.25（119–126.25），中缝 1.2；东道关闭。门扇厚 0.16、高至 Y=9.6，规格未给。
+(function doors() {
+  const y0 = 0.8, y1 = 9.6, yc = (y0 + y1) / 2, h = y1 - y0, t = 0.16;
+  const w0 = 119, w1 = 126.25, mid = (w0 + w1) / 2, gap = 1.2;
+  const a0 = w0, a1 = mid - gap / 2, b0 = mid + gap / 2, b1 = w1;
+  doorBuf.box((a0 + a1) / 2, yc, 4, a1 - a0, h, t);
+  doorBuf.box((b0 + b1) / 2, yc, 4, b1 - b0, h, t);
+  const e0 = 129.75, e1 = 137, em = (e0 + e1) / 2, seam = 0.04;
+  doorBuf.box((e0 + em - seam / 2) / 2, yc, 4, em - seam / 2 - e0, h, t);
+  doorBuf.box((em + seam / 2 + e1) / 2, yc, 4, e1 - (em + seam / 2), h, t);
+})();
+
+const seal = new THREE.Mesh(new THREE.BoxGeometry(18, 10, 0.2), sealMat);
+seal.position.set(128, 5.8, wz(8));
+seal.castShadow = SHADOW;
+scene.add(seal);
+occluders.push(seal);
+
+const pierSolids = [];
+const brazierSpots = [];
+const brazierLights = [];
+const hallLights = [];
+const torchSpots = [];
+let curtainUniforms = null;
+let flagUniforms = null;
+let flameMatRef = null;
+let curtainMatRef = null;
+let torchMesh = null;
+let camHold = null;
+
+function buildSheng() {
+  const whiteMat = new THREE.MeshStandardMaterial({ color: 0xe8dfcc, roughness: 0.86, metalness: 0 });
+  const redMat = new THREE.MeshStandardMaterial({ color: 0x9e2b1f, roughness: 0.62, metalness: 0 });
+  const bronzeMat = new THREE.MeshStandardMaterial({ color: 0x8c6a3a, metalness: 0.6, roughness: 0.45 });
+  const flameMat = new THREE.MeshStandardMaterial({ color: 0xffb347, emissive: 0xffb347, emissiveIntensity: 1.6, roughness: 0.4 });
+  const flagMat = new THREE.MeshStandardMaterial({ color: 0x2a241c, side: THREE.DoubleSide, roughness: 0.84 });
+  const curtainMat = new THREE.MeshStandardMaterial({ color: 0xefe6d2, side: THREE.DoubleSide, roughness: 0.92 });
+  curtainMat.onBeforeCompile = (shader) => {
+    shader.uniforms.uTime = { value: 0 };
+    shader.uniforms.uSway = { value: isPhone ? 0 : 1 };
+    curtainUniforms = shader.uniforms;
+    shader.vertexShader = shader.vertexShader
+      .replace("#include <common>", "#include <common>\nuniform float uTime;\nuniform float uSway;")
+      .replace("#include <begin_vertex>", `#include <begin_vertex>
+#ifdef USE_INSTANCING
+        transformed.x += sin(uTime * 1.3 + instanceMatrix[3].x * 0.17 + instanceMatrix[3].z) * clamp(-position.y, 0.0, 2.0) * 0.045 * uSway;
+#endif`);
+  };
+  curtainMatRef = curtainMat;
+  const paint = document.createElement("canvas");
+  paint.width = 512; paint.height = 64;
+  const pg = paint.getContext("2d");
+  pg.fillStyle = "#1c1612"; pg.fillRect(0, 0, 512, 64);
+  pg.fillStyle = "#9e2b1f"; pg.fillRect(0, 0, 512, 5); pg.fillRect(0, 59, 512, 5);
+  pg.strokeStyle = "#8a5a3c"; pg.lineWidth = 2;
+  for (let x = 8; x < 512; x += 36) {
+    pg.strokeRect(x, 12, 26, 40);
+    pg.beginPath(); pg.arc(x + 13, 32, 7, 0, Math.PI * 2); pg.stroke();
+    pg.beginPath(); pg.moveTo(x + 4, 32); pg.bezierCurveTo(x + 10, 16, x + 22, 16, x + 28, 32); pg.bezierCurveTo(x + 22, 48, x + 10, 48, x + 4, 32); pg.stroke();
+  }
+  const paintTex = new THREE.CanvasTexture(paint);
+  paintTex.wrapS = THREE.RepeatWrapping;
+  paintTex.colorSpace = THREE.SRGBColorSpace;
+  paintTex.repeat.set(3, 1);
+  const paintMat = new THREE.MeshStandardMaterial({ map: paintTex, roughness: 0.72 });
+
+  const whiteBuf = new Buf(), redBuf = new Buf(), woodBuf = new Buf(), roofBuf = new Buf();
+  const dummy = new THREE.Object3D();
+  const buckets = new Map();
+  function bucket(key, geo, mat) {
+    if (!buckets.has(key)) buckets.set(key, { geo, mat, items: [] });
+    return buckets.get(key).items;
+  }
+  const boxGeo = new THREE.BoxGeometry(1, 1, 1);
+  const postGeo = new THREE.BoxGeometry(0.12, 1, 0.12);
+  const curtainGeo = new THREE.PlaneGeometry(1, 1.6);
+  curtainGeo.translate(0, -0.8, 0);
+  const barGeo = new THREE.CylinderGeometry(0.05, 0.05, 1, 6);
+  barGeo.rotateZ(Math.PI / 2);
+  const discGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.04, 8);
+  discGeo.rotateX(Math.PI / 2);
+  const poleGeo = new THREE.CylinderGeometry(0.08, 0.1, 1.6, 6);
+  poleGeo.translate(0, 0.8, 0);
+  const dishGeo = new THREE.CylinderGeometry(0.3, 0.2, 0.07, 8);
+  dishGeo.translate(0, 1.64, 0);
+  const flameGeo = new THREE.SphereGeometry(0.11, 6, 4);
+  flameGeo.translate(0, 1.78, 0);
+  const flagGeo = new THREE.PlaneGeometry(1.1, 2.2);
+
+  function put(x, y, z, ry, sx, sy, sz) {
+    return (o) => {
+      o.position.set(x, y, wz(z));
+      o.rotation.set(0, ry || 0, 0);
+      o.scale.set(sx || 1, sy || 1, sz || 1);
+    };
+  }
+  function slice(buf, rect, y0, y1) {
+    const a = rect(y0), b = rect(y1);
+    const q = (x, y, z) => [x, y, z];
+    buf.quad(q(a[1], y0, a[2]), q(a[0], y0, a[2]), q(b[0], y1, b[2]), q(b[1], y1, b[2]), [0, 0, -1]);
+    buf.quad(q(a[0], y0, a[3]), q(a[1], y0, a[3]), q(b[1], y1, b[3]), q(b[0], y1, b[3]), [0, 0, 1]);
+    buf.quad(q(a[0], y0, a[2]), q(a[0], y0, a[3]), q(b[0], y1, b[3]), q(b[0], y1, b[2]), [-1, 0, 0]);
+    buf.quad(q(a[1], y0, a[3]), q(a[1], y0, a[2]), q(b[1], y1, b[2]), q(b[1], y1, b[3]), [1, 0, 0]);
+  }
+  function cap(buf, rect, y) {
+    const r = rect(y);
+    buf.quad([r[0], y, r[2]], [r[1], y, r[2]], [r[1], y, r[3]], [r[0], y, r[3]], [0, 1, 0]);
+  }
+  function banded(x0, x1, z0, z1, y0, y1, taper) {
+    const h = y1 - y0;
+    const rect = (y) => {
+      const i = taper * ((y - y0) / h);
+      return [x0 + i, x1 - i, z0 + i, z1 - i];
+    };
+    const b0 = y0 + (h - 1.3) / 2, b1 = b0 + 1.3;
+    slice(whiteBuf, rect, y0, b0);
+    slice(redBuf, rect, b0, b1);
+    slice(whiteBuf, rect, b1, y1);
+    cap(whiteBuf, rect, y1);
+    return rect(y1);
+  }
+  function railLine(x0, z0, x1, z1, y, h, blocked) {
+    const posts = bucket("post", postGeo, woodCol);
+    const rails = bucket("rail", boxGeo, woodCol);
+    const len = Math.hypot(x1 - x0, z1 - z0) || 1;
+    const n = Math.max(1, Math.round(len / 2));
+    const yaw = Math.atan2(x1 - x0, -(z1 - z0));
+    for (let i = 0; i < n; i++) {
+      const t0 = i / n, t1 = (i + 1) / n;
+      const ax = x0 + (x1 - x0) * t0, az = z0 + (z1 - z0) * t0;
+      const bx = x0 + (x1 - x0) * t1, bz = z0 + (z1 - z0) * t1;
+      if (blocked && (blocked(ax, az) || blocked(bx, bz))) continue;
+      posts.push(put(ax, y + h / 2, az, 0, 1, h, 1));
+      if (i === n - 1) posts.push(put(bx, y + h / 2, bz, 0, 1, h, 1));
+      const seg = Math.hypot(bx - ax, bz - az);
+      rails.push(put((ax + bx) / 2, y + h - 0.04, (az + bz) / 2, yaw, 0.08, 0.08, seg));
+    }
+  }
+  function railLoop(x0, x1, z0, z1, y, h, blocked) {
+    railLine(x0, z0, x1, z0, y, h, blocked);
+    railLine(x1, z0, x1, z1, y, h, blocked);
+    railLine(x1, z1, x0, z1, y, h, blocked);
+    railLine(x0, z1, x0, z0, y, h, blocked);
+  }
+  const lamps = [];
+  function lampEvery(x0, z0, x1, z1, y, step, blocked) {
+    const len = Math.hypot(x1 - x0, z1 - z0);
+    const n = Math.max(1, Math.round(len / step));
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      const x = x0 + (x1 - x0) * t, z = z0 + (z1 - z0) * t;
+      if (blocked && blocked(x, z)) continue;
+      lamps.push([x, y, z]);
+    }
+  }
+  function hip(cx, cz, hx, hz, y0, y1) {
+    const rh = Math.max(0.35, hx - hz);
+    const sw = [cx - hx, y0, cz - hz], se = [cx + hx, y0, cz - hz];
+    const ne = [cx + hx, y0, cz + hz], nw = [cx - hx, y0, cz + hz];
+    const r0 = [cx - rh, y1, cz], r1 = [cx + rh, y1, cz];
+    roofBuf.quad(sw, se, r1, r0, [0, 1, -1]);
+    roofBuf.quad(ne, nw, r0, r1, [0, 1, 1]);
+    roofBuf.tri(nw, sw, r0, [-1, 1, 0]);
+    roofBuf.tri(se, ne, r1, [1, 1, 0]);
+    if (isPhone) return;
+    const tiles = bucket("tile", discGeo, tileMat);
+    const edge = (ax, az, bx, bz, ox, oz) => {
+      const len = Math.hypot(bx - ax, bz - az);
+      const n = Math.max(1, Math.round(len / 0.35));
+      const yaw = Math.atan2(ox, -oz);
+      for (let i = 0; i < n; i++) {
+        const t = (i + 0.5) / n;
+        tiles.push(put(ax + (bx - ax) * t + ox, y0 - 0.02, az + (bz - az) * t + oz, yaw, 1, 1, 1));
+      }
+    };
+    edge(cx - hx, cz - hz, cx + hx, cz - hz, 0, -0.1);
+    edge(cx + hx, cz - hz, cx + hx, cz + hz, 0.1, 0);
+    edge(cx + hx, cz + hz, cx - hx, cz + hz, 0, 0.1);
+    edge(cx - hx, cz + hz, cx - hx, cz - hz, -0.1, 0);
+  }
+  function grid(cx, cz, nx, nz, sx, sz) {
+    const xs = [], zs = [];
+    for (let i = 0; i < nx; i++) xs.push(cx - sx / 2 + (sx * i) / (nx - 1));
+    for (let i = 0; i < nz; i++) zs.push(cz - sz / 2 + (sz * i) / (nz - 1));
+    const cols = [];
+    for (const x of xs) for (const z of zs) cols.push([x, z]);
+    return { xs, zs, cols };
+  }
+  function columns(cols, y0, h, s) {
+    const list = bucket("col", boxGeo, redMat);
+    for (const [x, z] of cols) list.push(put(x, y0 + h / 2, z, 0, s, h, s));
+  }
+  function brackets(cols, yTop, s) {
+    const dou = bucket("dou", boxGeo, woodCol);
+    const gong = bucket("gong", boxGeo, woodCol);
+    const sheng = bucket("sheng", boxGeo, woodCol);
+    const nail = bucket("nail", boxGeo, bronzeMat);
+    for (const [x, z] of cols) {
+      dou.push(put(x, yTop + 0.175 * s, z, 0, 0.5 * s, 0.35 * s, 0.5 * s));
+      gong.push(put(x, yTop + 0.475 * s, z, 0, 1.4 * s, 0.25 * s, 0.28 * s));
+      sheng.push(put(x - 0.7 * s, yTop + 0.725 * s, z, 0, 0.3 * s, 0.25 * s, 0.3 * s));
+      sheng.push(put(x + 0.7 * s, yTop + 0.725 * s, z, 0, 0.3 * s, 0.25 * s, 0.3 * s));
+      nail.push(put(x, yTop + 0.15 * s, z, 0, 0.3 * s, 0.3 * s, 0.3 * s));
+    }
+  }
+  function hang(list, x, z, yTop, yaw, w) {
+    const curtains = bucket("curtain", curtainGeo, curtainMat);
+    const bars = bucket("bar", barGeo, woodCol);
+    curtains.push(put(x, yTop, z, yaw, w, 1, 1));
+    bars.push(put(x, yTop - 1.6, z, yaw, w, 1, 1));
+  }
+  function bays(xs, z, y, yaw) {
+    for (let i = 0; i < xs.length - 1; i++) {
+      const w = Math.abs(xs[i + 1] - xs[i]);
+      hang(null, (xs[i] + xs[i + 1]) / 2, z, y, yaw, w * 0.92);
+    }
+  }
+
+  function addQue(x0, x1) {
+    const z0 = -11, z1 = 0, yb = 0.8, yt = 14.8;
+    const rect = (y) => {
+      const t = (y - yb) / (yt - yb);
+      return [x0 + t, x1 - t, z0 + t, z1];
+    };
+    slice(whiteBuf, rect, 0.8, 7.3);
+    slice(redBuf, rect, 7.3, 8.8);
+    slice(whiteBuf, rect, 8.8, 14.8);
+    cap(whiteBuf, rect, 14.8);
+    const top = rect(14.8);
+    railLoop(top[0] + 0.3, top[1] - 0.3, top[2] + 0.3, top[3] - 0.3, 14.8, 0.9, null);
+    const cx = (x0 + x1) / 2, cz = -5.5;
+    const g = grid(cx, cz, 4, 3, 10, 7);
+    columns(g.cols, 14.8, 3.2, 0.38);
+    brackets(g.cols, 18, 1);
+    for (let i = 0; i < g.xs.length; i++) {
+      for (let k = 0; k < g.zs.length - 1; k++) {
+        woodBuf.box(g.xs[i], 18.15, (g.zs[k] + g.zs[k + 1]) / 2, 0.32, 0.36, Math.abs(g.zs[k + 1] - g.zs[k]));
+      }
+    }
+    for (const z of g.zs) woodBuf.box(cx, 18.15, z, 10, 0.36, 0.32);
+    bays(g.xs, g.zs[0], 18, 0);
+    const ez = [];
+    for (const z of g.zs) ez.push(z);
+    for (let i = 0; i < ez.length - 1; i++) {
+      const mz = (ez[i] + ez[i + 1]) / 2, w = Math.abs(ez[i + 1] - ez[i]);
+      hang(null, g.xs[0], mz, 18, -Math.PI / 2, w * 0.92);
+      hang(null, g.xs[g.xs.length - 1], mz, 18, Math.PI / 2, w * 0.92);
+    }
+    for (let i = 0; i < g.xs.length - 1; i++) {
+      whiteBuf.box((g.xs[i] + g.xs[i + 1]) / 2, 16.4, g.zs[g.zs.length - 1], Math.abs(g.xs[i + 1] - g.xs[i]) * 0.92, 3.2, 0.16);
+    }
+    hip(cx, cz, 6.1, 4.5, 19, 20.8);
+  }
+  addQue(103, 119);
+  addQue(137, 153);
+
+  const knockerX = [120.51, 124.74, 131.86, 135.56];
+  const plates = bucket("plate", boxGeo, bronzeMat);
+  const rings = bucket("ring", new THREE.TorusGeometry(0.35, 0.045, 6, 12), bronzeMat);
+  for (const x of knockerX) {
+    plates.push(put(x, 4.7, 3.82, 0, 0.6, 0.6, 0.06));
+    rings.push(put(x, 4.15, 3.7, 0, 1, 1, 1));
+  }
+
+  function deckY(z) {
+    if (z > -18) return 0.8 + 2.8 * ((-6 - z) / 12);
+    if (z >= -61) return 3.6;
+    return 3.6 - 2.8 * ((-61 - z) / 12);
+  }
+  function slab(z0, z1) {
+    const y0 = deckY(z0), y1 = deckY(z1), t = 0.35;
+    woodBuf.quad([122, y0, z0], [134, y0, z0], [134, y1, z1], [122, y1, z1], [0, 1, 0]);
+    woodBuf.quad([134, y0 - t, z0], [122, y0 - t, z0], [122, y1 - t, z1], [134, y1 - t, z1], [0, -1, 0]);
+    woodBuf.quad([122, y0, z0], [122, y1, z1], [122, y1 - t, z1], [122, y0 - t, z0], [-1, 0, 0]);
+    woodBuf.quad([134, y1, z1], [134, y0, z0], [134, y0 - t, z0], [134, y1 - t, z1], [1, 0, 0]);
+  }
+  slab(-6, -18); slab(-18, -61); slab(-61, -73);
+  woodBuf.quad([122, deckY(-6), -6], [134, deckY(-6), -6], [134, deckY(-6) - 0.35, -6], [122, deckY(-6) - 0.35, -6], [0, 0, 1]);
+  woodBuf.quad([134, deckY(-73), -73], [122, deckY(-73), -73], [122, deckY(-73) - 0.35, -73], [134, deckY(-73) - 0.35, -73], [0, 0, -1]);
+  for (const x of [122.25, 133.75]) woodBuf.box(x, 3.6 - 0.65, -39.5, 0.5, 0.6, 43);
+  const pierX = [122.6, 126.2, 129.8, 133.4];
+  function pile(x, z, s) {
+    woodBuf.box(x, 0.875, z, s, 4.75, s);
+    pierSolids.push({ x, z, hx: s / 2, hz: s / 2 });
+  }
+  for (const z of [-22, -57]) for (const x of pierX) pile(x, z, 0.6);
+  for (const z of [-30, -50]) for (const x of pierX) pile(x, z, 0.9);
+  for (const z of [-22, -30, -50, -57]) woodBuf.box(128, 2.95, z, 11.2, 0.6, 0.45);
+  const braces = bucket("brace", boxGeo, woodCol);
+  function slopeBeam(x, z0, z1) {
+    const y0 = deckY(z0) - 0.65, y1 = deckY(z1) - 0.65;
+    const len = Math.hypot(y1 - y0, z1 - z0);
+    braces.push((o) => {
+      o.scale.set(0.5, 0.6, len);
+      o.position.set(x, (y0 + y1) / 2, wz((z0 + z1) / 2));
+      o.lookAt(x, y1, wz(z1));
+    });
+  }
+  for (const x of [122.25, 133.75]) {
+    slopeBeam(x, -6, -18);
+    slopeBeam(x, -61, -73);
+  }
+  for (const x of pierX) {
+    braces.push((o) => {
+      o.scale.set(0.35, 0.35, Math.hypot(1.45, 2.5));
+      o.position.set(x, 1.925, wz(-31.25));
+      o.lookAt(x, 2.65, wz(-32.5));
+    });
+    braces.push((o) => {
+      o.scale.set(0.35, 0.35, Math.hypot(1.45, 2.5));
+      o.position.set(x, 1.925, wz(-48.75));
+      o.lookAt(x, 2.65, wz(-47.5));
+    });
+  }
+  for (const x of [122.15, 133.85]) {
+    const posts = bucket("bpost", postGeo, woodCol);
+    const rails = bucket("brail", boxGeo, woodCol);
+    let prev = null;
+    for (let z = -73; z <= -6.01; z += 2) {
+      const y = deckY(z);
+      posts.push(put(x, y + 0.5, z, 0, 1, 1, 1));
+      if (prev) {
+        const my = (deckY(prev) + y) / 2 + 1;
+        const yaw = Math.atan2(0, -1);
+        rails.push(put(x, my, (prev + z) / 2, yaw, 0.08, 0.08, Math.hypot(z - prev, deckY(z) - deckY(prev))));
+      }
+      prev = z;
+    }
+  }
+  for (const x of [120.4, 135.6]) {
+    woodBuf.box(x, 3.8, -72, 0.28, 6, 0.28);
+    const flags = bucket("flag", flagGeo, flagMat);
+    flags.push(put(x + 0.7, 6.2, -72, 0, 1, 1, 1));
+  }
+
+  const stairBlock = (x, z) => x > 127.2 && x < 136.8 && z < 78;
+  const t1 = banded(111, 153, 55, 101, 0.8, 10.8, 0.5);
+  const t2 = banded(116, 148, 67.2, 97, 10.8, 18.8, 0.4);
+  const t3 = banded(121, 143, 76.9, 93, 18.8, 24.8, 0.3);
+  railLoop(t1[0] + 0.4, t1[1] - 0.4, t1[2] + 0.4, t1[3] - 0.4, 10.8, 0.9, (x, z) => z < t1[2] + 0.8 && x > 127 && x < 137);
+  railLoop(t2[0] + 0.4, t2[1] - 0.4, t2[2] + 0.4, t2[3] - 0.4, 18.8, 0.9, (x, z) => z < t2[2] + 0.8 && x > 127 && x < 137);
+  railLoop(t3[0] + 0.4, t3[1] - 0.4, t3[2] + 0.4, t3[3] - 0.4, 24.8, 0.9, (x, z) => z < t3[2] + 0.8 && x > 127 && x < 137);
+  function flight(z0, z1, y0, y1) {
+    const rise = y1 - y0, run = z1 - z0;
+    const n = Math.max(1, Math.round(rise / 0.25));
+    const steps = bucket("step", boxGeo, whiteMat);
+    const cheeks = bucket("cheek", boxGeo, whiteMat);
+    for (let i = 0; i < n; i++) {
+      const yTop = y0 + rise * (i + 1) / n;
+      const za = z0 + run * i / n, zb = z0 + run * (i + 1) / n;
+      const depth = Math.abs(zb - za), zc = (za + zb) / 2;
+      steps.push(put(132, yTop - 0.125, zc, 0, 6, 0.25, depth));
+      cheeks.push(put(128.5, yTop + 0.28, zc, 0, 1, 0.8, depth));
+      cheeks.push(put(135.5, yTop + 0.28, zc, 0, 1, 0.8, depth));
+      if (i % 9 === 0) {
+        lamps.push([128.5, yTop + 0.8, zc]);
+        lamps.push([135.5, yTop + 0.8, zc]);
+      }
+    }
+  }
+  flight(42.2, 55, 0.8, 10.8);
+  flight(57, 67.2, 10.8, 18.8);
+  flight(69.2, 76.9, 18.8, 24.8);
+
+  function gallery(x0, x1, z0, z1, y) {
+    const seen = new Set();
+    const cols = [];
+    const lines = [
+      [x0 - 3, z0 - 3, x1 + 3, z0 - 3, true],
+      [x0 - 3, z1 + 3, x1 + 3, z1 + 3, false],
+      [x0 - 3, z0 - 3, x0 - 3, z1 + 3, false],
+      [x1 + 3, z0 - 3, x1 + 3, z1 + 3, false],
+    ];
+    for (const [ax, az, bx, bz, south] of lines) {
+      const len = Math.hypot(bx - ax, bz - az);
+      const n = Math.max(1, Math.round(len / 2.5));
+      let prev = null;
+      for (let i = 0; i <= n; i++) {
+        const t = i / n;
+        const x = ax + (bx - ax) * t, z = az + (bz - az) * t;
+        if (south && x > 127.2 && x < 136.8) { prev = null; continue; }
+        const key = x.toFixed(1) + "," + z.toFixed(1);
+        if (!seen.has(key)) { seen.add(key); cols.push([x, z]); }
+        if (prev) {
+          const d = Math.hypot(x - prev[0], z - prev[1]);
+          if (d > 0.4 && d < 3.4) {
+            const yaw = Math.abs(x - prev[0]) >= Math.abs(z - prev[1]) ? 0 : Math.PI / 2;
+            hang(null, (x + prev[0]) / 2, (z + prev[1]) / 2, y + 2.8, yaw, d * 0.9);
+          }
+        }
+        prev = [x, z];
+      }
+    }
+    columns(cols, y, 2.8, 0.35);
+    const yIn = y + 3.6, yOut = y + 2.8, o = 0.6;
+    const shed = (xa, xb, zi, zo, hint) => {
+      if (xb - xa < 0.4) return;
+      roofBuf.quad([xa, yOut, zo], [xb, yOut, zo], [xb, yIn, zi], [xa, yIn, zi], hint);
+    };
+    shed(x0, 127.2, z0, z0 - 3 - o, [0, 1, -1]);
+    shed(136.8, x1, z0, z0 - 3 - o, [0, 1, -1]);
+    shed(x0 - 3 - o, x1 + 3 + o, z1, z1 + 3 + o, [0, 1, 1]);
+    roofBuf.quad([x0 - 3 - o, yOut, z0], [x0 - 3 - o, yOut, z1], [x0, yIn, z1], [x0, yIn, z0], [-1, 1, 0]);
+    roofBuf.quad([x1 + 3 + o, yOut, z1], [x1 + 3 + o, yOut, z0], [x1, yIn, z0], [x1, yIn, z1], [1, 1, 0]);
+    return cols;
+  }
+  gallery(116, 148, 67.2, 97, 10.8);
+  gallery(121, 143, 76.9, 93, 18.8);
+
+  const hall = grid(132, 85, 7, 4, 16, 10);
+  columns(hall.cols, 24.8, 4, 0.38);
+  brackets(hall.cols, 28.8, 1.4);
+  for (const z of hall.zs) woodBuf.box(132, 29.05, z, 16, 0.42, 0.36);
+  for (const x of hall.xs) woodBuf.box(x, 29.05, 85, 0.36, 0.42, 10);
+  bays(hall.xs, hall.zs[0], 28.8, 0);
+  for (let i = 0; i < hall.xs.length - 1; i++) {
+    const w = Math.abs(hall.xs[i + 1] - hall.xs[i]) * 0.92;
+    const xm = (hall.xs[i] + hall.xs[i + 1]) / 2;
+    whiteBuf.box(xm, 26.8, hall.zs[hall.zs.length - 1], w, 4, 0.18);
+    whiteBuf.box(xm, 28.2, hall.zs[hall.zs.length - 1] + 0.12, w, 0.8, 0.08);
+  }
+  for (let k = 0; k < hall.zs.length - 1; k++) {
+    const d = Math.abs(hall.zs[k + 1] - hall.zs[k]) * 0.92;
+    const zm = (hall.zs[k] + hall.zs[k + 1]) / 2;
+    whiteBuf.box(hall.xs[0], 26.8, zm, 0.18, 4, d);
+    whiteBuf.box(hall.xs[hall.xs.length - 1], 26.8, zm, 0.18, 4, d);
+  }
+  const paintBuf = new Buf();
+  paintBuf.box(132, 28.2, hall.zs[hall.zs.length - 1] + 0.16, 15.2, 0.8, 0.06);
+  paintBuf.box(hall.xs[0] - 0.12, 28.2, 85, 0.06, 0.8, 9.2);
+  paintBuf.box(hall.xs[hall.xs.length - 1] + 0.12, 28.2, 85, 0.06, 0.8, 9.2);
+  paintBuf.box(132, 28.2, hall.zs[0] - 0.2, 15.2, 0.8, 0.06);
+  const yIn = 30.15, yOut = 29.6;
+  roofBuf.quad([132 - 9.5, yOut, 85 - 6.5], [132 + 9.5, yOut, 85 - 6.5], [132 + 8, yIn, 85 - 5], [132 - 8, yIn, 85 - 5], [0, 1, -1]);
+  roofBuf.quad([132 + 9.5, yOut, 85 + 6.5], [132 - 9.5, yOut, 85 + 6.5], [132 - 8, yIn, 85 + 5], [132 + 8, yIn, 85 + 5], [0, 1, 1]);
+  roofBuf.quad([132 - 9.5, yOut, 85 + 6.5], [132 - 9.5, yOut, 85 - 6.5], [132 - 8, yIn, 85 - 5], [132 - 8, yIn, 85 + 5], [-1, 1, 0]);
+  roofBuf.quad([132 + 9.5, yOut, 85 - 6.5], [132 + 9.5, yOut, 85 + 6.5], [132 + 8, yIn, 85 + 5], [132 + 8, yIn, 85 - 5], [1, 1, 0]);
+
+  const up = grid(132, 85, 4, 3, 13, 7);
+  columns(up.cols, 30.2, 3.2, 0.34);
+  whiteBuf.box(132, 31.8, up.zs[up.zs.length - 1], 12.4, 3.2, 0.16);
+  whiteBuf.box(up.xs[0], 31.8, 85, 0.16, 3.2, 6.4);
+  whiteBuf.box(up.xs[up.xs.length - 1], 31.8, 85, 0.16, 3.2, 6.4);
+  const doorW = 1.7, gapW = (13 - doorW * 3) / 4;
+  let cursor = 132 - 6.5;
+  for (let i = 0; i < 4; i++) {
+    whiteBuf.box(cursor + gapW / 2, 31.8, up.zs[0], gapW, 3.2, 0.16);
+    cursor += gapW + (i < 3 ? doorW : 0);
+  }
+  hip(132, 85, 8.2, 5.2, 33.4, 36.4);
+  for (const x of [122.4, 141.6]) for (const z of [81.5, 88.5]) {
+    woodBuf.box(x, 28.8, z, 0.16, 8, 0.16);
+    bucket("flag", flagGeo, flagMat).push(put(x + 0.65, 31.5, z, 0, 1, 1, 1));
+  }
+
+  lampEvery(112, 56, 152, 56, 12.5, 6, stairBlock);
+  lampEvery(112, 100, 152, 100, 12.5, 6, null);
+  lampEvery(112, 56, 112, 100, 12.5, 6, null);
+  lampEvery(152, 56, 152, 100, 12.5, 6, null);
+  lampEvery(117, 68, 147, 68, 20.5, 6, stairBlock);
+  lampEvery(117, 96, 147, 96, 20.5, 6, null);
+  lampEvery(122, 78, 122, 92, 26.5, 6, null);
+  lampEvery(142, 78, 142, 92, 26.5, 6, null);
+  for (const x of [124, 140]) for (const z of [34, 26, 18]) lamps.push([x, 2.4, z]);
+
+  const bodies = bucket("lamp", poleGeo, bronzeMat);
+  const dishes = bucket("dish", dishGeo, bronzeMat);
+  const flames = bucket("flame", flameGeo, flameMat);
+  for (const [x, y, z] of lamps) {
+    bodies.push(put(x, y, z, 0, 1, 1, 1));
+    dishes.push(put(x, y, z, 0, 1, 1, 1));
+    flames.push(put(x, y, z, 0, 1, 1, 1));
+  }
+  if (!isPhone) {
+    for (const [x, y, z] of [[132, 8, 49], [132, 14, 60], [132, 20, 70], [132, 27, 78], [132, 30, 82], [124, 4, 30]]) {
+      const light = new THREE.PointLight(0xffb070, 6, 16, 2);
+      light.position.set(x, y, wz(z));
+      scene.add(light);
+      hallLights.push(light);
+    }
+  }
+
+  function curtainRing(g, y) {
+    bays(g.xs, g.zs[0], y, 0);
+    bays(g.xs, g.zs[g.zs.length - 1], y, Math.PI);
+    for (let i = 0; i < g.zs.length - 1; i++) {
+      const mz = (g.zs[i] + g.zs[i + 1]) / 2;
+      const w = Math.abs(g.zs[i + 1] - g.zs[i]);
+      hang(null, g.xs[0], mz, y, -Math.PI / 2, w * 0.92);
+      hang(null, g.xs[g.xs.length - 1], mz, y, Math.PI / 2, w * 0.92);
+    }
+  }
+  function tapered(x0, x1, z0, z1, y0, y1, band0, band1, taper) {
+    const h = y1 - y0;
+    const rect = (y) => {
+      const i = taper * (y - y0) / h;
+      return [x0 + i, x1 - i, z0 + i, z1 - i];
+    };
+    slice(whiteBuf, rect, y0, band0);
+    slice(redBuf, rect, band0, band1);
+    slice(whiteBuf, rect, band1, y1);
+    cap(whiteBuf, rect, y1);
+    return rect(y1);
+  }
+  function cornerHall(cx, cz, yFloor) {
+    const g = grid(cx, cz, 3, 3, 8, 8);
+    columns(g.cols, yFloor, 3.2, 0.38);
+    brackets(g.cols, yFloor + 3.2, 1);
+    for (const z of g.zs) woodBuf.box(cx, yFloor + 3.35, z, 8, 0.32, 0.28);
+    for (const x of g.xs) woodBuf.box(x, yFloor + 3.35, cz, 0.28, 0.32, 8);
+    curtainRing(g, yFloor + 3.2);
+    hip(cx, cz, 5.1, 5.1, 19, 20.6);
+  }
+  for (const [x0, x1, z0, z1] of [[-5, 9, -5, 9], [-5, 9, 211, 225], [85, 99, 371, 385], [341, 355, 371, 385], [341, 355, -5, 9]]) {
+    const top = tapered(x0, x1, z0, z1, 0.8, 14.8, 7.3, 8.8, 1);
+    railLoop(top[0] + 0.25, top[1] - 0.25, top[2] + 0.25, top[3] - 0.25, 14.8, 0.9, null);
+    cornerHall((x0 + x1) / 2, (z0 + z1) / 2, 14.8);
+  }
+
+  const flagCanvas = document.createElement("canvas");
+  flagCanvas.width = 128; flagCanvas.height = 320;
+  const fg = flagCanvas.getContext("2d");
+  fg.fillStyle = "#3a1e1a"; fg.fillRect(0, 0, 128, 320);
+  fg.fillStyle = "#9e2b1f"; fg.beginPath(); fg.arc(64, 118, 34, 0, Math.PI * 2); fg.fill();
+  const flagTex = new THREE.CanvasTexture(flagCanvas);
+  flagTex.colorSpace = THREE.SRGBColorSpace;
+  const bannerMat = new THREE.MeshStandardMaterial({ map: flagTex, roughness: 0.84, side: THREE.DoubleSide });
+  bannerMat.onBeforeCompile = (shader) => {
+    shader.uniforms.uTime = { value: 0 };
+    shader.uniforms.uSway = { value: isPhone ? 0 : 1 };
+    flagUniforms = shader.uniforms;
+    shader.vertexShader = shader.vertexShader
+      .replace("#include <common>", "#include <common>\nuniform float uTime;\nuniform float uSway;")
+      .replace("#include <begin_vertex>", `#include <begin_vertex>
+#ifdef USE_INSTANCING
+        transformed.x += sin(uTime * 1.7 + instanceMatrix[3].x * 0.2 + position.y * 3.0) * (-position.y) * 0.16 * uSway;
+#endif`);
+  };
+  const bannerGeo = new THREE.PlaneGeometry(1, 1);
+  bannerGeo.translate(0.55, -0.5, 0);
+  const flagPoleGeo = new THREE.CylinderGeometry(0.12, 0.12, 1, 6);
+  flagPoleGeo.translate(0, 0.5, 0);
+  const banners = bucket("wflag", bannerGeo, bannerMat);
+  const flagPoles = bucket("wflagpole", flagPoleGeo, woodCol);
+
+  function mergeGeo(parts) {
+    const pos = [], nrm = [], idx = [];
+    let base = 0;
+    for (const g of parts) {
+      const p = g.attributes.position, nm = g.attributes.normal, id = g.index;
+      for (let i = 0; i < p.count; i++) {
+        pos.push(p.getX(i), p.getY(i), p.getZ(i));
+        nrm.push(nm.getX(i), nm.getY(i), nm.getZ(i));
+      }
+      if (id) for (let i = 0; i < id.count; i++) idx.push(id.getX(i) + base);
+      else for (let i = 0; i < p.count; i++) idx.push(base + i);
+      base += p.count;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+    geo.setAttribute("normal", new THREE.Float32BufferAttribute(nrm, 3));
+    geo.setIndex(idx);
+    return geo;
+  }
+  const legParts = [];
+  for (let i = 0; i < 3; i++) {
+    const leg = new THREE.CylinderGeometry(0.045, 0.055, 0.95, 5);
+    leg.translate(0, 0.48, 0);
+    leg.rotateZ(0.38);
+    leg.rotateY((i * Math.PI * 2) / 3);
+    legParts.push(leg);
+  }
+  const bowl = new THREE.CylinderGeometry(0.5, 0.28, 0.26, 10);
+  bowl.translate(0, 1.02, 0);
+  const brazierGeo = mergeGeo([...legParts, bowl]);
+  const brazierFlame = new THREE.SphereGeometry(0.22, 6, 5);
+  brazierFlame.translate(0, 1.28, 0);
+  const braziers = bucket("brazier", brazierGeo, bronzeMat);
+  const brazierFires = bucket("bfire", brazierFlame, flameMat);
+  flameMatRef = flameMat;
+
+  const avoid = [
+    [-15, 19, -15, 19], [ -15, 19, 201, 235], [75, 109, 361, 395],
+    [331, 365, 361, 395], [331, 365, -15, 19],
+    [93, 129, -21, 10], [127, 163, -21, 10],
+  ];
+  const tooClose = (x, z) => avoid.some(([a, b, c, d]) => x > a && x < b && z > c && z < d);
+  const edges = [
+    [[0, 0], [350, 0]], [[350, 0], [350, 380]], [[350, 380], [90, 380]],
+    [[90, 380], [90, 220]], [[90, 220], [0, 220]], [[0, 220], [0, 0]],
+  ];
+  for (const [a, b] of edges) {
+    const dx = b[0] - a[0], dz = b[1] - a[1];
+    const len = Math.hypot(dx, dz);
+    const ux = dx / len, uz = dz / len;
+    const inx = -dz / len, inz = dx / len;
+    const kept = [];
+    for (let s = 40; s < len - 19; s += 40) {
+      const x = a[0] + ux * s, z = a[1] + uz * s;
+      if (tooClose(x, z)) continue;
+      kept.push(s);
+    }
+    const ox = -inx, oz = -inz;
+    const yaw = Math.atan2(ox, -oz);
+    for (const s of kept) {
+      const x = a[0] + ux * s + inx * 3.25, z = a[1] + uz * s + inz * 3.25;
+      flagPoles.push(put(x, 10.8, z, 0, 1, 7, 1));
+      banners.push(put(x, 17.8, z, yaw, 1.4, 4, 1));
+    }
+    for (let i = 1; i < kept.length; i++) {
+      if (kept[i] - kept[i - 1] > 41) continue;
+      const s = (kept[i] + kept[i - 1]) / 2;
+      const x = a[0] + ux * s + inx * 3.25, z = a[1] + uz * s + inz * 3.25;
+      braziers.push(put(x, 10.8, z, 0, 1, 1, 1));
+      brazierFires.push(put(x, 10.8, z, 0, 1, 1, 1));
+      brazierSpots.push({ x, y: 12.3, z, ox, oz });
+    }
+  }
+  if (!isPhone) {
+    for (let i = 0; i < 8; i++) {
+      const L = new THREE.PointLight(0xff9a40, 10, 25, 2);
+      L.visible = false;
+      scene.add(L);
+      brazierLights.push(L);
+    }
+  }
+  const torch = new THREE.InstancedMesh(new THREE.SphereGeometry(0.16, 6, 4), flameMat, 2);
+  torch.name = "torch";
+  [[120.4, 6.85, -72], [135.6, 6.85, -72]].forEach((p, i) => {
+    dummy.position.set(p[0], p[1], wz(p[2]));
+    dummy.scale.setScalar(0);
+    dummy.rotation.set(0, 0, 0);
+    dummy.updateMatrix();
+    torch.setMatrixAt(i, dummy.matrix);
+    torchSpots.push({ x: p[0], y: p[1], z: p[2], ox: 0, oz: -1 });
+  });
+  torch.instanceMatrix.needsUpdate = true;
+  scene.add(torch);
+  torchMesh = torch;
+
+  function armyFlag(x, z, y0) {
+    flagPoles.push(put(x, y0, z, 0, 1, 12, 1));
+    banners.push(put(x, y0 + 12, z, Math.atan2(1, 1), 2.5, 6, 1));
+  }
+  function watchtower(cx, cz) {
+    const top = tapered(cx - 9, cx + 9, cz - 9, cz + 9, 0.8, 16.8, 8, 9.5, 1);
+    railLoop(top[0] + 0.3, top[1] - 0.3, top[2] + 0.3, top[3] - 0.3, 16.8, 0.9, null);
+    const g = grid(cx, cz, 3, 3, 6, 6);
+    columns(g.cols, 16.8, 2.35, 0.36);
+    brackets(g.cols, 19.15, 1);
+    whiteBuf.box(cx, 20.06, cz, 6.5, 0.12, 6.5);
+    railLoop(cx - 3.1, cx + 3.1, cz - 3.1, cz + 3.1, 20.12, 0.9, null);
+    columns(g.cols, 20.12, 2.68, 0.32);
+    brackets(g.cols, 22.4, 0.47);
+    hip(cx, cz, 3.8, 3.8, 23.2, 24.8);
+    armyFlag(cx + 7.2, cz - 7.2, 16.8);
+  }
+  watchtower(278, 70);
+  watchtower(278, 112);
+
+  function sideHall(cx, cz, yTop, hx, hz) {
+    const top = tapered(cx - hx, cx + hx, cz - hz, cz + hz, 0.8, yTop, (0.8 + yTop) / 2 - 0.75, (0.8 + yTop) / 2 + 0.75, 0);
+    railLoop(top[0] + 0.35, top[1] - 0.35, top[2] + 0.35, top[3] - 0.35, yTop, 0.9, null);
+    const g = grid(cx, cz, 4, 3, 10, 7);
+    columns(g.cols, yTop, 3.2, 0.38);
+    brackets(g.cols, yTop + 3.2, 1);
+    for (const z of g.zs) woodBuf.box(cx, yTop + 3.35, z, 10, 0.32, 0.28);
+    bays(g.xs, g.zs[0], yTop + 3.2, 0);
+    for (let i = 0; i < g.zs.length - 1; i++) {
+      const mz = (g.zs[i] + g.zs[i + 1]) / 2, w = Math.abs(g.zs[i + 1] - g.zs[i]);
+      hang(null, g.xs[0], mz, yTop + 3.2, -Math.PI / 2, w * 0.92);
+      hang(null, g.xs[g.xs.length - 1], mz, yTop + 3.2, Math.PI / 2, w * 0.92);
+    }
+    for (let i = 0; i < g.xs.length - 1; i++) {
+      whiteBuf.box((g.xs[i] + g.xs[i + 1]) / 2, yTop + 1.6, g.zs[g.zs.length - 1], Math.abs(g.xs[i + 1] - g.xs[i]) * 0.92, 3.2, 0.16);
+    }
+    hip(cx, cz, 6.1, 4.5, yTop + 4.2, yTop + 6);
+  }
+  sideHall(128, 118, 16, 11, 10);
+  sideHall(124, 148, 12, 9, 8);
+
+  for (const [buf, mat, name, occ] of [
+    [whiteBuf, whiteMat, "whiteWall", true],
+    [redBuf, redMat, "redBand", true],
+    [woodBuf, woodCol, "woodwork", false],
+    [roofBuf, roofMat, "shengRoof", true],
+    [paintBuf, paintMat, "painted", false],
+  ]) {
+    const mesh = buf.mesh(mat);
+    mesh.name = name;
+    scene.add(mesh);
+    if (occ) occluders.push(mesh);
+  }
+  for (const [key, b] of buckets) {
+    if (!b.items.length) continue;
+    const mesh = new THREE.InstancedMesh(b.geo, b.mat, b.items.length);
+    mesh.name = key;
+    b.items.forEach((fn, i) => { fn(dummy); dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix); });
+    mesh.instanceMatrix.needsUpdate = true;
+    scene.add(mesh);
+  }
+}
+window.__stage = "before-sheng";
+try { buildSheng(); }
+catch (err) { window.__bootErr = String(err && err.stack || err); console.error(err); }
+window.__stage = "after-sheng";
+
+function slopeQuads(src, distFn, skip) {
+  const crest = offsetPoly(src, distFn);
+  const buf = new Buf();
+  const n = src.length;
+  for (let i = 0; i < n; i++) {
+    const a = src[i], b = src[(i + 1) % n];
+    if (skip && skip(a, b)) continue;
+    const c = crest[i], d = crest[(i + 1) % n];
+    buf.quad([a[0], 0, a[1]], [b[0], 0, b[1]], [d[0], 0.8, d[1]], [c[0], 0.8, c[1]], [0, 1, 0]);
+  }
+  return buf.mesh(groundMat);
+}
+const innerSlope = slopeQuads(innerPoly, (_i, a, b) => (isBFront(a, b) ? 5 : 3), isBFront);
+innerSlope.name = "innerSlope";
+scene.add(innerSlope);
+
+function bandMesh(innerEdge, outerEdge, yInner, yOuter) {
+  const buf = new Buf();
+  const n = innerEdge.length;
+  for (let i = 0; i < n; i++) {
+    const a = innerEdge[i], b = innerEdge[(i + 1) % n];
+    const c = outerEdge[i], d = outerEdge[(i + 1) % n];
+    const ya = yInner(a[0], a[1]), yb = yInner(b[0], b[1]);
+    const yc = yOuter(c[0], c[1]), yd = yOuter(d[0], d[1]);
+    buf.quad([a[0], ya, a[1]], [b[0], yb, b[1]], [d[0], yd, d[1]], [c[0], yc, c[1]], [0, 1, 0]);
+  }
+  return buf.mesh(groundMat);
+}
+const crest = offsetPoly(outerPoly, (i, a, b) => -slopeWidthAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2));
+const shelf = offsetPoly(outerPoly, (i, a, b) => -(slopeWidthAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2) + 18));
+const outerSlope = bandMesh(outerPoly, crest, () => 0, crestHeight);
+outerSlope.name = "outerSlope";
+const outerShelf = bandMesh(crest, shelf, crestHeight, crestHeight);
+outerShelf.name = "outerShelf";
+scene.add(outerSlope, outerShelf);
+
+const ramp = new Buf();
+ramp.quad([98, 0, -16], [98, 0.8, -11], [158, 0.8, -11], [158, 0, -16], [0, 1, -1]);
+const rampMesh = ramp.mesh(groundMat);
+rampMesh.name = "ramp";
+scene.add(rampMesh);
+
+function shapeMesh(poly, hole) {
+  const shape = new THREE.Shape();
+  shape.moveTo(poly[0][0], poly[0][1]);
+  for (let i = 1; i < poly.length; i++) shape.lineTo(poly[i][0], poly[i][1]);
+  shape.closePath();
+  if (hole) {
+    const path = new THREE.Path();
+    path.moveTo(hole[0][0], hole[0][1]);
+    for (let i = hole.length - 1; i > 0; i--) path.lineTo(hole[i][0], hole[i][1]);
+    shape.holes.push(path);
+  }
+  const geo = new THREE.ShapeGeometry(shape);
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) pos.setXYZ(i, pos.getX(i), 0, wz(pos.getY(i)));
+  if (geo.index) {
+    const index = geo.index;
+    for (let i = 0; i < index.count; i += 3) {
+      const t = index.getX(i + 1);
+      index.setX(i + 1, index.getX(i + 2));
+      index.setX(i + 2, t);
+    }
+  } else {
+    for (let i = 0; i < pos.count; i += 3) {
+      const x = pos.getX(i + 1), y = pos.getY(i + 1), z = pos.getZ(i + 1);
+      pos.setXYZ(i + 1, pos.getX(i + 2), pos.getY(i + 2), pos.getZ(i + 2));
+      pos.setXYZ(i + 2, x, y, z);
+    }
+  }
+  const normals = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) normals[i * 3 + 1] = 1;
+  geo.setAttribute("normal", new THREE.BufferAttribute(normals, 3));
+  geo.computeBoundingSphere();
+  const mesh = new THREE.Mesh(geo, groundMat);
+  mesh.position.y = 0.8;
+  mesh.receiveShadow = SHADOW;
+  return mesh;
+}
+const innerCrest = offsetPoly(innerPoly, (_i, a, b) => Math.max(0.5, innerBankDist(0, a, b) - 0.35));
+{
+  const ig = shapeMesh(innerCrest, null); ig.name = "innerGround"; scene.add(ig);
+}
+
+function buildOuterGround(limitPoly) {
+  const buf = new Buf();
+  const minX = -560, maxX = 980, minZ = -560, maxZ = 1000, step = 14;
+  const cols = Math.ceil((maxX - minX) / step);
+  const rows = Math.ceil((maxZ - minZ) / step);
+  const outside = (x, z) => !pointInPoly(x, z, limitPoly);
+  for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < cols; i++) {
+      const x0 = minX + i * step, z0 = minZ + j * step;
+      const x1 = x0 + step, z1 = z0 + step;
+      if (!outside(x0, z0) || !outside(x1, z0) || !outside(x1, z1) || !outside(x0, z1)) continue;
+      buf.quad(
+        [x0, crestHeight(x0, z0), z0],
+        [x1, crestHeight(x1, z0), z0],
+        [x1, crestHeight(x1, z1), z1],
+        [x0, crestHeight(x0, z1), z1],
+        [0, 1, 0],
+      );
+    }
+  }
+  const mesh = buf.mesh(groundMat);
+  mesh.name = "outerGround";
+  return mesh;
+}
+scene.add(buildOuterGround(crest));
+
+const waterStep = isPhone ? 4.5 : 3;
+const outerLoose = offsetPoly(outerPoly, -waterStep * 0.55);
+const innerTight = offsetPoly(innerPoly, waterStep * 0.55);
+let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
+for (const p of outerLoose) {
+  minX = Math.min(minX, p[0]); maxX = Math.max(maxX, p[0]);
+  minZ = Math.min(minZ, p[1]); maxZ = Math.max(maxZ, p[1]);
+}
+minX -= 4; maxX += 4; minZ -= 4; maxZ += 4;
+const nx = Math.ceil((maxX - minX) / waterStep);
+const nz = Math.ceil((maxZ - minZ) / waterStep);
+const waterPos = [];
+const waterIdx = [];
+const vmap = new Map();
+function waterVid(i, j) {
+  const key = i + j * (nx + 1);
+  if (vmap.has(key)) return vmap.get(key);
+  const id = waterPos.length / 3;
+  waterPos.push(minX + i * waterStep, 0, wz(minZ + j * waterStep));
+  vmap.set(key, id);
+  return id;
+}
+for (let j = 0; j < nz; j++) {
+  for (let i = 0; i < nx; i++) {
+    const x = minX + (i + 0.5) * waterStep;
+    const z = minZ + (j + 0.5) * waterStep;
+    if (!(pointInPoly(x, z, outerLoose) && !pointInPoly(x, z, innerTight))) continue;
+    const a = waterVid(i, j), b = waterVid(i + 1, j), c = waterVid(i + 1, j + 1), d = waterVid(i, j + 1);
+    waterIdx.push(a, b, c, a, c, d);
+  }
+}
+const waterGeo = new THREE.BufferGeometry();
+waterGeo.setAttribute("position", new THREE.Float32BufferAttribute(waterPos, 3));
+waterGeo.setIndex(waterIdx);
+waterGeo.computeVertexNormals();
+const water = new THREE.Mesh(waterGeo, waterMat);
+water.name = "water";
+water.receiveShadow = SHADOW;
+scene.add(water);
+
+const deck = new THREE.Mesh(new THREE.BoxGeometry(8, 0.3, 11), woodMat);
+deck.position.set(168, 0.55, wz(-17.5));
+deck.castShadow = deck.receiveShadow = SHADOW;
+scene.add(deck);
+occluders.push(deck);
+for (let i = 0; i < 5; i++) {
+  const pile = new THREE.Mesh(new THREE.BoxGeometry(0.45, 2, 0.45), woodMat);
+  pile.position.set(164.8 + i * 1.6, -0.55, wz(-22));
+  pile.castShadow = SHADOW;
+  scene.add(pile);
+}
+
+const hull = new Buf(false);
+const secs = [
+  { z: -3.1, x: 0.16, yb: -0.02, yt: 0.14 },
+  { z: -2.2, x: 0.82, yb: -0.15, yt: 0.2 },
+  { z: -0.3, x: 1.3, yb: -0.225, yt: 0.225 },
+  { z: 1.7, x: 1.18, yb: -0.2, yt: 0.19 },
+  { z: 3.1, x: 1.0, yb: -0.15, yt: 0.15 },
+];
+for (let i = 0; i < secs.length - 1; i++) {
+  const A = secs[i], B = secs[i + 1];
+  hull.quad([-A.x, A.yb, A.z], [A.x, A.yb, A.z], [B.x, B.yb, B.z], [-B.x, B.yb, B.z], [0, -1, 0]);
+  hull.quad([-A.x, A.yt, A.z], [-B.x, B.yt, B.z], [B.x, B.yt, B.z], [A.x, A.yt, A.z], [0, 1, 0]);
+  hull.quad([A.x, A.yb, A.z], [A.x, A.yt, A.z], [B.x, B.yt, B.z], [B.x, B.yb, B.z], [1, 0, 0]);
+  hull.quad([-A.x, A.yt, A.z], [-A.x, A.yb, A.z], [-B.x, B.yb, B.z], [-B.x, B.yt, B.z], [-1, 0, 0]);
+}
+{
+  const A = secs[0], B = secs[secs.length - 1];
+  hull.quad([-A.x, A.yb, A.z], [-A.x, A.yt, A.z], [A.x, A.yt, A.z], [A.x, A.yb, A.z], [0, 0, -1]);
+  hull.quad([B.x, B.yb, B.z], [B.x, B.yt, B.z], [-B.x, B.yt, B.z], [-B.x, B.yb, B.z], [0, 0, 1]);
+}
+const boat = new THREE.Group();
+const hullMesh = hull.mesh(boatMat);
+boat.add(hullMesh);
+scene.add(boat);
+
+for (const [mesh, label] of [
+  [baseBuf.mesh(rammed), "rammed"],
+  [darkBuf.mesh(rammedDark), "rammedDark"],
+  [tileBuf.mesh(tileMat), "tiles"],
+  [colBuf.mesh(woodCol), "columns"],
+  [beamBuf.mesh(woodCol), "beams"],
+  [redBuf.mesh(lacquer), "lacquer"],
+  [doorBuf.mesh(doorMat), "doors"],
+]) {
+  mesh.name = label;
+  scene.add(mesh);
+  occluders.push(mesh);
+}
+
+// r170 起方向光/环境光不再乘 π。规格里的强度按旧版观感书写，否则夯土会被压成剪影。
+const LIGHT_SCALE = Math.PI;
+const hemi = new THREE.HemisphereLight(0xc4a078, 0x3a2a20, 0.4 * LIGHT_SCALE);
+scene.add(hemi);
+const amb = new THREE.AmbientLight(0x6a5348, 0.55 * LIGHT_SCALE);
+scene.add(amb);
+const sun = new THREE.DirectionalLight(0xffb070, 1.35 * LIGHT_SCALE);
+sun.castShadow = SHADOW;
+sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.left = -80;
+sun.shadow.camera.right = 80;
+sun.shadow.camera.top = 80;
+sun.shadow.camera.bottom = -80;
+sun.shadow.camera.near = 10;
+sun.shadow.camera.far = 220;
+sun.shadow.bias = -0.0006;
+sun.shadow.normalBias = 0.045;
+scene.add(sun);
+scene.add(sun.target);
+const fill = new THREE.DirectionalLight(0x8aa0b8, 0.18 * LIGHT_SCALE);
+fill.position.set(...specToWorld(40, 30, 80));
+fill.target.position.set(...specToWorld(175, 8, 180));
+scene.add(fill);
+scene.add(fill.target);
+
+let camera;
+if (topView) {
+  const aspect = window.innerWidth / window.innerHeight;
+  camera = new THREE.OrthographicCamera(-430 * aspect, 430 * aspect, 430, -430, 0.1, 2000);
+  camera.position.set(180, 900, wz(190));
+  camera.up.set(0, 0, -1);
+  camera.lookAt(180, 0, wz(190));
+} else {
+  camera = new THREE.PerspectiveCamera(50, 1, 0.2, 900);
+}
+const raycaster = new THREE.Raycaster();
+const camPos = new THREE.Vector3();
+const lookPos = new THREE.Vector3();
+const camA = new THREE.Vector3();
+const lookA = new THREE.Vector3();
+const camB = new THREE.Vector3();
+const lookB = new THREE.Vector3(128, 10, -6);
+
+let boatX = 168, boatZ = -34, boatY = 0.2;
+let yaw = Math.PI / 2;
+let speed = 0;
+let segHint = null;
+let yawOff = 0;
+let pitch = Math.atan2(-5.1, 24);
+let blend = 0;
+let dragging = false;
+let lastPX = 0, lastPY = 0;
+let lookPointer = null;
+let joyPointer = null;
+let joyX = 0, joyY = 0;
+const keys = new Set();
+let qaOverride = false;
+const qaKeys = new Set();
+
+function applyView() {
+  const phone = detectPhone();
+  document.documentElement.classList.toggle("phone", phone);
+  if (phone) help.textContent = "左下摇杆划船，右半屏滑动转视角";
+  if (topView) {
+    const aspect = window.innerWidth / window.innerHeight;
+    const frustum = 430;
+    camera.left = -frustum * aspect;
+    camera.right = frustum * aspect;
+    camera.top = frustum;
+    camera.bottom = -frustum;
+    camera.updateProjectionMatrix();
+    return;
+  }
+  const land = window.innerWidth > window.innerHeight;
+  camera.fov = phone && land ? 46 : 50;
+  camera.aspect = window.innerWidth / Math.max(1, window.innerHeight);
+  camera.near = 0.2;
+  camera.far = 900;
+  camera.updateProjectionMatrix();
+}
+applyView();
+window.addEventListener("resize", applyView);
+
+function down(code) { return (qaOverride ? qaKeys : keys).has(code); }
+
+let audioCtx = null, audioGain = null;
+function startAudio() {
+  if (audioCtx) {
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return;
+  }
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return;
+  audioCtx = new Ctx();
+  const rate = audioCtx.sampleRate;
+  const buffer = audioCtx.createBuffer(1, rate * 2, rate);
+  const data = buffer.getChannelData(0);
+  let last = 0;
+  for (let i = 0; i < data.length; i++) {
+    const white = Math.random() * 2 - 1;
+    last = (last + 0.02 * white) / 1.02;
+    data[i] = last * 3.2;
+  }
+  const src = audioCtx.createBufferSource();
+  src.buffer = buffer;
+  src.loop = true;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.value = 160;
+  audioGain = audioCtx.createGain();
+  audioGain.gain.value = 0;
+  src.connect(filter);
+  filter.connect(audioGain);
+  audioGain.connect(audioCtx.destination);
+  src.start();
+}
+
+const joy = document.getElementById("joy");
+const knob = document.getElementById("knob");
+const MAX_R = (112 - 40) / 2;
+function setKnob(dx, dy) {
+  const d = Math.hypot(dx, dy);
+  if (d > MAX_R) { dx *= MAX_R / d; dy *= MAX_R / d; }
+  knob.style.transform = `translate(${dx}px, ${dy}px)`;
+  joyX = dx / MAX_R;
+  joyY = -dy / MAX_R;
+}
+joy.addEventListener("pointerdown", (e) => {
+  try { joy.setPointerCapture(e.pointerId); } catch (err) { /* synthetic QA pointers */ }
+  joyPointer = e.pointerId;
+  startAudio();
+  const rect = joy.getBoundingClientRect();
+  setKnob(e.clientX - rect.left - 56, e.clientY - rect.top - 56);
+  e.preventDefault();
+  e.stopPropagation();
+});
+joy.addEventListener("pointermove", (e) => {
+  if (e.pointerId !== joyPointer) return;
+  const rect = joy.getBoundingClientRect();
+  setKnob(e.clientX - rect.left - 56, e.clientY - rect.top - 56);
+});
+function endJoy(e) {
+  if (e.pointerId !== joyPointer) return;
+  joyPointer = null;
+  joyX = 0; joyY = 0;
+  knob.style.transform = "translate(0px, 0px)";
+}
+joy.addEventListener("pointerup", endJoy);
+joy.addEventListener("pointercancel", endJoy);
+
+window.addEventListener("pointerdown", (e) => {
+  startAudio();
+  if (e.target.closest && e.target.closest("#joy")) return;
+  if (detectPhone()) {
+    if (e.clientX > window.innerWidth * 0.5) {
+      lookPointer = e.pointerId;
+      lastPX = e.clientX; lastPY = e.clientY;
+    }
+    return;
+  }
+  if (e.button === 0) { dragging = true; lastPX = e.clientX; lastPY = e.clientY; }
+});
+window.addEventListener("pointermove", (e) => {
+  const looking = detectPhone() ? e.pointerId === lookPointer : dragging;
+  if (!looking) return;
+  const bNow = inBSegment(project(boatX, boatZ, segHint).s);
+  if (bNow) { lastPX = e.clientX; lastPY = e.clientY; return; }
+  yawOff -= (e.clientX - lastPX) * 0.0042;
+  pitch -= (e.clientY - lastPY) * 0.0032;
+  pitch = clamp(pitch, -25 * DEG, 20 * DEG);
+  lastPX = e.clientX; lastPY = e.clientY;
+});
+window.addEventListener("pointerup", (e) => {
+  if (e.pointerId === lookPointer) lookPointer = null;
+  if (!detectPhone()) dragging = false;
+});
+window.addEventListener("pointercancel", () => { lookPointer = null; dragging = false; });
+window.addEventListener("contextmenu", (e) => e.preventDefault());
+window.addEventListener("keydown", (e) => {
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) e.preventDefault();
+  if (!qaOverride) keys.add(e.code);
+  startAudio();
+});
+window.addEventListener("keyup", (e) => { if (!qaOverride) keys.delete(e.code); });
+window.addEventListener("blur", () => { if (!qaOverride) keys.clear(); });
+window.addEventListener("message", (e) => {
+  if (e.origin !== location.origin || !e.data || e.data.type !== "key") return;
+  if (qaOverride) return;
+  if (e.data.down) keys.add(e.data.code);
+  else keys.delete(e.data.code);
+  if (e.data.down) startAudio();
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden && !qaOverride) keys.clear(); });
+
+if (isPhone) {
+  const hint = document.getElementById("hint");
+  hint.classList.add("on");
+  setTimeout(() => hint.classList.remove("on"), 5600);
+}
+
+const gateEl = document.getElementById("gate");
+let time = 0;
+let lastT = performance.now();
+
+function step(dt) {
+  let throttle = 0, steer = 0;
+  if (down("KeyW") || down("ArrowUp")) throttle += 1;
+  if (down("KeyS") || down("ArrowDown")) throttle -= 1;
+  if (down("KeyA") || down("ArrowLeft")) steer -= 1;
+  if (down("KeyD") || down("ArrowRight")) steer += 1;
+  throttle = clamp(throttle + joyY, -1, 1);
+  steer = clamp(steer + joyX, -1, 1);
+  const reverse = speed >= 0 ? 1 : -1;
+  yaw += steer * MAX_YAW_RATE * reverse * dt;
+  speed += (throttle * ACCEL - DAMP * speed) * dt;
+  speed = clamp(speed, -MAX_SPEED, MAX_SPEED);
+  const fx = -Math.sin(yaw), fz = -Math.cos(yaw);
+  boatX += fx * speed * dt;
+  boatZ += fz * speed * dt;
+  const proj = project(boatX, boatZ, segHint);
+  segHint = proj.i;
+  let half = halfWidth(proj.s);
+  if (proj.d > 0.05) {
+    const ux = (boatX - proj.x) / proj.d, uz = (boatZ - proj.z) / proj.d;
+    let guard = half;
+    while (guard > 2 && !inWater(proj.x + ux * guard, proj.z + uz * guard)) guard -= 0.4;
+    if (guard < half && inWater(proj.x + ux * guard, proj.z + uz * guard)) half = guard;
+  }
+  if (proj.d > half && proj.d > 1e-5) {
+    const push = (proj.d - half) * (1 - Math.exp(-10 * dt));
+    boatX -= ((boatX - proj.x) / proj.d) * push;
+    boatZ -= ((boatZ - proj.z) / proj.d) * push;
+  }
+  if (boatX >= 98 && boatX <= 158 && boatZ > -1 && boatZ < 12) {
+    boatZ += (-1 - boatZ) * (1 - Math.exp(-8 * dt));
+  }
+  const cYaw = Math.abs(Math.cos(yaw)), sYaw = Math.abs(Math.sin(yaw));
+  const bhx = 3.1 * sYaw + 1.3 * cYaw, bhz = 3.1 * cYaw + 1.3 * sYaw;
+  for (const p of pierSolids) {
+    const dx = boatX - p.x, dz = boatZ - p.z;
+    const px = bhx + p.hx, pz = bhz + p.hz;
+    if (Math.abs(dx) >= px || Math.abs(dz) >= pz) continue;
+    const ox = px - Math.abs(dx), oz = pz - Math.abs(dz);
+    if (ox < oz) boatX += Math.sign(dx || 1) * ox;
+    else boatZ += Math.sign(dz || 1) * oz;
+  }
+  boatY = 0.2 + waveY(boatX, boatZ, time);
+  return proj;
+}
+
+function updateCamera(proj) {
+  if (topView) return;
+  if (camHold) {
+    camera.position.set(camHold.px, camHold.py, wz(camHold.pz));
+    camera.up.set(0, 1, 0);
+    camera.lookAt(camHold.lx, camHold.ly, wz(camHold.lz));
+    return;
+  }
+  const bOn = inBSegment(proj.s);
+  const target = bOn ? 1 : 0;
+  const stepBlend = dtHold > 0 ? dtHold / 0.6 : 0;
+  if (blend < target) blend = Math.min(target, blend + stepBlend);
+  else blend = Math.max(target, blend - stepBlend);
+  const s = blend * blend * (3 - 2 * blend);
+  gateEl.classList.toggle("on", bOn);
+  const fx = -Math.sin(yaw), fz = -Math.cos(yaw);
+  lookA.set(boatX + fx * 4, 2.4, boatZ + fz * 4);
+  const bx = Math.sin(yaw), bz = Math.cos(yaw);
+  const c = Math.cos(yawOff), sn = Math.sin(yawOff);
+  const rx = bx * c + bz * sn;
+  const rz = -bx * sn + bz * c;
+  const camY = Math.max(3, lookA.y - Math.tan(pitch) * 24);
+  camA.set(lookA.x + rx * 24, camY, lookA.z + rz * 24);
+  // 规格偏移 (10, 11.5, −18) → 场景 (10, 11.5, +18)
+  camB.set(boatX + 10, boatY + 11.5, boatZ - 18);
+  camPos.lerpVectors(camA, camB, s);
+  lookPos.lerpVectors(lookA, lookB, s);
+  const origin = new THREE.Vector3(boatX, Math.max(1.6, boatY + 1.3), wz(boatZ));
+  const camW = camPos.clone();
+  camW.z = wz(camW.z);
+  const lookW = lookPos.clone();
+  lookW.z = wz(lookW.z);
+  const delta = camW.clone().sub(origin);
+  const dist = delta.length();
+  if (dist > 8.2) {
+    const dir = delta.multiplyScalar(1 / dist);
+    raycaster.set(origin, dir);
+    raycaster.far = dist;
+    const hits = raycaster.intersectObjects(occluders, false);
+    if (hits.length && hits[0].distance < dist - 0.15) {
+      const nd = Math.max(8, hits[0].distance - 0.4);
+      camW.copy(origin).addScaledVector(dir, nd);
+    }
+  }
+  if (camW.y < 3) camW.y = 3;
+  camera.position.copy(camW);
+  camera.lookAt(lookW);
+}
+
+let dtHold = 0;
+let fpsN = 0, fpsT = performance.now();
+window.__fps = 0;
+
+function specLightDir(azDeg, elDeg) {
+  const az = azDeg * DEG, el = elDeg * DEG;
+  const ch = Math.cos(el);
+  return new THREE.Vector3(Math.sin(az) * ch, Math.sin(el), -Math.cos(az) * ch).normalize();
+}
+const hourPresets = {
+  dusk: {
+    ambC: 0x6a5348, ambI: 0.55 * LIGHT_SCALE,
+    hemiSky: 0xc4a078, hemiGround: 0x3a2a20, hemiI: 0.4 * LIGHT_SCALE,
+    sunC: 0xffb070, sunI: 1.35 * LIGHT_SCALE, sunDir: SUN_DIR.clone(),
+    fillI: 0.18 * LIGHT_SCALE,
+    fogC: 0xc98448, fogN: 42, fogF: 230, exposure: 1.12,
+    fire: 1, torch: 0, curtain: 0, hall: 1, brazier: 1,
+    skyBlend: 0, after: 0, soft: 0, stars: 0, groundEm: 0.32,
+    mist: 0, nightMist: 0,
+    skyB: 0xc98448, skyM: 0xc98448, skyT: 0xa85a30, skyA: 0x5a2a20, skyG: 0xffc48a,
+  },
+  night: {
+    ambC: 0x2a3448, ambI: 0.35 * LIGHT_SCALE,
+    hemiSky: 0x33415e, hemiGround: 0x0e0e14, hemiI: 0.25 * LIGHT_SCALE,
+    sunC: 0x9fb3d6, sunI: 0.35 * LIGHT_SCALE, sunDir: specLightDir(135, 35),
+    fillI: 0,
+    fogC: 0x1a2233, fogN: 40, fogF: 220, exposure: 0.9,
+    fire: 1, torch: 1, curtain: 1, hall: 1, brazier: 1,
+    skyBlend: 1, after: 1, soft: 0, stars: 1, groundEm: 0.05,
+    mist: 0, nightMist: 1,
+    skyB: 0x1b2438, skyM: 0x141c30, skyT: 0x0a0f1e, skyA: 0x5a2a20, skyG: 0x9fb3d6,
+  },
+  mist: {
+    ambC: 0x8a93a3, ambI: 0.6 * LIGHT_SCALE,
+    hemiSky: 0xc9d2de, hemiGround: 0x5a5550, hemiI: 0.45 * LIGHT_SCALE,
+    sunC: 0xffd9a0, sunI: 0.9 * LIGHT_SCALE, sunDir: specLightDir(70, 6),
+    fillI: 0.18 * LIGHT_SCALE,
+    fogC: 0xc8ccd2, fogN: 30, fogF: 200, exposure: 0.9,
+    fire: 0, torch: 0, curtain: 0, hall: 0, brazier: 0,
+    skyBlend: 1, after: 0, soft: 0.16, stars: 0, groundEm: 0.16,
+    mist: 1, nightMist: 0,
+    skyB: 0xe8d2b0, skyM: 0xc9cdd6, skyT: 0x9aa6b8, skyA: 0xe8d2b0, skyG: 0xffd9a0,
+  },
+};
+let hourName = "dusk";
+let hourFrom = hourPresets.dusk;
+let hourTo = hourPresets.dusk;
+let hourT = 1;
+const hourShown = {};
+const colA = new THREE.Color(), colB = new THREE.Color(), colC = new THREE.Color();
+function mixHex(a, b, t) { return colC.copy(colA.setHex(a)).lerp(colB.setHex(b), t).getHex(); }
+function mixDir(out, a, b, t) { return out.copy(a).lerp(b, t).normalize(); }
+const shownDir = new THREE.Vector3();
+
+const starPos = [];
+for (let i = 0; i < 400; i++) {
+  const th = Math.random() * Math.PI * 2;
+  const y = 0.08 + Math.random() * 0.9;
+  const r = Math.sqrt(Math.max(0, 1 - y * y));
+  starPos.push(Math.cos(th) * r * 28, y * 28, Math.sin(th) * r * 28);
+}
+const stars = new THREE.Points(
+  new THREE.BufferGeometry().setAttribute("position", new THREE.Float32BufferAttribute(starPos, 3)),
+  new THREE.PointsMaterial({ color: 0xe7eef8, size: 1.35, sizeAttenuation: false, fog: false, depthWrite: false, depthTest: false, transparent: true, opacity: 0 }),
+);
+stars.renderOrder = -1;
+stars.frustumCulled = false;
+sky.add(stars);
+
+function makeMistMat() {
+  return new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, fog: false, side: THREE.DoubleSide,
+    uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(0xc8ccd2) }, uOpacity: { value: 0 } },
+    vertexShader: `varying vec3 vPos; void main(){ vec4 w=modelMatrix*vec4(position,1.0); vPos=w.xyz; gl_Position=projectionMatrix*viewMatrix*w; }`,
+    fragmentShader: `uniform float uTime; uniform vec3 uColor; uniform float uOpacity; varying vec3 vPos;
+      void main(){
+        vec2 p = vPos.xz * 0.018 + vec2(uTime * 0.025, uTime * 0.015);
+        float f = sin(p.x) * sin(p.y) * 0.5 + sin(p.x * 2.2 + 1.7) * sin(p.y * 1.8) * 0.35 + sin(p.x * 4.1 - p.y * 3.0) * 0.2;
+        gl_FragColor = vec4(uColor, uOpacity * (0.42 + 0.58 * f));
+      }`,
+  });
+}
+const mistGeo = new THREE.PlaneGeometry(560, 620);
+const mistLayers = [[0.35, "low"], [1.05, "mid"], [1.7, "high"]].map(([y]) => {
+  const mat = makeMistMat();
+  const mesh = new THREE.Mesh(mistGeo, mat);
+  mesh.rotation.x = -Math.PI / 2;
+  mesh.position.set(180, y, wz(170));
+  mesh.renderOrder = 2;
+  mesh.frustumCulled = false;
+  scene.add(mesh);
+  return { mesh, mat };
+});
+
+function waterPoint(p) {
+  for (let d = 8; d <= 30; d += 2) {
+    const x = p.x + p.ox * d, z = p.z + p.oz * d;
+    if (inWater(x, z)) return { x, z, ox: p.ox, oz: p.oz, yaw: Math.atan2(p.ox, -p.oz) };
+  }
+  return null;
+}
+const reflections = [];
+for (const p of brazierSpots) { const q = waterPoint(p); if (q) reflections.push(q); }
+for (const p of torchSpots) { const q = waterPoint(p); if (q) reflections.push(q); }
+const refMat = new THREE.MeshBasicMaterial({
+  color: 0xffb060, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending,
+  depthWrite: false, fog: true,
+});
+const refMesh = new THREE.InstancedMesh(new THREE.BoxGeometry(0.6, 0.03, 6), refMat, Math.max(1, reflections.length));
+refMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+refMesh.frustumCulled = false;
+refMesh.visible = false;
+scene.add(refMesh);
+const refDummy = new THREE.Object3D();
+
+let smokeUniforms = null;
+if (!isPhone && brazierSpots.length) {
+  const smokeCanvas = document.createElement("canvas");
+  smokeCanvas.width = smokeCanvas.height = 64;
+  const sg = smokeCanvas.getContext("2d");
+  const grd = sg.createRadialGradient(32, 32, 4, 32, 32, 30);
+  grd.addColorStop(0, "rgba(198,206,210,0.55)");
+  grd.addColorStop(1, "rgba(198,206,210,0)");
+  sg.fillStyle = grd; sg.fillRect(0, 0, 64, 64);
+  const smokeTex = new THREE.CanvasTexture(smokeCanvas);
+  const smokeMat = new THREE.MeshBasicMaterial({ map: smokeTex, transparent: true, depthWrite: false, side: THREE.DoubleSide, color: 0xb7c0c4 });
+  smokeMat.onBeforeCompile = (shader) => {
+    shader.uniforms.uTime = { value: 0 };
+    shader.uniforms.uOn = { value: 0 };
+    smokeUniforms = shader.uniforms;
+    shader.vertexShader = shader.vertexShader
+      .replace("#include <common>", "#include <common>\nuniform float uTime;\nvarying float vFade;")
+      .replace("#include <begin_vertex>", `#include <begin_vertex>
+#ifdef USE_INSTANCING
+        float seed = instanceMatrix[3].x * 0.17 + instanceMatrix[3].z * 0.13 + position.x;
+        float t = fract(uTime * 0.08 + seed);
+        transformed.y += t * 2.1;
+        transformed.x += sin(uTime * 0.6 + seed * 4.0) * t * 0.18;
+        vFade = sin(t * 3.14159);
+#endif`);
+    shader.fragmentShader = shader.fragmentShader
+      .replace("#include <common>", "#include <common>\nuniform float uOn;\nvarying float vFade;")
+      .replace("#include <dithering_fragment>", "#include <dithering_fragment>\ngl_FragColor.a *= vFade * uOn;");
+  };
+  const per = 5;
+  const smoke = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.45, 0.7), smokeMat, brazierSpots.length * per);
+  smoke.frustumCulled = false;
+  brazierSpots.forEach((p, i) => {
+    for (let k = 0; k < per; k++) {
+      refDummy.position.set(p.x + (k - 2) * 0.05, 11.15, wz(p.z));
+      refDummy.rotation.set(0, k, 0);
+      refDummy.scale.setScalar(1);
+      refDummy.updateMatrix();
+      smoke.setMatrixAt(i * per + k, refDummy.matrix);
+    }
+  });
+  smoke.instanceMatrix.needsUpdate = true;
+  scene.add(smoke);
+}
+
+const COLOR_KEYS = new Set(["ambC", "hemiSky", "hemiGround", "sunC", "fogC", "skyB", "skyM", "skyT", "skyA", "skyG"]);
+const flameMeshes = [];
+scene.traverse((o) => { if (o.name === "flame" || o.name === "bfire") flameMeshes.push(o); });
+function applyHour(dt) {
+  hourT = Math.min(1, hourT + (dt > 0 ? dt / 2 : 1));
+  const s = hourT * hourT * (3 - 2 * hourT);
+  const A = hourFrom, B = hourTo;
+  const n = (k) => A[k] + (B[k] - A[k]) * s;
+  const hex = (k) => mixHex(A[k], B[k], s);
+  amb.color.setHex(hex("ambC")); amb.intensity = n("ambI");
+  hemi.color.setHex(hex("hemiSky")); hemi.groundColor.setHex(hex("hemiGround")); hemi.intensity = n("hemiI");
+  sun.color.setHex(hex("sunC")); sun.intensity = n("sunI");
+  mixDir(shownDir, A.sunDir, B.sunDir, s);
+  fill.intensity = n("fillI");
+  if (scene.fog) {
+    scene.fog.color.setHex(hex("fogC"));
+    scene.fog.near = n("fogN");
+    scene.fog.far = n("fogF");
+  }
+  renderer.toneMappingExposure = n("exposure");
+  renderer.setClearColor(hex("fogC"), 1);
+  skyMat.uniforms.sunDir.value.copy(shownDir);
+  skyMat.uniforms.uBlend.value = n("skyBlend");
+  skyMat.uniforms.uAfter.value = n("after");
+  skyMat.uniforms.uSoft.value = n("soft");
+  skyMat.uniforms.bottom.value.setHex(hex("skyB"));
+  skyMat.uniforms.midc.value.setHex(hex("skyM"));
+  skyMat.uniforms.topc.value.setHex(hex("skyT"));
+  skyMat.uniforms.afterglow.value.setHex(hex("skyA"));
+  skyMat.uniforms.sunGlow.value.setHex(n("skyBlend") < 0.001 ? 0xffc48a : hex("skyG"));
+  if (n("skyBlend") < 0.001) skyMat.uniforms.sunGlow.value.setHex(0xffc48a);
+  groundMat.emissiveIntensity = n("groundEm");
+  stars.material.opacity = n("stars");
+  const fire = n("fire");
+  const flicker = isPhone ? 1.25 : 1.25 + Math.sin(time * 7.5) * 0.4;
+  if (flameMatRef) {
+    flameMatRef.emissive.setHex(0xffb347);
+    flameMatRef.emissiveIntensity = fire * flicker;
+  }
+  flameMeshes.forEach((o) => { o.visible = fire > 0.04; });
+  if (torchMesh) {
+    const sc = n("torch");
+    refDummy.scale.setScalar(sc > 0.04 ? sc : 0);
+    torchSpots.forEach((p, i) => {
+      refDummy.position.set(p.x, p.y, wz(p.z));
+      refDummy.rotation.set(0, 0, 0);
+      refDummy.updateMatrix();
+      torchMesh.setMatrixAt(i, refDummy.matrix);
+    });
+    torchMesh.instanceMatrix.needsUpdate = true;
+  }
+  if (curtainMatRef) {
+    curtainMatRef.emissive.setHex(0xffb060);
+    curtainMatRef.emissiveIntensity = 0.4 * n("curtain");
+  }
+  hallLights.forEach((L) => { L.intensity = 6 * n("hall"); });
+  if (brazierLights.length && n("brazier") > 0.04) {
+    const near = brazierSpots
+      .map((p) => ({ p, d: (p.x - boatX) ** 2 + (p.z - boatZ) ** 2 }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, brazierLights.length);
+    brazierLights.forEach((L, i) => {
+      const spot = near[i];
+      L.visible = !!spot;
+      L.intensity = 10 * n("brazier");
+      if (spot) L.position.set(spot.p.x, spot.p.y, wz(spot.p.z));
+    });
+  } else brazierLights.forEach((L) => { L.visible = false; });
+  const nightM = n("nightMist"), morn = n("mist");
+  mistLayers.forEach((layer, i) => {
+    const use = i === 0 ? nightM * 0.16 + morn * 0.2 : (isPhone ? 0 : morn * (i === 1 ? 0.14 : 0.1));
+    layer.mat.uniforms.uOpacity.value = use;
+    layer.mat.uniforms.uTime.value = time;
+    layer.mat.uniforms.uColor.value.setHex(morn >= nightM ? 0xc8ccd2 : 0x243044);
+    layer.mesh.visible = use > 0.01;
+  });
+  if (smokeUniforms) {
+    smokeUniforms.uOn.value = morn;
+    smokeUniforms.uTime.value = time;
+  }
+  const showRef = n("skyBlend") * n("fire") * (1 - morn);
+  refMesh.visible = showRef > 0.08 && reflections.length > 0;
+  if (refMesh.visible) {
+    let keep = null;
+    if (isPhone) {
+      keep = reflections.map((p, i) => ({ i, d: (p.x - boatX) ** 2 + (p.z - boatZ) ** 2 }))
+        .sort((a, b) => a.d - b.d).slice(0, 12);
+      keep = new Set(keep.map((o) => o.i));
+    }
+    reflections.forEach((p, i) => {
+      const on = !keep || keep.has(i);
+      const wob = Math.sin(time * 1.5 + i * 1.7) * 0.15;
+      refDummy.position.set(p.x + wob * p.ox, 0.12 + Math.sin(time * 0.8 + i) * 0.03, wz(p.z + wob * p.oz));
+      refDummy.rotation.set(0, p.yaw, 0);
+      refDummy.scale.set(on ? 1 : 0, on ? 1 : 0, on ? showRef : 0);
+      refDummy.updateMatrix();
+      refMesh.setMatrixAt(i, refDummy.matrix);
+    });
+    refMesh.instanceMatrix.needsUpdate = true;
+    refMat.opacity = 0.35 * showRef;
+  }
+  sun.position.copy(boat.position).addScaledVector(shownDir, 180);
+  sun.target.position.copy(boat.position);
+}
+function goHour(name) {
+  if (!hourPresets[name] || (name === hourName && hourT >= 1)) return;
+  const s = hourT * hourT * (3 - 2 * hourT);
+  const snap = { sunDir: shownDir.clone() };
+  for (const k of Object.keys(hourPresets.dusk)) {
+    if (k === "sunDir") continue;
+    snap[k] = COLOR_KEYS.has(k) ? mixHex(hourFrom[k], hourTo[k], s) : hourFrom[k] + (hourTo[k] - hourFrom[k]) * s;
+  }
+  hourFrom = hourT >= 1 ? hourPresets[hourName] : snap;
+  hourTo = hourPresets[name];
+  hourName = name;
+  hourT = 0;
+  document.querySelectorAll("#hours button").forEach((b) => b.classList.toggle("on", b.dataset.hour === name));
+}
+document.getElementById("hours").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (b) goHour(b.dataset.hour);
+});
+window.__hour = (name, snap) => { goHour(name); if (snap) { hourT = 0; applyHour(0); } };
+applyHour(0);
+
+function frame(now) {
+  const dt = Math.min(0.05, (now - lastT) / 1000);
+  lastT = now;
+  dtHold = dt;
+  time += dt;
+  const proj = step(dt);
+  boat.position.set(boatX, boatY, wz(boatZ));
+  boat.rotation.set(0, Math.PI - yaw, 0);
+  const arr = waterGeo.attributes.position.array;
+  for (let i = 0; i < arr.length; i += 3) arr[i + 1] = waveY(arr[i], -arr[i + 2], time);
+  waterGeo.attributes.position.needsUpdate = true;
+  if (audioGain && audioCtx) {
+    const vol = 0.006 + 0.11 * Math.min(1, Math.abs(speed) / MAX_SPEED);
+    audioGain.gain.setTargetAtTime(vol, audioCtx.currentTime, 0.08);
+  }
+  applyHour(dt);
+  if (curtainUniforms) curtainUniforms.uTime.value = time;
+  if (flagUniforms) flagUniforms.uTime.value = time;
+  updateCamera(proj);
+  sky.position.copy(camera.position);
+  sky.updateMatrixWorld();
+  renderer.render(scene, camera);
+  fpsN++;
+  if (now - fpsT >= 1000) {
+    window.__fps = Math.round(fpsN * 1000 / (now - fpsT));
+    fpsN = 0;
+    fpsT = now;
+  }
+  requestAnimationFrame(frame);
+}
+
+document.getElementById("boot").remove();
+requestAnimationFrame(frame);
+
+function auditLock() {
+  const bad = [];
+  let outside = 0;
+  for (const sg of segs) {
+    const steps = Math.max(1, Math.ceil(sg.len / 4));
+    for (let k = 0; k <= steps; k++) {
+      const t = k / steps;
+      const x = sg.ax + sg.dx * t, z = sg.az + sg.dz * t;
+      const s = sg.s0 + sg.len * t;
+      const half = halfWidth(s);
+      const nx = -sg.dz / sg.len, nz = sg.dx / sg.len;
+      for (const side of [-1, 1]) {
+        const px = x + nx * half * side, pz = z + nz * half * side;
+        if (!inWater(px, pz)) {
+          outside++;
+          if (bad.length < 8) bad.push({ px: +px.toFixed(2), pz: +pz.toFixed(2), s: +s.toFixed(1), half, side });
+        }
+      }
+      if (!inWater(x, z)) {
+        outside++;
+        if (bad.length < 8) bad.push({ px: +x.toFixed(2), pz: +z.toFixed(2), s: +s.toFixed(1), half, side: 0, center: true });
+      }
+    }
+  }
+  return { outside, bad, routeLen, filletNotes: route.notes, outerNotes: [], innerNotes: [] };
+}
+
+function pointAtS(s) {
+  s = ((s % routeLen) + routeLen) % routeLen;
+  for (let i = 0; i < segs.length; i++) {
+    const sg = segs[i];
+    if (s <= sg.s0 + sg.len + 1e-4 || i === segs.length - 1) {
+      const t = clamp((s - sg.s0) / sg.len, 0, 1);
+      return { x: sg.ax + sg.dx * t, z: sg.az + sg.dz * t };
+    }
+  }
+  return { x: segs[0].ax, z: segs[0].az };
+}
+
+window.__cam = () => ({
+  px: +camera.position.x.toFixed(2),
+  py: +camera.position.y.toFixed(2),
+  pz: +camera.position.z.toFixed(2),
+  lx: +lookPos.x.toFixed(2),
+  ly: +lookPos.y.toFixed(2),
+  lz: +lookPos.z.toFixed(2),
+  blend: +blend.toFixed(2),
+  fov: camera.fov,
+});
+window.__controlsTest = {
+  getYaw: () => yaw,
+  getSpeed: () => speed,
+  setKeys(codes) {
+    qaOverride = true;
+    qaKeys.clear();
+    for (const code of codes) qaKeys.add(code);
+  },
+  setSteer() {},
+};
+window.__debug = {
+  pose(x, z, nextYaw) {
+    boatX = x; boatZ = z; speed = 0;
+    if (nextYaw != null) yaw = nextYaw;
+    segHint = project(x, z, null).i;
+  },
+  setBlend(v) { blend = v; },
+  look(px, py, pz, lx, ly, lz) { camHold = { px, py, pz, lx, ly, lz }; },
+  unlook() { camHold = null; },
+  async bench(n = 40) {
+    const t0 = performance.now();
+    for (let i = 0; i < n; i++) renderer.render(scene, camera);
+    const dt = performance.now() - t0;
+    return { ms: +(dt / n).toFixed(2), fps: Math.round(n * 1000 / Math.max(1, dt)), calls: renderer.info.render.calls };
+  },
+  state() {
+    const p = project(boatX, boatZ, segHint);
+    return { x: +boatX.toFixed(2), z: +boatZ.toFixed(2), yaw: +yaw.toFixed(3), speed: +speed.toFixed(2), s: +p.s.toFixed(1), d: +p.d.toFixed(2), half: halfWidth(p.s), inB: inBSegment(p.s), inWater: inWater(boatX, boatZ), tx: +(p.dx / p.len).toFixed(3), tz: +(p.dz / p.len).toFixed(3) };
+  },
+  simulate(maxSeconds = 480) {
+    const saved = { boatX, boatZ, yaw, speed, segHint, time };
+    boatX = 168; boatZ = -34; yaw = Math.PI / 2; speed = 0; segHint = null; time = 0;
+    let traveled = 0;
+    let prevS = project(boatX, boatZ, null).s;
+    let outside = 0, lockBreak = 0, stuckAt = null, done = false, maxD = 0;
+    const dt = 1 / 60;
+    qaOverride = true;
+    qaKeys.clear();
+    qaKeys.add("KeyW");
+    for (let t = 0; t < maxSeconds && !done; t += dt) {
+      const before = project(boatX, boatZ, segHint);
+      const aim = pointAtS(before.s + 14);
+      let ax = aim.x - boatX, az = aim.z - boatZ;
+      const al = Math.hypot(ax, az) || 1;
+      ax /= al; az /= al;
+      const target = Math.atan2(-ax, -az);
+      const diff = Math.atan2(Math.sin(target - yaw), Math.cos(target - yaw));
+      yaw += clamp(diff, -MAX_YAW_RATE * dt, MAX_YAW_RATE * dt);
+      step(dt);
+      time += dt;
+      const after = project(boatX, boatZ, segHint);
+      let ds = after.s - prevS;
+      if (ds < -routeLen / 2) ds += routeLen;
+      if (ds > routeLen / 2) ds -= routeLen;
+      traveled += Math.max(0, ds);
+      prevS = after.s;
+      maxD = Math.max(maxD, after.d);
+      if (!inWater(boatX, boatZ)) outside++;
+      if (after.d > halfWidth(after.s) + 0.85) lockBreak++;
+      if (!stuckAt && t > 20 && traveled < 12) {
+        stuckAt = { t: +t.toFixed(2), x: +boatX.toFixed(1), z: +boatZ.toFixed(1), traveled: +traveled.toFixed(1), yaw: +yaw.toFixed(3), d: +after.d.toFixed(2) };
+        break;
+      }
+      if (traveled > routeLen * 0.985) done = true;
+    }
+    const report = {
+      done, traveled: +traveled.toFixed(1), routeLen: +routeLen.toFixed(1),
+      outside, lockBreak, maxD: +maxD.toFixed(2), stuckAt,
+      x: +boatX.toFixed(1), z: +boatZ.toFixed(1),
+    };
+    boatX = saved.boatX; boatZ = saved.boatZ; yaw = saved.yaw; speed = saved.speed; segHint = saved.segHint; time = saved.time;
+    qaOverride = false;
+    qaKeys.clear();
+    return report;
+  },
+};
+window.__audit = auditLock;
+window.__shore = () => {
+  let minD = 1e9, maxD = 0, at = null;
+  for (const p of outerPoly) {
+    const d = project(p[0], p[1], null).d;
+    if (d < minD) { minD = d; at = [+p[0].toFixed(1), +p[1].toFixed(1)]; }
+    if (d > maxD) maxD = d;
+  }
+  return { minD: +minD.toFixed(2), maxD: +maxD.toFixed(1), at, n: outerPoly.length };
+};
+window.__bigMeshes = () => {
+  const rows = [];
+  scene.traverse((o) => {
+    if (!o.geometry) return;
+    o.geometry.computeBoundingSphere();
+    const r = o.geometry.boundingSphere.radius;
+    if (r > 50) rows.push({ name: o.name || o.type, r: Math.round(r) });
+  });
+  return rows;
+};
+window.__scene = scene;
+window.__px = (cssX, cssY) => new Promise((resolve) => {
+  window.__after = () => {
+    const gl = renderer.getContext();
+    const canvas = renderer.domElement;
+    const dpr = renderer.getPixelRatio();
+    const x = Math.max(0, Math.min(canvas.width - 1, Math.floor(cssX * dpr)));
+    const y = Math.max(0, Math.min(canvas.height - 1, Math.floor(canvas.height - cssY * dpr)));
+    const buf = new Uint8Array(4);
+    gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+    window.__after = null;
+    resolve([buf[0], buf[1], buf[2], buf[3]]);
+  };
+});
+window.__big = () => {
+  const out = [];
+  scene.updateMatrixWorld(true);
+  scene.traverse((o) => {
+    if (!o.isMesh) return;
+    const g = o.geometry;
+    if (!g.boundingBox) g.computeBoundingBox();
+    const s = new THREE.Vector3();
+    g.boundingBox.getSize(s);
+    s.multiply(o.scale);
+    const size = Math.max(s.x, s.y, s.z);
+    if (size <= 50) return;
+    const c = g.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld);
+    out.push({
+      name: o.name || g.type,
+      size: +size.toFixed(1),
+      sx: +s.x.toFixed(1), sy: +s.y.toFixed(1), sz: +s.z.toFixed(1),
+      cx: +c.x.toFixed(1), cy: +c.y.toFixed(1), cz: +c.z.toFixed(1),
+      mat: o.material.type,
+      color: o.material.color ? "#" + o.material.color.getHexString() : "",
+    });
+  });
+  return out;
+};
+window.__hit = (nx, ny) => {
+  raycaster.setFromCamera(new THREE.Vector2(nx, ny), camera);
+  raycaster.far = 2000;
+  return raycaster.intersectObjects(scene.children, true).slice(0, 4).map((h) => ({
+    d: +h.distance.toFixed(1),
+    name: h.object.name || h.object.geometry.type,
+    color: h.object.material?.color ? "#" + h.object.material.color.getHexString() : h.object.material?.type,
+    y: +h.point.y.toFixed(2),
+  }));
+};
+</script>
+</body>
+</html>

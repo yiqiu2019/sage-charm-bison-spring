@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>赵王城 · 黄昏第一版</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #2a2118; overflow: hidden; touch-action: none; }
+  canvas { display: block; width: 100%; height: 100%; }
+  #boot {
+    position: fixed; inset: 0; display: grid; place-items: center;
+    color: #f3e6d0; font: 16px/1.4 "Songti SC", "Noto Serif SC", "STSong", Palatino, serif;
+    letter-spacing: 0.12em; background: #2a2118;
+  }
+  #hud {
+    position: fixed; inset: 0; pointer-events: none; color: #f6efe4;
+    font-family: "Songti SC", "Noto Serif SC", "STSong", Palatino, serif;
+    text-shadow: 0 1px 2px rgba(20, 12, 6, 0.72);
+  }
+  #title { position: absolute; top: 16px; left: 18px; }
+  #title h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: 0.14em; }
+  #title p { margin: 6px 0 0; font-size: 13px; letter-spacing: 0.04em; opacity: 0.92; }
+  #note {
+    position: absolute; left: 18px; bottom: 16px; max-width: 28rem;
+    font-size: 11px; line-height: 1.55; opacity: 0.78;
+  }
+  #gate {
+    position: absolute; left: 50%; bottom: 11%; transform: translateX(-50%);
+    font-size: 18px; letter-spacing: 0.28em; opacity: 0;
+    transition: opacity 0.6s linear; white-space: nowrap;
+  }
+  #gate.on { opacity: 1; }
+  #hint {
+    position: absolute; top: 68px; left: 18px; font-size: 13px; letter-spacing: 0.08em;
+    opacity: 0; transition: opacity 0.5s linear;
+  }
+  #hint.on { opacity: 0.95; }
+  #joy {
+    display: none; pointer-events: auto; position: absolute; left: 16px; bottom: 16px;
+    width: 112px; height: 112px; border-radius: 50%;
+    background: rgba(246, 239, 228, 0.1);
+    border: 1px solid rgba(246, 239, 228, 0.38);
+    box-sizing: border-box; touch-action: none;
+  }
+  #knob {
+    position: absolute; left: 36px; top: 36px; width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(246, 239, 228, 0.62); box-sizing: border-box;
+  }
+  html.phone #joy { display: block; }
+  html.phone #note { bottom: 140px; max-width: min(28rem, calc(100vw - 150px)); }
+  html.phone #title h1 { font-size: 16px; }
+</style>
+</head>
+<body>
+<div id="boot">赵王城 · 黄昏</div>
+<div id="hud">
+  <div id="title">
+    <h1>赵王城 · 黄昏第一版</h1>
+    <p id="help">WASD / 方向键划船，鼠标拖动转视角</p>
+  </div>
+  <div id="hint">横屏体验更好</div>
+  <div id="gate">南门 · 抬头看双阙</div>
+  <div id="note">布局按赵王城品字形宫城压缩；双阙形制参考西城西门发掘，位置放在开场南门。</div>
+  <div id="joy"><div id="knob"></div></div>
+</div>
+<script type="module">
+import * as THREE from "https://unpkg.com/three@0.170.0/build/three.module.js";
+
+const WAY = [
+  [168, -34], [158, -36], [148, -40], [128, -40], [108, -40], [98, -36],
+  [70, -28], [20, -28], [-28, -28], [-28, 40], [-28, 120], [-28, 220],
+  [-28, 248], [62, 248], [62, 300], [62, 408], [180, 408], [280, 408],
+  [378, 408], [378, 300], [378, 180], [378, 80], [378, -28], [280, -28],
+  [220, -28], [190, -28], [175, -32],
+];
+
+const CONTOUR = [
+  [0, 0], [350, 0], [350, 380], [90, 380], [90, 220], [0, 220],
+];
+
+const OUTER_WATER = [
+  [-44, -44], [98, -44], [98, -59], [158, -59], [158, -44], [394, -44],
+  [394, 424], [46, 424], [46, 264], [-44, 264],
+];
+const INNER_WATER = [
+  [-12, -12], [98, -12], [98, -16], [158, -16], [158, -12], [362, -12],
+  [362, 392], [78, 392], [78, 232], [-12, 232],
+];
+
+const SUN_DIR = new THREE.Vector3(-0.913, 0.174, -0.369);
+const MAX_SPEED = 4.5;
+const DAMP = 3.2;
+const ACCEL = DAMP * MAX_SPEED;
+const MAX_YAW_RATE = 0.9;
+const DEG = Math.PI / 180;
+
+const params = new URLSearchParams(location.search);
+const topView = params.has("top");
+
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+function hypot2(x, z) { return Math.hypot(x, z); }
+
+function detectPhone() {
+  const ua = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
+  const shortSide = Math.min(window.innerWidth, window.innerHeight);
+  return ua || (coarse && shortSide < 900);
+}
+
+function pointInPoly(x, z, poly) {
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const xi = poly[i][0], zi = poly[i][1];
+    const xj = poly[j][0], zj = poly[j][1];
+    if ((zi > z) !== (zj > z) && x < ((xj - xi) * (z - zi)) / (zj - zi) + xi) inside = !inside;
+  }
+  return inside;
+}
+
+function intersectLine(l1, l2) {
+  const det = l1.dx * l2.dz - l1.dz * l2.dx;
+  if (Math.abs(det) < 1e-9) return [l1.px, l1.pz];
+  const t = ((l2.px - l1.px) * l2.dz - (l2.pz - l1.pz) * l2.dx) / det;
+  return [l1.px + l1.dx * t, l1.pz + l1.dz * t];
+}
+
+function offsetPoly(pts, distAtEdge) {
+  const n = pts.length;
+  const lines = [];
+  for (let i = 0; i < n; i++) {
+    const a = pts[i], b = pts[(i + 1) % n];
+    const dx = b[0] - a[0], dz = b[1] - a[1];
+    const len = Math.hypot(dx, dz) || 1;
+    const lx = -dz / len, lz = dx / len;
+    const d = typeof distAtEdge === "function" ? distAtEdge(i, a, b) : distAtEdge;
+    lines.push({ px: a[0] + lx * d, pz: a[1] + lz * d, dx, dz });
+  }
+  const out = [];
+  for (let i = 0; i < n; i++) out.push(intersectLine(lines[(i - 1 + n) % n], lines[i]));
+  return out;
+}
+
+function filletClosed(pts, radiusAt) {
+  const n = pts.length;
+  const data = pts.map((p, i) => {
+    const prev = pts[(i - 1 + n) % n];
+    const next = pts[(i + 1) % n];
+    const inX = p[0] - prev[0], inZ = p[1] - prev[1];
+    const outX = next[0] - p[0], outZ = next[1] - p[1];
+    const inL = Math.hypot(inX, inZ) || 1, outL = Math.hypot(outX, outZ) || 1;
+    const ix = inX / inL, iz = inZ / inL, ox = outX / outL, oz = outZ / outL;
+    const cross = ix * oz - iz * ox;
+    const dot = clamp(ix * ox + iz * oz, -1, 1);
+    return { ix, iz, ox, oz, outL, signed: Math.atan2(cross, dot) };
+  });
+  const wantR = data.map((d, i) => {
+    const r = radiusAt(pts[i], d.signed, i) || 0;
+    return r > 0 && Math.abs(d.signed) > 0.02 ? r : 0;
+  });
+  const L = wantR.map((r, i) => (r ? r * Math.tan(Math.abs(data[i].signed) / 2) : 0));
+  const usedR = wantR.slice();
+  for (let iter = 0; iter < 6; iter++) {
+    for (let i = 0; i < n; i++) {
+      const need = L[i] + L[(i + 1) % n];
+      const edgeLen = data[i].outL;
+      if (need > edgeLen * 0.96 && need > 1e-8) {
+        const scale = (edgeLen * 0.96) / need;
+        L[i] *= scale; L[(i + 1) % n] *= scale;
+        usedR[i] *= scale; usedR[(i + 1) % n] *= scale;
+      }
+    }
+  }
+  const out = [];
+  const notes = [];
+  for (let i = 0; i < n; i++) {
+    if (wantR[i] > 0 && usedR[i] < wantR[i] - 0.05) {
+      notes.push({ i, want: +wantR[i].toFixed(2), used: +usedR[i].toFixed(2), at: pts[i] });
+    }
+    const p = pts[i], d = data[i];
+    if (L[i] < 0.04) { out.push([p[0], p[1]]); continue; }
+    const r = L[i] / Math.tan(Math.abs(d.signed) / 2);
+    const t0x = p[0] - d.ix * L[i], t0z = p[1] - d.iz * L[i];
+    const t1x = p[0] + d.ox * L[i], t1z = p[1] + d.oz * L[i];
+    const side = d.signed > 0 ? 1 : -1;
+    const cx = t0x + side * (-d.iz) * r;
+    const cz = t0z + side * d.ix * r;
+    const a0 = Math.atan2(t0z - cz, t0x - cx);
+    const a1 = Math.atan2(t1z - cz, t1x - cx);
+    let delta = a1 - a0;
+    while (delta > Math.PI) delta -= Math.PI * 2;
+    while (delta < -Math.PI) delta += Math.PI * 2;
+    if (d.signed > 0 && delta < 0) delta += Math.PI * 2;
+    if (d.signed < 0 && delta > 0) delta -= Math.PI * 2;
+    const steps = Math.max(2, Math.ceil(Math.abs(delta) / (8 * DEG)));
+    for (let k = 0; k <= steps; k++) {
+      const ang = a0 + delta * (k / steps);
+      out.push([cx + Math.cos(ang) * r, cz + Math.sin(ang) * r]);
+    }
+  }
+  return { pts: dedupe(out), notes };
+}
+
+function dedupe(pts) {
+  const o = [];
+  for (const p of pts) {
+    if (!o.length || hypot2(p[0] - o[o.length - 1][0], p[1] - o[o.length - 1][1]) > 0.03) o.push(p);
+  }
+  if (o.length > 1 && hypot2(o[0][0] - o[o.length - 1][0], o[0][1] - o[o.length - 1][1]) < 0.03) o.pop();
+  return o;
+}
+
+function nearPoint(p, list, r) {
+  return list.some((t) => hypot2(p[0] - t[0], p[1] - t[1]) < r);
+}
+
+const route = filletClosed(WAY, (_p, signed) => (signed < -0.04 ? 12 : 0));
+const routePts = route.pts;
+const segs = [];
+let routeLen = 0;
+for (let i = 0; i < routePts.length; i++) {
+  const a = routePts[i], b = routePts[(i + 1) % routePts.length];
+  const dx = b[0] - a[0], dz = b[1] - a[1];
+  const len = Math.hypot(dx, dz);
+  if (len < 1e-4) continue;
+  segs.push({ ax: a[0], az: a[1], dx, dz, len, s0: routeLen });
+  routeLen += len;
+}
+
+function project(x, z, hint) {
+  let best = null;
+  for (let i = 0; i < segs.length; i++) {
+    const sg = segs[i];
+    let t = ((x - sg.ax) * sg.dx + (z - sg.az) * sg.dz) / (sg.len * sg.len);
+    t = clamp(t, 0, 1);
+    const px = sg.ax + sg.dx * t, pz = sg.az + sg.dz * t;
+    const d = hypot2(x - px, z - pz);
+    let hintPen = 0;
+    if (hint != null) {
+      let di = Math.abs(i - hint);
+      di = Math.min(di, segs.length - di);
+      if (di > 4) hintPen = 0.35;
+    }
+    const score = d + hintPen;
+    if (!best || score < best.score - 1e-6 || (Math.abs(score - best.score) < 0.25 && hint != null && hintPen < best.hintPen)) {
+      best = { x: px, z: pz, d, s: sg.s0 + sg.len * t, i, dx: sg.dx, dz: sg.dz, len: sg.len, score, hintPen };
+    }
+  }
+  return best;
+}
+
+const wpS = WAY.map((p) => project(p[0], p[1], null).s);
+function forwardSpan(s, a, b) {
+  const u = (s - a + routeLen) % routeLen;
+  const ub = (b - a + routeLen) % routeLen;
+  return { u, ub, on: u <= ub + 1e-3 };
+}
+function halfWidth(s) {
+  const span = forwardSpan(s, wpS[0], wpS[1]);
+  if (span.on) return 10 + (6 - 10) * (span.ub < 1e-4 ? 1 : span.u / span.ub);
+  if (forwardSpan(s, wpS[1], wpS[5]).on) return 6;
+  return 10;
+}
+function inBSegment(s) { return forwardSpan(s, wpS[1], wpS[5]).on; }
+
+const outerB = [[98, -44], [98, -59], [158, -59], [158, -44]];
+const innerB = [[98, -12], [98, -16], [158, -16], [158, -12]];
+const outerFillet = filletClosed(OUTER_WATER, (p) => (nearPoint(p, outerB, 0.3) ? 6 : 0));
+const innerFillet = filletClosed(INNER_WATER, (p) => (nearPoint(p, innerB, 0.3) ? 2 : 0));
+const outerPoly = outerFillet.pts;
+const innerPoly = innerFillet.pts;
+
+function isBFront(a, b) {
+  const mx = (a[0] + b[0]) / 2, mz = (a[1] + b[1]) / 2;
+  const dx = Math.abs(b[0] - a[0]), dz = Math.abs(b[1] - a[1]);
+  return mz < -15.3 && mz > -16.8 && mx > 99.5 && mx < 156.5 && dx > dz;
+}
+function innerBankDist(_i, a, b) { return isBFront(a, b) ? 5 : 3; }
+
+function waveY(x, z, t) {
+  return Math.sin(x * 0.16 + t * 0.9) * 0.018
+    + Math.sin(z * 0.13 - t * 0.7 + 1.7) * 0.015
+    + Math.sin((x + z) * 0.09 + t * 0.5) * 0.012;
+}
+function inWater(x, z) {
+  return pointInPoly(x, z, outerPoly) && !pointInPoly(x, z, innerPoly);
+}
+
+class Buf {
+  constructor() { this.pos = []; this.nrm = []; }
+  tri(a, b, c, n) {
+    this.pos.push(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2]);
+    this.nrm.push(n[0], n[1], n[2], n[0], n[1], n[2], n[0], n[1], n[2]);
+  }
+  quad(p0, p1, p2, p3, hint) {
+    const ax = p1[0] - p0[0], ay = p1[1] - p0[1], az = p1[2] - p0[2];
+    const bx = p3[0] - p0[0], by = p3[1] - p0[1], bz = p3[2] - p0[2];
+    let nx = ay * bz - az * by, ny = az * bx - ax * bz, nz = ax * by - ay * bx;
+    const len = Math.hypot(nx, ny, nz) || 1;
+    nx /= len; ny /= len; nz /= len;
+    const flip = hint && nx * hint[0] + ny * hint[1] + nz * hint[2] < 0;
+    if (flip) { nx = -nx; ny = -ny; nz = -nz; }
+    const n = [nx, ny, nz];
+    if (flip) { this.tri(p0, p3, p2, n); this.tri(p0, p2, p1, n); }
+    else { this.tri(p0, p1, p2, n); this.tri(p0, p2, p3, n); }
+  }
+  box(cx, cy, cz, sx, sy, sz) {
+    this.orientedBox(cx, cy, cz, sx, sy, sz, 0);
+  }
+  orientedBox(cx, cy, cz, sx, sy, sz, yaw) {
+    const c = Math.cos(yaw), s = Math.sin(yaw);
+    const R = (x, y, z) => [cx + x * c + z * s, cy + y, cz - x * s + z * c];
+    const x = sx / 2, y = sy / 2, z = sz / 2;
+    const p = [
+      R(-x, -y, -z), R(x, -y, -z), R(x, -y, z), R(-x, -y, z),
+      R(-x, y, -z), R(x, y, -z), R(x, y, z), R(-x, y, z),
+    ];
+    this.quad(p[7], p[6], p[5], p[4], [0, 1, 0]);
+    this.quad(p[0], p[1], p[2], p[3], [0, -1, 0]);
+    this.quad(p[1], p[5], p[6], p[2], [1, 0, 0]);
+    this.quad(p[3], p[7], p[4], p[0], [-1, 0, 0]);
+    this.quad(p[4], p[5], p[1], p[0], [0, 0, -1]);
+    this.quad(p[3], p[2], p[6], p[7], [0, 0, 1]);
+  }
+  mesh(material) {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(this.pos, 3));
+    g.setAttribute("normal", new THREE.Float32BufferAttribute(this.nrm, 3));
+    const m = new THREE.Mesh(g, material);
+    m.castShadow = SHADOW;
+    m.receiveShadow = SHADOW;
+    return m;
+  }
+}
+
+function bandsBetween(y0, y1) {
+  const bands = [];
+  let y = y0;
+  while (y < y1 - 1e-4) {
+    let boundary = Math.ceil((y + 1e-6) / 0.5) * 0.5;
+    if (boundary <= y + 1e-4) boundary += 0.5;
+    const yEnd = Math.min(y1, boundary);
+    const onSeam = Math.abs(y / 0.5 - Math.round(y / 0.5)) < 1e-3;
+    if (onSeam) {
+      const yd = Math.min(yEnd, y + 0.065);
+      bands.push([y, yd, true]);
+      if (yd < yEnd - 1e-4) bands.push([yd, yEnd, false]);
+    } else bands.push([y, yEnd, false]);
+    y = yEnd;
+  }
+  return bands;
+}
+
+const isPhone = detectPhone();
+const SHADOW = !isPhone && !topView;
+document.documentElement.classList.toggle("phone", isPhone);
+const help = document.getElementById("help");
+if (isPhone) help.textContent = "左下摇杆划船，右半屏滑动转视角";
+
+const renderer = new THREE.WebGLRenderer({ antialias: !isPhone, powerPreference: "high-performance" });
+renderer.setPixelRatio(isPhone ? Math.min(1.25, window.devicePixelRatio || 1) : Math.min(2, window.devicePixelRatio || 1));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.84;
+renderer.shadowMap.enabled = SHADOW;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setClearColor(0xb08962, 1);
+document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+const scene = new THREE.Scene();
+if (!topView) scene.fog = new THREE.Fog(0xb08962, 55, 260);
+
+const rammed = new THREE.MeshStandardMaterial({ color: 0x9c7b55, roughness: 0.94, metalness: 0 });
+const rammedDark = new THREE.MeshStandardMaterial({ color: 0x7e6244, roughness: 0.94, metalness: 0 });
+const tileMat = new THREE.MeshStandardMaterial({
+  color: 0x5e6468, roughness: 0.62, metalness: 0.04,
+  polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1,
+});
+const roofMat = new THREE.MeshStandardMaterial({ color: 0x5e6468, roughness: 0.6, metalness: 0.04, side: THREE.DoubleSide });
+const woodCol = new THREE.MeshStandardMaterial({ color: 0x4a3226, roughness: 0.74, metalness: 0 });
+const lacquer = new THREE.MeshStandardMaterial({ color: 0x6e2e22, roughness: 0.68, metalness: 0 });
+const doorMat = new THREE.MeshStandardMaterial({ color: 0x3a2a20, roughness: 0.8, metalness: 0 });
+const sealMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+const woodMat = new THREE.MeshStandardMaterial({ color: 0x5a4330, roughness: 0.84, metalness: 0 });
+const boatMat = new THREE.MeshStandardMaterial({ color: 0x4a3628, roughness: 0.76, metalness: 0 });
+const groundMat = new THREE.MeshStandardMaterial({ color: 0x6f6243, roughness: 0.97, metalness: 0, side: THREE.DoubleSide });
+const waterMat = new THREE.MeshStandardMaterial({
+  color: 0x2f2a24, metalness: 0.12, roughness: 0.58, transparent: true, opacity: 0.92, depthWrite: false,
+});
+
+const baseBuf = new Buf();
+const darkBuf = new Buf();
+const tileBuf = new Buf();
+const colBuf = new Buf();
+const beamBuf = new Buf();
+const redBuf = new Buf();
+const doorBuf = new Buf();
+const occluders = [];
+
+function pushRammedBox(cx, cy, cz, sx, sy, sz) {
+  const y0 = cy - sy / 2, y1 = cy + sy / 2;
+  for (const [a, b, dark] of bandsBetween(y0, y1)) {
+    (dark ? darkBuf : baseBuf).box(cx, (a + b) / 2, cz, sx, b - a, sz);
+  }
+}
+
+function wallInsets(y) {
+  const t = clamp((y - 0.8) / 10, 0, 1);
+  return { outer: 2.25 * t, inner: 9 - 2.25 * t };
+}
+function lerp2(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+
+const ySet = new Set([0.8, 10.8]);
+for (const band of bandsBetween(0.8, 10.8)) { ySet.add(band[0]); ySet.add(band[1]); }
+const insetCache = new Map();
+for (const y of ySet) {
+  const ins = wallInsets(y);
+  insetCache.set(y, {
+    o: offsetPoly(CONTOUR, ins.outer),
+    i: offsetPoly(CONTOUR, ins.inner),
+  });
+}
+
+function edgePoint(poly, i, t) {
+  const a = poly[i], b = poly[(i + 1) % poly.length];
+  return lerp2(a, b, t);
+}
+function addWallPiece(edge, t0, t1, capStart, capEnd) {
+  const a = CONTOUR[edge], b = CONTOUR[(edge + 1) % CONTOUR.length];
+  const dx = b[0] - a[0], dz = b[1] - a[1];
+  const len = Math.hypot(dx, dz) || 1;
+  const inward = [-dz / len, dx / len];
+  const hintOut = [-inward[0], 0.45, -inward[1]];
+  const hintIn = [inward[0], 0.45, inward[1]];
+  const sample = (which, y, t) => {
+    const poly = insetCache.get(y)[which];
+    const p = edgePoint(poly, edge, t);
+    return p;
+  };
+  for (const [yA, yB, dark] of bandsBetween(0.8, 10.8)) {
+    const buf = dark ? darkBuf : baseBuf;
+    const oA0 = sample("o", yA, t0), oA1 = sample("o", yA, t1);
+    const oB0 = sample("o", yB, t0), oB1 = sample("o", yB, t1);
+    const iA0 = sample("i", yA, t0), iA1 = sample("i", yA, t1);
+    const iB0 = sample("i", yB, t0), iB1 = sample("i", yB, t1);
+    const P = (xz, y) => [xz[0], y, xz[1]];
+    buf.quad(P(oA0, yA), P(oA1, yA), P(oB1, yB), P(oB0, yB), hintOut);
+    buf.quad(P(iA1, yA), P(iA0, yA), P(iB0, yB), P(iB1, yB), hintIn);
+    if (capStart) {
+      const dir = t0 < 0.5 ? [-dx / len, 0, -dz / len] : [dx / len, 0, dz / len];
+      buf.quad(P(oA0, yA), P(oB0, yB), P(iB0, yB), P(iA0, yA), dir);
+    }
+    if (capEnd) {
+      const dir = [dx / len, 0, dz / len];
+      buf.quad(P(oA1, yA), P(iA1, yA), P(iB1, yB), P(oB1, yB), dir);
+    }
+  }
+  const y = 10.8;
+  const o0 = sample("o", y, t0), o1 = sample("o", y, t1);
+  const i0 = sample("i", y, t0), i1 = sample("i", y, t1);
+  baseBuf.quad([o0[0], y, o0[1]], [i0[0], y, i0[1]], [i1[0], y, i1[1]], [o1[0], y, o1[1]], [0, 1, 0]);
+  const mid = offsetPoly(CONTOUR, 4.5);
+  const m0 = edgePoint(mid, edge, t0), m1 = edgePoint(mid, edge, t1);
+  const mx = (m0[0] + m1[0]) / 2, mz = (m0[1] + m1[1]) / 2;
+  const mdx = m1[0] - m0[0], mdz = m1[1] - m0[1];
+  const mlen = Math.hypot(mdx, mdz);
+  if (mlen > 0.2) tileBuf.orientedBox(mx, 10.8 + 0.14, mz, 4.2, 0.28, mlen, Math.atan2(mdx, mdz));
+}
+
+const gap0 = 119 / 350, gap1 = 137 / 350;
+for (let e = 0; e < CONTOUR.length; e++) {
+  if (e === 0) {
+    addWallPiece(0, 0, gap0, false, true);
+    addWallPiece(0, gap1, 1, true, false);
+  } else addWallPiece(e, 0, 1, false, false);
+}
+
+function addCenteredWall(ax, az, bx, bz) {
+  const dx = bx - ax, dz = bz - az;
+  const len = Math.hypot(dx, dz) || 1;
+  const nx = -dz / len, nz = dx / len;
+  const hw = (y) => 4.5 - 2.25 * clamp((y - 0.8) / 10, 0, 1);
+  const side = (x, z, y, h, s) => [x + nx * h * s, y, z + nz * h * s];
+  for (const [yA, yB, dark] of bandsBetween(0.8, 10.8)) {
+    const buf = dark ? darkBuf : baseBuf;
+    const hA = hw(yA), hB = hw(yB);
+    buf.quad(side(ax, az, yA, hA, 1), side(bx, bz, yA, hA, 1), side(bx, bz, yB, hB, 1), side(ax, az, yB, hB, 1), [nx, 0.4, nz]);
+    buf.quad(side(bx, bz, yA, hA, -1), side(ax, az, yA, hA, -1), side(ax, az, yB, hB, -1), side(bx, bz, yB, hB, -1), [-nx, 0.4, -nz]);
+  }
+  const y = 10.8, h = hw(y);
+  baseBuf.quad(side(ax, az, y, h, -1), side(bx, bz, y, h, -1), side(bx, bz, y, h, 1), side(ax, az, y, h, 1), [0, 1, 0]);
+  const yaw = Math.atan2(dx, dz);
+  tileBuf.orientedBox((ax + bx) / 2, 10.94, (az + bz) / 2, 4.2, 0.28, len, yaw);
+}
+addCenteredWall(220, 6.75, 220, 220);
+addCenteredWall(96.75, 220, 343.25, 220);
+
+pushRammedBox(111, 4.5, -5.5, 16, 9, 11);
+pushRammedBox(145, 4.5, -5.5, 16, 9, 11);
+pushRammedBox(128, 4.5, 4, 3.5, 9, 8);
+pushRammedBox(132, 14, 78, 42, 28, 38);
+pushRammedBox(128, 8, 118, 22, 16, 20);
+pushRammedBox(124, 6, 148, 18, 12, 16);
+pushRammedBox(278, 7, 70, 18, 14, 18);
+pushRammedBox(278, 7, 112, 18, 14, 18);
+
+function addHall(cx, cz) {
+  const xs = [cx - 5, cx - 5 / 3, cx + 5 / 3, cx + 5];
+  const zs = [cz - 3.5, cz, cz + 3.5];
+  for (const x of xs) for (const z of zs) colBuf.box(x, 10.6, z, 0.38, 3.2, 0.38);
+  for (const z of zs) {
+    const red = Math.abs(z - (cz - 3.5)) < 0.01;
+    for (let i = 0; i < xs.length - 1; i++) {
+      const x0 = xs[i], x1 = xs[i + 1];
+      (red ? redBuf : beamBuf).box((x0 + x1) / 2, 12.02, z, x1 - x0, 0.36, 0.42);
+    }
+  }
+  for (const x of xs) {
+    for (let i = 0; i < zs.length - 1; i++) {
+      const z0 = zs[i], z1 = zs[i + 1];
+      beamBuf.box(x, 12.02, (z0 + z1) / 2, 0.42, 0.36, z1 - z0);
+    }
+  }
+  const roof = new Buf();
+  const y0 = 12.2, y1 = 13.8, hx = 6.1, hz = 4.5, rh = 1.6;
+  const sw = [cx - hx, y0, cz - hz], se = [cx + hx, y0, cz - hz];
+  const ne = [cx + hx, y0, cz + hz], nw = [cx - hx, y0, cz + hz];
+  const r0 = [cx - rh, y1, cz], r1 = [cx + rh, y1, cz];
+  roof.quad(sw, se, r1, r0, [0, 1, -1]);
+  roof.quad(ne, nw, r0, r1, [0, 1, 1]);
+  roof.tri(nw, sw, r0, [-1, 1, 0]);
+  roof.tri(se, ne, r1, [1, 1, 0]);
+  const mesh = roof.mesh(roofMat);
+  scene.add(mesh);
+  occluders.push(mesh);
+}
+addHall(111, -5.5);
+addHall(145, -5.5);
+
+// 西道净宽按坐标为 7.25（119–126.25），中缝 1.2；东道关闭。门扇厚 0.16、高至 Y=9.6，规格未给。
+(function doors() {
+  const y0 = 0.8, y1 = 9.6, yc = (y0 + y1) / 2, h = y1 - y0, t = 0.16;
+  const w0 = 119, w1 = 126.25, mid = (w0 + w1) / 2, gap = 1.2;
+  const a0 = w0, a1 = mid - gap / 2, b0 = mid + gap / 2, b1 = w1;
+  doorBuf.box((a0 + a1) / 2, yc, 4, a1 - a0, h, t);
+  doorBuf.box((b0 + b1) / 2, yc, 4, b1 - b0, h, t);
+  const e0 = 129.75, e1 = 137, em = (e0 + e1) / 2, seam = 0.04;
+  doorBuf.box((e0 + em - seam / 2) / 2, yc, 4, em - seam / 2 - e0, h, t);
+  doorBuf.box((em + seam / 2 + e1) / 2, yc, 4, e1 - (em + seam / 2), h, t);
+})();
+
+const seal = new THREE.Mesh(new THREE.BoxGeometry(18, 10, 0.2), sealMat);
+seal.position.set(128, 5.8, 8);
+seal.castShadow = SHADOW;
+scene.add(seal);
+occluders.push(seal);
+
+function slopeQuads(src, distFn, skip) {
+  const crest = offsetPoly(src, distFn);
+  const buf = new Buf();
+  const n = src.length;
+  for (let i = 0; i < n; i++) {
+    const a = src[i], b = src[(i + 1) % n];
+    if (skip && skip(a, b)) continue;
+    const c = crest[i], d = crest[(i + 1) % n];
+    buf.quad([a[0], 0, a[1]], [b[0], 0, b[1]], [d[0], 0.8, d[1]], [c[0], 0.8, c[1]], [0, 1, 0]);
+  }
+  return buf.mesh(groundMat);
+}
+const innerSlope = slopeQuads(innerPoly, (_i, a, b) => (isBFront(a, b) ? 5 : 3), isBFront);
+const outerSlope = slopeQuads(outerPoly, -3, null);
+scene.add(innerSlope, outerSlope);
+
+const ramp = new Buf();
+ramp.quad([98, 0, -16], [98, 0.8, -11], [158, 0.8, -11], [158, 0, -16], [0, 1, -1]);
+const rampMesh = ramp.mesh(groundMat);
+scene.add(rampMesh);
+
+function shapeMesh(poly, hole) {
+  const shape = new THREE.Shape();
+  shape.moveTo(poly[0][0], poly[0][1]);
+  for (let i = 1; i < poly.length; i++) shape.lineTo(poly[i][0], poly[i][1]);
+  shape.closePath();
+  if (hole) {
+    const path = new THREE.Path();
+    path.moveTo(hole[0][0], hole[0][1]);
+    for (let i = hole.length - 1; i > 0; i--) path.lineTo(hole[i][0], hole[i][1]);
+    shape.holes.push(path);
+  }
+  const geo = new THREE.ShapeGeometry(shape);
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) pos.setXYZ(i, pos.getX(i), 0, pos.getY(i));
+  const normals = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) normals[i * 3 + 1] = 1;
+  geo.setAttribute("normal", new THREE.BufferAttribute(normals, 3));
+  geo.computeBoundingSphere();
+  const mesh = new THREE.Mesh(geo, groundMat);
+  mesh.position.y = 0.8;
+  mesh.receiveShadow = SHADOW;
+  return mesh;
+}
+const innerCrest = offsetPoly(innerPoly, (_i, a, b) => Math.max(0.5, innerBankDist(0, a, b) - 0.35));
+const outerHole = offsetPoly(outerPoly, -2.65);
+const outerRect = [[-700, -700], [1100, -700], [1100, 1100], [-700, 1100]];
+scene.add(shapeMesh(innerCrest, null));
+scene.add(shapeMesh(outerRect, outerHole));
+
+const waterStep = isPhone ? 4.5 : 3;
+const outerLoose = offsetPoly(outerPoly, -waterStep * 0.7);
+const innerTight = offsetPoly(innerPoly, waterStep * 0.7);
+const minX = -52, maxX = 402, minZ = -72, maxZ = 432;
+const nx = Math.ceil((maxX - minX) / waterStep);
+const nz = Math.ceil((maxZ - minZ) / waterStep);
+const waterPos = [];
+const waterIdx = [];
+const vmap = new Map();
+function waterVid(i, j) {
+  const key = i + j * (nx + 1);
+  if (vmap.has(key)) return vmap.get(key);
+  const id = waterPos.length / 3;
+  waterPos.push(minX + i * waterStep, 0, minZ + j * waterStep);
+  vmap.set(key, id);
+  return id;
+}
+for (let j = 0; j < nz; j++) {
+  for (let i = 0; i < nx; i++) {
+    const x = minX + (i + 0.5) * waterStep;
+    const z = minZ + (j + 0.5) * waterStep;
+    if (!(pointInPoly(x, z, outerLoose) && !pointInPoly(x, z, innerTight))) continue;
+    const a = waterVid(i, j), b = waterVid(i + 1, j), c = waterVid(i + 1, j + 1), d = waterVid(i, j + 1);
+    waterIdx.push(a, b, c, a, c, d);
+  }
+}
+const waterGeo = new THREE.BufferGeometry();
+waterGeo.setAttribute("position", new THREE.Float32BufferAttribute(waterPos, 3));
+waterGeo.setIndex(waterIdx);
+waterGeo.computeVertexNormals();
+const water = new THREE.Mesh(waterGeo, waterMat);
+water.receiveShadow = SHADOW;
+scene.add(water);
+
+const deck = new THREE.Mesh(new THREE.BoxGeometry(8, 0.3, 11), woodMat);
+deck.position.set(168, 0.55, -17.5);
+deck.castShadow = deck.receiveShadow = SHADOW;
+scene.add(deck);
+occluders.push(deck);
+for (let i = 0; i < 5; i++) {
+  const pile = new THREE.Mesh(new THREE.BoxGeometry(0.45, 2, 0.45), woodMat);
+  pile.position.set(164.8 + i * 1.6, -0.55, -22);
+  pile.castShadow = SHADOW;
+  scene.add(pile);
+}
+
+const hull = new Buf();
+const secs = [
+  { z: -3.1, x: 0.16, yb: -0.02, yt: 0.14 },
+  { z: -2.2, x: 0.82, yb: -0.15, yt: 0.2 },
+  { z: -0.3, x: 1.3, yb: -0.225, yt: 0.225 },
+  { z: 1.7, x: 1.18, yb: -0.2, yt: 0.19 },
+  { z: 3.1, x: 1.0, yb: -0.15, yt: 0.15 },
+];
+for (let i = 0; i < secs.length - 1; i++) {
+  const A = secs[i], B = secs[i + 1];
+  hull.quad([-A.x, A.yb, A.z], [A.x, A.yb, A.z], [B.x, B.yb, B.z], [-B.x, B.yb, B.z], [0, -1, 0]);
+  hull.quad([-A.x, A.yt, A.z], [-B.x, B.yt, B.z], [B.x, B.yt, B.z], [A.x, A.yt, A.z], [0, 1, 0]);
+  hull.quad([A.x, A.yb, A.z], [A.x, A.yt, A.z], [B.x, B.yt, B.z], [B.x, B.yb, B.z], [1, 0, 0]);
+  hull.quad([-A.x, A.yt, A.z], [-A.x, A.yb, A.z], [-B.x, B.yb, B.z], [-B.x, B.yt, B.z], [-1, 0, 0]);
+}
+{
+  const A = secs[0], B = secs[secs.length - 1];
+  hull.quad([-A.x, A.yb, A.z], [-A.x, A.yt, A.z], [A.x, A.yt, A.z], [A.x, A.yb, A.z], [0, 0, -1]);
+  hull.quad([B.x, B.yb, B.z], [B.x, B.yt, B.z], [-B.x, B.yt, B.z], [-B.x, B.yb, B.z], [0, 0, 1]);
+}
+const boat = new THREE.Group();
+const hullMesh = hull.mesh(boatMat);
+boat.add(hullMesh);
+scene.add(boat);
+
+for (const mesh of [baseBuf.mesh(rammed), darkBuf.mesh(rammedDark), tileBuf.mesh(tileMat), colBuf.mesh(woodCol), beamBuf.mesh(woodCol), redBuf.mesh(lacquer), doorBuf.mesh(doorMat)]) {
+  scene.add(mesh);
+  occluders.push(mesh);
+}
+
+const skyMat = new THREE.ShaderMaterial({
+  side: THREE.BackSide,
+  depthWrite: false,
+  fog: false,
+  uniforms: {
+    bottomColor: { value: new THREE.Color("#B08962") },
+    midColor: { value: new THREE.Color("#D4A878") },
+    topColor: { value: new THREE.Color("#C49A6C") },
+  },
+  vertexShader: `
+    varying vec3 vDir;
+    void main() {
+      vec4 w = modelMatrix * vec4(position, 1.0);
+      vDir = w.xyz;
+      gl_Position = projectionMatrix * viewMatrix * w;
+    }`,
+  fragmentShader: `
+    varying vec3 vDir;
+    uniform vec3 bottomColor, midColor, topColor;
+    void main() {
+      float h = normalize(vDir - cameraPosition).y;
+      vec3 col = bottomColor;
+      if (h >= 0.45) col = mix(midColor, topColor, clamp((h - 0.45) / 0.55, 0.0, 1.0));
+      else if (h > 0.0) col = mix(bottomColor, midColor, h / 0.45);
+      gl_FragColor = vec4(col, 1.0);
+    }`,
+});
+const sky = new THREE.Mesh(new THREE.SphereGeometry(800, 28, 16), skyMat);
+sky.frustumCulled = false;
+sky.renderOrder = -10;
+scene.add(sky);
+
+// r170 起方向光/环境光不再乘 π。规格里的强度按旧版观感书写，否则夯土会被压成剪影。
+const LIGHT_SCALE = Math.PI;
+const hemi = new THREE.HemisphereLight(0xc4a078, 0x3a2a20, 0.4 * LIGHT_SCALE);
+scene.add(hemi);
+const amb = new THREE.AmbientLight(0x6a5348, 0.55 * LIGHT_SCALE);
+scene.add(amb);
+const sun = new THREE.DirectionalLight(0xffb070, 1.35 * LIGHT_SCALE);
+sun.castShadow = SHADOW;
+sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.left = -80;
+sun.shadow.camera.right = 80;
+sun.shadow.camera.top = 80;
+sun.shadow.camera.bottom = -80;
+sun.shadow.camera.near = 10;
+sun.shadow.camera.far = 220;
+sun.shadow.bias = -0.0006;
+sun.shadow.normalBias = 0.045;
+scene.add(sun);
+scene.add(sun.target);
+const fill = new THREE.DirectionalLight(0x8aa0b8, 0.18 * LIGHT_SCALE);
+fill.position.set(40, 30, 80);
+fill.target.position.set(175, 8, 180);
+scene.add(fill);
+scene.add(fill.target);
+
+let camera;
+if (topView) {
+  const aspect = window.innerWidth / window.innerHeight;
+  camera = new THREE.OrthographicCamera(-240 * aspect, 240 * aspect, 240, -240, 0.1, 2000);
+  camera.position.set(160, 520, 170);
+  camera.up.set(0, 0, 1);
+  camera.lookAt(160, 0, 170);
+} else {
+  camera = new THREE.PerspectiveCamera(50, 1, 0.2, 900);
+}
+const raycaster = new THREE.Raycaster();
+const camPos = new THREE.Vector3();
+const lookPos = new THREE.Vector3();
+const camA = new THREE.Vector3();
+const lookA = new THREE.Vector3();
+const camB = new THREE.Vector3();
+const lookB = new THREE.Vector3(128, 7, -6);
+
+let boatX = 168, boatZ = -34, boatY = 0.2;
+let yaw = Math.PI / 2;
+let speed = 0;
+let segHint = null;
+let yawOff = 0;
+let pitch = Math.atan2(-5.1, 24);
+let blend = 0;
+let dragging = false;
+let lastPX = 0, lastPY = 0;
+let lookPointer = null;
+let joyPointer = null;
+let joyX = 0, joyY = 0;
+const keys = new Set();
+let qaOverride = false;
+const qaKeys = new Set();
+
+function applyView() {
+  const phone = detectPhone();
+  document.documentElement.classList.toggle("phone", phone);
+  if (phone) help.textContent = "左下摇杆划船，右半屏滑动转视角";
+  if (topView) {
+    const aspect = window.innerWidth / window.innerHeight;
+    const frustum = 240;
+    camera.left = -frustum * aspect;
+    camera.right = frustum * aspect;
+    camera.top = frustum;
+    camera.bottom = -frustum;
+    camera.updateProjectionMatrix();
+    return;
+  }
+  const land = window.innerWidth > window.innerHeight;
+  camera.fov = phone && land ? 46 : 50;
+  camera.aspect = window.innerWidth / Math.max(1, window.innerHeight);
+  camera.near = 0.2;
+  camera.far = 900;
+  camera.updateProjectionMatrix();
+}
+applyView();
+window.addEventListener("resize", applyView);
+
+function down(code) { return (qaOverride ? qaKeys : keys).has(code); }
+
+let audioCtx = null, audioGain = null;
+function startAudio() {
+  if (audioCtx) {
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return;
+  }
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return;
+  audioCtx = new Ctx();
+  const rate = audioCtx.sampleRate;
+  const buffer = audioCtx.createBuffer(1, rate * 2, rate);
+  const data = buffer.getChannelData(0);
+  let last = 0;
+  for (let i = 0; i < data.length; i++) {
+    const white = Math.random() * 2 - 1;
+    last = (last + 0.02 * white) / 1.02;
+    data[i] = last * 3.2;
+  }
+  const src = audioCtx.createBufferSource();
+  src.buffer = buffer;
+  src.loop = true;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.value = 160;
+  audioGain = audioCtx.createGain();
+  audioGain.gain.value = 0;
+  src.connect(filter);
+  filter.connect(audioGain);
+  audioGain.connect(audioCtx.destination);
+  src.start();
+}
+
+const joy = document.getElementById("joy");
+const knob = document.getElementById("knob");
+const MAX_R = (112 - 40) / 2;
+function setKnob(dx, dy) {
+  const d = Math.hypot(dx, dy);
+  if (d > MAX_R) { dx *= MAX_R / d; dy *= MAX_R / d; }
+  knob.style.transform = `translate(${dx}px, ${dy}px)`;
+  joyX = dx / MAX_R;
+  joyY = -dy / MAX_R;
+}
+joy.addEventListener("pointerdown", (e) => {
+  try { joy.setPointerCapture(e.pointerId); } catch (err) { /* synthetic QA pointers */ }
+  joyPointer = e.pointerId;
+  startAudio();
+  const rect = joy.getBoundingClientRect();
+  setKnob(e.clientX - rect.left - 56, e.clientY - rect.top - 56);
+  e.preventDefault();
+  e.stopPropagation();
+});
+joy.addEventListener("pointermove", (e) => {
+  if (e.pointerId !== joyPointer) return;
+  const rect = joy.getBoundingClientRect();
+  setKnob(e.clientX - rect.left - 56, e.clientY - rect.top - 56);
+});
+function endJoy(e) {
+  if (e.pointerId !== joyPointer) return;
+  joyPointer = null;
+  joyX = 0; joyY = 0;
+  knob.style.transform = "translate(0px, 0px)";
+}
+joy.addEventListener("pointerup", endJoy);
+joy.addEventListener("pointercancel", endJoy);
+
+window.addEventListener("pointerdown", (e) => {
+  startAudio();
+  if (e.target.closest && e.target.closest("#joy")) return;
+  if (detectPhone()) {
+    if (e.clientX > window.innerWidth * 0.5) {
+      lookPointer = e.pointerId;
+      lastPX = e.clientX; lastPY = e.clientY;
+    }
+    return;
+  }
+  if (e.button === 0) { dragging = true; lastPX = e.clientX; lastPY = e.clientY; }
+});
+window.addEventListener("pointermove", (e) => {
+  const looking = detectPhone() ? e.pointerId === lookPointer : dragging;
+  if (!looking) return;
+  const bNow = inBSegment(project(boatX, boatZ, segHint).s);
+  if (bNow) { lastPX = e.clientX; lastPY = e.clientY; return; }
+  yawOff -= (e.clientX - lastPX) * 0.0042;
+  pitch -= (e.clientY - lastPY) * 0.0032;
+  pitch = clamp(pitch, -25 * DEG, 20 * DEG);
+  lastPX = e.clientX; lastPY = e.clientY;
+});
+window.addEventListener("pointerup", (e) => {
+  if (e.pointerId === lookPointer) lookPointer = null;
+  if (!detectPhone()) dragging = false;
+});
+window.addEventListener("pointercancel", () => { lookPointer = null; dragging = false; });
+window.addEventListener("contextmenu", (e) => e.preventDefault());
+window.addEventListener("keydown", (e) => {
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) e.preventDefault();
+  if (!qaOverride) keys.add(e.code);
+  startAudio();
+});
+window.addEventListener("keyup", (e) => { if (!qaOverride) keys.delete(e.code); });
+window.addEventListener("blur", () => { if (!qaOverride) keys.clear(); });
+window.addEventListener("message", (e) => {
+  if (e.origin !== location.origin || !e.data || e.data.type !== "key") return;
+  if (qaOverride) return;
+  if (e.data.down) keys.add(e.data.code);
+  else keys.delete(e.data.code);
+  if (e.data.down) startAudio();
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden && !qaOverride) keys.clear(); });
+
+if (isPhone) {
+  const hint = document.getElementById("hint");
+  hint.classList.add("on");
+  setTimeout(() => hint.classList.remove("on"), 5600);
+}
+
+const gateEl = document.getElementById("gate");
+let time = 0;
+let lastT = performance.now();
+
+function step(dt) {
+  let throttle = 0, steer = 0;
+  if (down("KeyW") || down("ArrowUp")) throttle += 1;
+  if (down("KeyS") || down("ArrowDown")) throttle -= 1;
+  if (down("KeyA") || down("ArrowLeft")) steer += 1;
+  if (down("KeyD") || down("ArrowRight")) steer -= 1;
+  throttle = clamp(throttle + joyY, -1, 1);
+  steer = clamp(steer - joyX, -1, 1);
+  const reverse = speed >= 0 ? 1 : -1;
+  yaw += steer * MAX_YAW_RATE * reverse * dt;
+  speed += (throttle * ACCEL - DAMP * speed) * dt;
+  speed = clamp(speed, -MAX_SPEED, MAX_SPEED);
+  const fx = -Math.sin(yaw), fz = -Math.cos(yaw);
+  boatX += fx * speed * dt;
+  boatZ += fz * speed * dt;
+  const proj = project(boatX, boatZ, segHint);
+  segHint = proj.i;
+  const half = halfWidth(proj.s);
+  if (proj.d > half && proj.d > 1e-5) {
+    const push = (proj.d - half) * (1 - Math.exp(-10 * dt));
+    boatX -= ((boatX - proj.x) / proj.d) * push;
+    boatZ -= ((boatZ - proj.z) / proj.d) * push;
+  }
+  if (boatX >= 98 && boatX <= 158 && boatZ > -1 && boatZ < 12) {
+    boatZ += (-1 - boatZ) * (1 - Math.exp(-8 * dt));
+  }
+  boatY = 0.2 + waveY(boatX, boatZ, time);
+  return proj;
+}
+
+function updateCamera(proj) {
+  if (topView) return;
+  const bOn = inBSegment(proj.s);
+  const target = bOn ? 1 : 0;
+  const stepBlend = dtHold > 0 ? dtHold / 0.6 : 0;
+  if (blend < target) blend = Math.min(target, blend + stepBlend);
+  else blend = Math.max(target, blend - stepBlend);
+  const s = blend * blend * (3 - 2 * blend);
+  gateEl.classList.toggle("on", bOn);
+  const fx = -Math.sin(yaw), fz = -Math.cos(yaw);
+  lookA.set(boatX + fx * 4, 2.4, boatZ + fz * 4);
+  const bx = Math.sin(yaw), bz = Math.cos(yaw);
+  const c = Math.cos(yawOff), sn = Math.sin(yawOff);
+  const rx = bx * c + bz * sn;
+  const rz = -bx * sn + bz * c;
+  const camY = Math.max(3, lookA.y - Math.tan(pitch) * 24);
+  camA.set(lookA.x + rx * 24, camY, lookA.z + rz * 24);
+  camB.set(boatX + 10, boatY + 11.5, boatZ - 18);
+  camPos.lerpVectors(camA, camB, s);
+  lookPos.lerpVectors(lookA, lookB, s);
+  const origin = new THREE.Vector3(boatX, Math.max(1.6, boatY + 1.3), boatZ);
+  const delta = camPos.clone().sub(origin);
+  const dist = delta.length();
+  if (dist > 8.2) {
+    const dir = delta.multiplyScalar(1 / dist);
+    raycaster.set(origin, dir);
+    raycaster.far = dist;
+    const hits = raycaster.intersectObjects(occluders, false);
+    if (hits.length && hits[0].distance < dist - 0.15) {
+      const nd = Math.max(8, hits[0].distance - 0.4);
+      camPos.copy(origin).addScaledVector(dir, nd);
+    }
+  }
+  if (camPos.y < 3) camPos.y = 3;
+  camera.position.copy(camPos);
+  camera.lookAt(lookPos);
+}
+
+let dtHold = 0;
+function frame(now) {
+  const dt = Math.min(0.05, (now - lastT) / 1000);
+  lastT = now;
+  dtHold = dt;
+  time += dt;
+  const proj = step(dt);
+  boat.position.set(boatX, boatY, boatZ);
+  boat.rotation.set(0, yaw, 0);
+  const arr = waterGeo.attributes.position.array;
+  for (let i = 0; i < arr.length; i += 3) arr[i + 1] = waveY(arr[i], arr[i + 2], time);
+  waterGeo.attributes.position.needsUpdate = true;
+  if (audioGain && audioCtx) {
+    const vol = 0.006 + 0.11 * Math.min(1, Math.abs(speed) / MAX_SPEED);
+    audioGain.gain.setTargetAtTime(vol, audioCtx.currentTime, 0.08);
+  }
+  sun.position.copy(boat.position).addScaledVector(SUN_DIR, 180);
+  sun.target.position.copy(boat.position);
+  updateCamera(proj);
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+
+document.getElementById("boot").remove();
+requestAnimationFrame(frame);
+
+function auditLock() {
+  const bad = [];
+  let outside = 0;
+  for (const sg of segs) {
+    const steps = Math.max(1, Math.ceil(sg.len / 4));
+    for (let k = 0; k <= steps; k++) {
+      const t = k / steps;
+      const x = sg.ax + sg.dx * t, z = sg.az + sg.dz * t;
+      const s = sg.s0 + sg.len * t;
+      const half = halfWidth(s);
+      const nx = -sg.dz / sg.len, nz = sg.dx / sg.len;
+      for (const side of [-1, 1]) {
+        const px = x + nx * half * side, pz = z + nz * half * side;
+        if (!inWater(px, pz)) {
+          outside++;
+          if (bad.length < 8) bad.push({ px: +px.toFixed(2), pz: +pz.toFixed(2), s: +s.toFixed(1), half, side });
+        }
+      }
+      if (!inWater(x, z)) {
+        outside++;
+        if (bad.length < 8) bad.push({ px: +x.toFixed(2), pz: +z.toFixed(2), s: +s.toFixed(1), half, side: 0, center: true });
+      }
+    }
+  }
+  return { outside, bad, routeLen, filletNotes: route.notes, outerNotes: outerFillet.notes, innerNotes: innerFillet.notes };
+}
+
+function pointAtS(s) {
+  s = ((s % routeLen) + routeLen) % routeLen;
+  for (let i = 0; i < segs.length; i++) {
+    const sg = segs[i];
+    if (s <= sg.s0 + sg.len + 1e-4 || i === segs.length - 1) {
+      const t = clamp((s - sg.s0) / sg.len, 0, 1);
+      return { x: sg.ax + sg.dx * t, z: sg.az + sg.dz * t };
+    }
+  }
+  return { x: segs[0].ax, z: segs[0].az };
+}
+
+window.__cam = () => ({
+  px: +camera.position.x.toFixed(2),
+  py: +camera.position.y.toFixed(2),
+  pz: +camera.position.z.toFixed(2),
+  lx: +lookPos.x.toFixed(2),
+  ly: +lookPos.y.toFixed(2),
+  lz: +lookPos.z.toFixed(2),
+  blend: +blend.toFixed(2),
+  fov: camera.fov,
+});
+window.__controlsTest = {
+  getYaw: () => yaw,
+  getSpeed: () => speed,
+  setKeys(codes) {
+    qaOverride = true;
+    qaKeys.clear();
+    for (const code of codes) qaKeys.add(code);
+  },
+  setSteer() {},
+};
+window.__debug = {
+  pose(x, z, nextYaw) {
+    boatX = x; boatZ = z; speed = 0;
+    if (nextYaw != null) yaw = nextYaw;
+    segHint = project(x, z, null).i;
+  },
+  setBlend(v) { blend = v; },
+  state() {
+    const p = project(boatX, boatZ, segHint);
+    return { x: +boatX.toFixed(2), z: +boatZ.toFixed(2), yaw: +yaw.toFixed(3), speed: +speed.toFixed(2), s: +p.s.toFixed(1), d: +p.d.toFixed(2), half: halfWidth(p.s), inB: inBSegment(p.s), inWater: inWater(boatX, boatZ), tx: +(p.dx / p.len).toFixed(3), tz: +(p.dz / p.len).toFixed(3) };
+  },
+  simulate(maxSeconds = 480) {
+    const saved = { boatX, boatZ, yaw, speed, segHint, time };
+    boatX = 168; boatZ = -34; yaw = Math.PI / 2; speed = 0; segHint = null; time = 0;
+    let traveled = 0;
+    let prevS = project(boatX, boatZ, null).s;
+    let outside = 0, lockBreak = 0, stuckAt = null, done = false, maxD = 0;
+    const dt = 1 / 60;
+    qaOverride = true;
+    qaKeys.clear();
+    qaKeys.add("KeyW");
+    for (let t = 0; t < maxSeconds && !done; t += dt) {
+      const before = project(boatX, boatZ, segHint);
+      const aim = pointAtS(before.s + 14);
+      let ax = aim.x - boatX, az = aim.z - boatZ;
+      const al = Math.hypot(ax, az) || 1;
+      ax /= al; az /= al;
+      const target = Math.atan2(-ax, -az);
+      const diff = Math.atan2(Math.sin(target - yaw), Math.cos(target - yaw));
+      yaw += clamp(diff, -MAX_YAW_RATE * dt, MAX_YAW_RATE * dt);
+      step(dt);
+      time += dt;
+      const after = project(boatX, boatZ, segHint);
+      let ds = after.s - prevS;
+      if (ds < -routeLen / 2) ds += routeLen;
+      if (ds > routeLen / 2) ds -= routeLen;
+      traveled += Math.max(0, ds);
+      prevS = after.s;
+      maxD = Math.max(maxD, after.d);
+      if (!inWater(boatX, boatZ)) outside++;
+      if (after.d > halfWidth(after.s) + 0.85) lockBreak++;
+      if (!stuckAt && t > 20 && traveled < 12) {
+        stuckAt = { t: +t.toFixed(2), x: +boatX.toFixed(1), z: +boatZ.toFixed(1), traveled: +traveled.toFixed(1), yaw: +yaw.toFixed(3), d: +after.d.toFixed(2) };
+        break;
+      }
+      if (traveled > routeLen * 0.985) done = true;
+    }
+    const report = {
+      done, traveled: +traveled.toFixed(1), routeLen: +routeLen.toFixed(1),
+      outside, lockBreak, maxD: +maxD.toFixed(2), stuckAt,
+      x: +boatX.toFixed(1), z: +boatZ.toFixed(1),
+    };
+    boatX = saved.boatX; boatZ = saved.boatZ; yaw = saved.yaw; speed = saved.speed; segHint = saved.segHint; time = saved.time;
+    qaOverride = false;
+    qaKeys.clear();
+    return report;
+  },
+};
+window.__audit = auditLock;
+</script>
+</body>
+</html>
