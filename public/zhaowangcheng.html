@@ -87,7 +87,8 @@ window.addEventListener("error", (e) => { window.__bootErr = (e.message || "") +
 <script type="importmap">
 {
   "imports": {
-    "three": "https://unpkg.com/three@0.170.0/build/three.module.js"
+    "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
   }
 }
 </script>
@@ -95,6 +96,8 @@ window.addEventListener("error", (e) => { window.__bootErr = (e.message || "") +
 import * as THREE from "three";
 import { Reflector } from "https://unpkg.com/three@0.170.0/examples/jsm/objects/Reflector.js";
 import { attachArchiveMaterials } from "./materials.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 window.__stage = "start";
 
 const WAY = [
@@ -766,6 +769,9 @@ seal.castShadow = SHADOW;
 scene.add(seal);
 occluders.push(seal);
 
+// attachments/README_buildings.md：pavilion（阙殿）9 处、hall2（龙台大殿）1 处，位置/缩放/朝向全部来自 README。
+// x/z 为规格坐标（+Z 北），y 为台顶面，yaw 是绕 Y 的旋转（模型正面本地 +Z；yaw=0 → 世界 +Z = 规格朝南）。
+const buildingSpots = { pavilion: [], hall2: [] };
 const pierSolids = [];
 const brazierSpots = [];
 const brazierLights = [];
@@ -1002,30 +1008,8 @@ function buildSheng() {
     slice(whiteBuf, rect, 8.8, 14.8);
     cap(whiteBuf, rect, 14.8);
     whiteBuf.footBase = null;
-    const top = rect(14.8);
-    railLoop(top[0] + 0.3, top[1] - 0.3, top[2] + 0.3, top[3] - 0.3, 14.8, 0.9, null);
-    const cx = (x0 + x1) / 2, cz = -5.5;
-    const g = grid(cx, cz, 4, 3, 10, 7);
-    columns(g.cols, 14.8, 3.2, 0.38);
-    brackets(g.cols, 18, 1);
-    for (let i = 0; i < g.xs.length; i++) {
-      for (let k = 0; k < g.zs.length - 1; k++) {
-        woodBuf.box(g.xs[i], 18.15, (g.zs[k] + g.zs[k + 1]) / 2, 0.32, 0.36, Math.abs(g.zs[k + 1] - g.zs[k]));
-      }
-    }
-    for (const z of g.zs) woodBuf.box(cx, 18.15, z, 10, 0.36, 0.32);
-    bays(g.xs, g.zs[0], 18, 0);
-    const ez = [];
-    for (const z of g.zs) ez.push(z);
-    for (let i = 0; i < ez.length - 1; i++) {
-      const mz = (ez[i] + ez[i + 1]) / 2, w = Math.abs(ez[i + 1] - ez[i]);
-      hang(null, g.xs[0], mz, 18, -Math.PI / 2, w * 0.92);
-      hang(null, g.xs[g.xs.length - 1], mz, 18, Math.PI / 2, w * 0.92);
-    }
-    for (let i = 0; i < g.xs.length - 1; i++) {
-      whiteBuf.box((g.xs[i] + g.xs[i + 1]) / 2, 16.4, g.zs[g.zs.length - 1], Math.abs(g.xs[i + 1] - g.xs[i]) * 0.92, 3.2, 0.16);
-    }
-    hip(cx, cz, 6.1, 4.5, 19, 20.8);
+    // 原程序阙殿（台顶栏杆、柱、斗拱、梁、帷幔、背墙、庑殿顶）已删，由 pavilion.glb 取代（自带木地台和栏杆）。
+    buildingSpots.pavilion.push({ x: (x0 + x1) / 2, y: 14.8, z: -5.5, s: 14.5, yaw: 0 });
   }
   addQue(103, 119);
   addQue(137, 153);
@@ -1119,7 +1103,7 @@ function buildSheng() {
   const t3 = banded(121, 143, 76.9, 93, 18.8, 24.8, 0.3);
   railLoop(t1[0] + 0.4, t1[1] - 0.4, t1[2] + 0.4, t1[3] - 0.4, 10.8, 0.9, (x, z) => z < t1[2] + 0.8 && x > 127 && x < 137);
   railLoop(t2[0] + 0.4, t2[1] - 0.4, t2[2] + 0.4, t2[3] - 0.4, 18.8, 0.9, (x, z) => z < t2[2] + 0.8 && x > 127 && x < 137);
-  railLoop(t3[0] + 0.4, t3[1] - 0.4, t3[2] + 0.4, t3[3] - 0.4, 24.8, 0.9, (x, z) => z < t3[2] + 0.8 && x > 127 && x < 137);
+  // t3 台顶（Y 24.8）那圈程序栏杆已删：hall2.glb 自带木地台和栏杆。
   function flight(z0, z1, y0, y1) {
     const rise = y1 - y0, run = z1 - z0;
     const n = Math.max(1, Math.round(rise / 0.25));
@@ -1187,47 +1171,10 @@ function buildSheng() {
   gallery(116, 148, 67.2, 97, 10.8);
   gallery(121, 143, 76.9, 93, 18.8);
 
-  const hall = grid(132, 85, 7, 4, 16, 10);
-  columns(hall.cols, 24.8, 4, 0.38);
-  brackets(hall.cols, 28.8, 1.4);
-  for (const z of hall.zs) woodBuf.box(132, 29.05, z, 16, 0.42, 0.36);
-  for (const x of hall.xs) woodBuf.box(x, 29.05, 85, 0.36, 0.42, 10);
-  bays(hall.xs, hall.zs[0], 28.8, 0);
-  for (let i = 0; i < hall.xs.length - 1; i++) {
-    const w = Math.abs(hall.xs[i + 1] - hall.xs[i]) * 0.92;
-    const xm = (hall.xs[i] + hall.xs[i + 1]) / 2;
-    whiteBuf.box(xm, 26.8, hall.zs[hall.zs.length - 1], w, 4, 0.18);
-    whiteBuf.box(xm, 28.2, hall.zs[hall.zs.length - 1] + 0.12, w, 0.8, 0.08);
-  }
-  for (let k = 0; k < hall.zs.length - 1; k++) {
-    const d = Math.abs(hall.zs[k + 1] - hall.zs[k]) * 0.92;
-    const zm = (hall.zs[k] + hall.zs[k + 1]) / 2;
-    whiteBuf.box(hall.xs[0], 26.8, zm, 0.18, 4, d);
-    whiteBuf.box(hall.xs[hall.xs.length - 1], 26.8, zm, 0.18, 4, d);
-  }
-  const paintBuf = new Buf();
-  paintBuf.box(132, 28.2, hall.zs[hall.zs.length - 1] + 0.16, 15.2, 0.8, 0.06);
-  paintBuf.box(hall.xs[0] - 0.12, 28.2, 85, 0.06, 0.8, 9.2);
-  paintBuf.box(hall.xs[hall.xs.length - 1] + 0.12, 28.2, 85, 0.06, 0.8, 9.2);
-  paintBuf.box(132, 28.2, hall.zs[0] - 0.2, 15.2, 0.8, 0.06);
-  const yIn = 30.15, yOut = 29.6;
-  roofBuf.quad([132 - 9.5, yOut, 85 - 6.5], [132 + 9.5, yOut, 85 - 6.5], [132 + 8, yIn, 85 - 5], [132 - 8, yIn, 85 - 5], [0, 1, -1]);
-  roofBuf.quad([132 + 9.5, yOut, 85 + 6.5], [132 - 9.5, yOut, 85 + 6.5], [132 - 8, yIn, 85 + 5], [132 + 8, yIn, 85 + 5], [0, 1, 1]);
-  roofBuf.quad([132 - 9.5, yOut, 85 + 6.5], [132 - 9.5, yOut, 85 - 6.5], [132 - 8, yIn, 85 - 5], [132 - 8, yIn, 85 + 5], [-1, 1, 0]);
-  roofBuf.quad([132 + 9.5, yOut, 85 - 6.5], [132 + 9.5, yOut, 85 + 6.5], [132 + 8, yIn, 85 + 5], [132 + 8, yIn, 85 - 5], [1, 1, 0]);
-
-  const up = grid(132, 85, 4, 3, 13, 7);
-  columns(up.cols, 30.2, 3.2, 0.34);
-  whiteBuf.box(132, 31.8, up.zs[up.zs.length - 1], 12.4, 3.2, 0.16);
-  whiteBuf.box(up.xs[0], 31.8, 85, 0.16, 3.2, 6.4);
-  whiteBuf.box(up.xs[up.xs.length - 1], 31.8, 85, 0.16, 3.2, 6.4);
-  const doorW = 1.7, gapW = (13 - doorW * 3) / 4;
-  let cursor = 132 - 6.5;
-  for (let i = 0; i < 4; i++) {
-    whiteBuf.box(cursor + gapW / 2, 31.8, up.zs[0], gapW, 3.2, 0.16);
-    cursor += gapW + (i < 3 ? doorW : 0);
-  }
-  hip(132, 85, 8.2, 5.2, 33.4, 36.4);
+  // 原程序龙台大殿（下层红柱 7×4、斗拱、梁、白墙、帷幔、庑殿顶，上层 4×3 柱、三窗白墙、攒尖顶）已删，
+  // 由 hall2.glb 取代：底面 Y 24.8，XZ (132, 85)，正面朝南，缩放 19。两侧旗杆、青铜灯、点光源保留。
+  const paintBuf = new Buf(); // 原来只放大殿的彩绘条；保留空 Buf，后面的 mesh 列表还引用它
+  buildingSpots.hall2.push({ x: 132, y: 24.8, z: 85, s: 19, yaw: 0 });
   for (const x of [122.4, 141.6]) for (const z of [81.5, 88.5]) {
     woodBuf.box(x, 28.8, z, 0.16, 8, 0.16);
     addFlag(x, 32.8, z, 0, 1.1);
@@ -1260,16 +1207,6 @@ function buildSheng() {
     }
   }
 
-  function curtainRing(g, y) {
-    bays(g.xs, g.zs[0], y, 0);
-    bays(g.xs, g.zs[g.zs.length - 1], y, Math.PI);
-    for (let i = 0; i < g.zs.length - 1; i++) {
-      const mz = (g.zs[i] + g.zs[i + 1]) / 2;
-      const w = Math.abs(g.zs[i + 1] - g.zs[i]);
-      hang(null, g.xs[0], mz, y, -Math.PI / 2, w * 0.92);
-      hang(null, g.xs[g.xs.length - 1], mz, y, Math.PI / 2, w * 0.92);
-    }
-  }
   function tapered(x0, x1, z0, z1, y0, y1, band0, band1, taper) {
     const h = y1 - y0;
     const rect = (y) => {
@@ -1285,20 +1222,14 @@ function buildSheng() {
     whiteBuf.footBase = savedFoot;
     return rect(y1);
   }
-  function cornerHall(cx, cz, yFloor) {
-    const g = grid(cx, cz, 3, 3, 8, 8);
-    columns(g.cols, yFloor, 3.2, 0.38);
-    brackets(g.cols, yFloor + 3.2, 1);
-    for (const z of g.zs) woodBuf.box(cx, yFloor + 3.35, z, 8, 0.32, 0.28);
-    for (const x of g.xs) woodBuf.box(x, yFloor + 3.35, cz, 0.28, 0.32, 8);
-    curtainRing(g, yFloor + 3.2);
-    hip(cx, cz, 5.1, 5.1, 19, 20.6);
-  }
-  for (const [x0, x1, z0, z1] of [[-5, 9, -5, 9], [-5, 9, 211, 225], [85, 99, 371, 385], [341, 355, 371, 385], [341, 355, -5, 9]]) {
-    const top = tapered(x0, x1, z0, z1, 0.8, 14.8, 7.3, 8.8, 1);
-    railLoop(top[0] + 0.25, top[1] - 0.25, top[2] + 0.25, top[3] - 0.25, 14.8, 0.9, null);
-    cornerHall((x0 + x1) / 2, (z0 + z1) / 2, 14.8);
-  }
+  // 5 座角楼：台基 14×14，台顶 Y 14.8，缩放 12.5。程序角楼（栏杆、柱、斗拱、帷幔、四阿顶）已删，由 pavilion.glb 取代。
+  // README：正面朝外侧对角方向、取最近的正方向。对角是正好平分的，README 没给平局规则，这里取“从城中心指向该角
+  // 的向量里分量更大的那个轴”（规格坐标：城中心约 (200,180)）。yaw：西 -π/2，北 π，南 0，东 π/2。
+  const CORNER_FACING = [-Math.PI / 2, -Math.PI / 2, Math.PI, Math.PI, 0];
+  [[-5, 9, -5, 9], [-5, 9, 211, 225], [85, 99, 371, 385], [341, 355, 371, 385], [341, 355, -5, 9]].forEach(([x0, x1, z0, z1], i) => {
+    tapered(x0, x1, z0, z1, 0.8, 14.8, 7.3, 8.8, 1);
+    buildingSpots.pavilion.push({ x: (x0 + x1) / 2, y: 14.8, z: (z0 + z1) / 2, s: 12.5, yaw: CORNER_FACING[i] });
+  });
 
   const bannerMat = new THREE.MeshStandardMaterial({
     map: flagTex,
@@ -1469,26 +1400,13 @@ uniform vec2 uWind;`)
   watchtower(278, 70);
   watchtower(278, 112);
 
-  function sideHall(cx, cz, yTop, hx, hz) {
-    const top = tapered(cx - hx, cx + hx, cz - hz, cz + hz, 0.8, yTop, (0.8 + yTop) / 2 - 0.75, (0.8 + yTop) / 2 + 0.75, 0);
-    railLoop(top[0] + 0.35, top[1] - 0.35, top[2] + 0.35, top[3] - 0.35, yTop, 0.9, null);
-    const g = grid(cx, cz, 4, 3, 10, 7);
-    columns(g.cols, yTop, 3.2, 0.38);
-    brackets(g.cols, yTop + 3.2, 1);
-    for (const z of g.zs) woodBuf.box(cx, yTop + 3.35, z, 10, 0.32, 0.28);
-    bays(g.xs, g.zs[0], yTop + 3.2, 0);
-    for (let i = 0; i < g.zs.length - 1; i++) {
-      const mz = (g.zs[i] + g.zs[i + 1]) / 2, w = Math.abs(g.zs[i + 1] - g.zs[i]);
-      hang(null, g.xs[0], mz, yTop + 3.2, -Math.PI / 2, w * 0.92);
-      hang(null, g.xs[g.xs.length - 1], mz, yTop + 3.2, Math.PI / 2, w * 0.92);
-    }
-    for (let i = 0; i < g.xs.length - 1; i++) {
-      whiteBuf.box((g.xs[i] + g.xs[i + 1]) / 2, yTop + 1.6, g.zs[g.zs.length - 1], Math.abs(g.xs[i + 1] - g.xs[i]) * 0.92, 3.2, 0.16);
-    }
-    hip(cx, cz, 6.1, 4.5, yTop + 4.2, yTop + 6);
+  // 二号台、三号台：只保留台体；台顶程序小殿和栏杆已删，由 pavilion.glb 取代。正面朝南，与原程序小殿的开敞面一致。
+  function sideHall(cx, cz, yTop, hx, hz, scale) {
+    tapered(cx - hx, cx + hx, cz - hz, cz + hz, 0.8, yTop, (0.8 + yTop) / 2 - 0.75, (0.8 + yTop) / 2 + 0.75, 0);
+    buildingSpots.pavilion.push({ x: cx, y: yTop, z: cz, s: scale, yaw: 0 });
   }
-  sideHall(128, 118, 16, 11, 10);
-  sideHall(124, 148, 12, 9, 8);
+  sideHall(128, 118, 16, 11, 10, 14.5);
+  sideHall(124, 148, 12, 9, 8, 13);
 
   for (const [buf, mat, name, occ] of [
     [whiteBuf, whiteMat, "whiteWall", true],
@@ -1497,6 +1415,7 @@ uniform vec2 uWind;`)
     [roofBuf, roofMat, "shengRoof", true],
     [paintBuf, paintMat, "painted", false],
   ]) {
+    if (!buf.pos.length) continue;
     const mesh = buf.mesh(mat);
     mesh.name = name;
     scene.add(mesh);
@@ -1542,6 +1461,95 @@ window.__stage = "before-sheng";
 try { buildSheng(); }
 catch (err) { window.__bootErr = String(err && err.stack || err); console.error(err); }
 window.__stage = "after-sheng";
+
+// ---- pavilion / hall2 GLB（attachments/README_buildings.md；加载与 LOD 规则同 attachments/README.md）----
+// 每种模型三档 LOD，各一个 InstancedMesh，按相机距离逐帧分桶。桌面 lod0<60、lod1<150、lod2<260、其外隐藏；
+// 手机只载 lod1/lod2：lod1<80、lod2<220。摆放矩阵只含 README 给的位置、缩放、朝向，不加随机旋转/缩放。
+let updateBuildings = null;
+{
+  const loader = new GLTFLoader();
+  loader.setMeshoptDecoder(MeshoptDecoder);
+  const levelNames = ["lod0", "lod1", "lod2"];
+  const wanted = isPhone ? [1, 2] : [0, 1, 2];
+  function prep(gltf) {
+    let found = null;
+    gltf.scene.updateMatrixWorld(true);
+    gltf.scene.traverse((o) => {
+      if (!o.isMesh || found) return;
+      const g = o.geometry.clone();
+      g.applyMatrix4(o.matrixWorld);
+      g.computeBoundingBox();
+      const bb = g.boundingBox;
+      // 底面落在 y=0、XZ 居中，README 的“底面放在台顶面上、XZ 居中”据此摆放。
+      g.translate(-(bb.min.x + bb.max.x) / 2, -bb.min.y, -(bb.min.z + bb.max.z) / 2);
+      g.computeBoundingBox();
+      const src = Array.isArray(o.material) ? o.material[0] : o.material;
+      const mat = src.clone();
+      mat.side = THREE.DoubleSide;
+      if (mat.specularIntensity !== undefined) mat.specularIntensity = 0.5;
+      if (g.getAttribute("color")) mat.vertexColors = true; // lod2 用顶点色
+      for (const k of ["map", "normalMap", "roughnessMap", "metalnessMap"]) if (mat[k]) mat[k].anisotropy = 8;
+      found = { geometry: g, material: mat, size: g.boundingBox.getSize(new THREE.Vector3()) };
+    });
+    if (!found) throw new Error("no mesh in glb");
+    return found;
+  }
+  const loadLevel = (name, li) => new Promise((resolve, reject) => {
+    loader.load("/models/" + name + "_" + levelNames[li] + ".glb", resolve, undefined, reject);
+  }).then(prep);
+  const lodOf = (d) => (isPhone
+    ? (d < 80 ? 1 : d < 220 ? 2 : -1)
+    : (d < 60 ? 0 : d < 150 ? 1 : d < 260 ? 2 : -1));
+
+  const kinds = [];
+  const d0 = new THREE.Object3D();
+  Promise.all(["pavilion", "hall2"].map((name) => Promise.all(wanted.map((li) => loadLevel(name, li))).then((levels) => {
+    const spots = buildingSpots[name];
+    for (const sp of spots) {
+      d0.position.set(sp.x, sp.y, wz(sp.z));
+      d0.rotation.set(0, sp.yaw, 0);
+      d0.scale.setScalar(sp.s);
+      d0.updateMatrix();
+      sp.matrix = d0.matrix.clone();
+      sp.wx = sp.x; sp.wy = sp.y + 3; sp.wz = wz(sp.z);
+    }
+    const meshes = [null, null, null];
+    wanted.forEach((li, i) => {
+      const m = new THREE.InstancedMesh(levels[i].geometry, levels[i].material, Math.max(1, spots.length));
+      m.name = name + "_" + levelNames[li];
+      m.count = 0;
+      m.frustumCulled = false;
+      m.castShadow = m.receiveShadow = SHADOW;
+      m.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+      scene.add(m);
+      meshes[li] = m;
+    });
+    kinds.push({ name, spots, meshes });
+    return { name, size: levels[0].size, count: spots.length };
+  }))).then((info) => {
+    updateBuildings = () => {
+      const c = camera.position;
+      for (const k of kinds) {
+        const lists = [[], [], []];
+        for (const sp of k.spots) {
+          const li = lodOf(Math.hypot(sp.wx - c.x, sp.wy - c.y, sp.wz - c.z));
+          if (li >= 0 && k.meshes[li]) lists[li].push(sp);
+        }
+        k.meshes.forEach((m, li) => {
+          if (!m) return;
+          m.count = lists[li].length;
+          lists[li].forEach((sp, i) => m.setMatrixAt(i, sp.matrix));
+          m.instanceMatrix.needsUpdate = true;
+        });
+      }
+    };
+    window.__buildings = { ready: true, phone: isPhone, info: info.map((i) => ({ name: i.name, count: i.count, raw: [+i.size.x.toFixed(3), +i.size.y.toFixed(3), +i.size.z.toFixed(3)] })), spots: buildingSpots };
+  }).catch((err) => {
+    window.__bootErr = "buildings " + (err && err.message ? err.message : err);
+    console.error(err);
+  });
+  window.__buildings = { ready: false };
+}
 
 function polyEdgeDist(x, z, poly) {
   let best = 1e9;
@@ -2652,6 +2660,7 @@ function frame(now) {
   updateCamera(proj);
   sky.position.copy(camera.position);
   sky.updateMatrixWorld();
+  if (updateBuildings) updateBuildings();
   renderer.render(scene, camera);
   fpsN++;
   if (now - fpsT >= 1000) {
