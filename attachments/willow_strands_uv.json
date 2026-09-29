@@ -1,0 +1,40 @@
+{
+ "note": "5 strands, each hangs from top; UV rects for each strand; v measured from bottom (glTF/three flipY default)",
+ "strands": [
+  {
+   "u0": 0.0098,
+   "u1": 0.168,
+   "v_top": 0.9902,
+   "v_bottom": 0.0098,
+   "width_over_height": 0.161
+  },
+  {
+   "u0": 0.1816,
+   "u1": 0.3027,
+   "v_top": 0.9902,
+   "v_bottom": 0.2773,
+   "width_over_height": 0.17
+  },
+  {
+   "u0": 0.3164,
+   "u1": 0.4863,
+   "v_top": 0.9902,
+   "v_bottom": 0.0098,
+   "width_over_height": 0.173
+  },
+  {
+   "u0": 0.5,
+   "u1": 0.6016,
+   "v_top": 0.9902,
+   "v_bottom": 0.1699,
+   "width_over_height": 0.124
+  },
+  {
+   "u0": 0.6152,
+   "u1": 0.7432,
+   "v_top": 0.9902,
+   "v_bottom": 0.209,
+   "width_over_height": 0.164
+  }
+ ]
+}
