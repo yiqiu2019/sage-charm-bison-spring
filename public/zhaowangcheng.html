@@ -96,6 +96,7 @@ window.addEventListener("error", (e) => { window.__bootErr = (e.message || "") +
 import * as THREE from "three";
 import { Reflector } from "https://unpkg.com/three@0.170.0/examples/jsm/objects/Reflector.js";
 import { attachArchiveMaterials } from "./materials.js";
+import { bootOutskirts } from "./outskirts.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 window.__stage = "start";
@@ -2053,6 +2054,159 @@ const hullMesh = hull.mesh(boatMat);
 boat.add(hullMesh);
 scene.add(boat);
 
+// ---- 已有 GLB：船、船夫、货堆、火盆、停泊船（GLTFLoader + MeshoptDecoder）----
+// 数值沿用 standalone 里 Grok 验证过的接法：船长 6.2、吃水 0.15（船底 -0.35，船组 y=0.2）、
+// 船夫 1.35 倍、货堆 1.8 倍、火盆总高 1.2。程序船体/火盆保留为加载失败时的后备。
+const moored = new THREE.Group();
+moored.name = "mooredBoat";
+scene.add(moored);
+const MOOR_X = 175.2, MOOR_Z = -18.2;
+let rowerPivot = null;
+let updateBraziers = null;
+
+function tuneSpecular(root) {
+  root.traverse((o) => {
+    if (!o.isMesh) return;
+    o.castShadow = o.receiveShadow = SHADOW;
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    for (const m of mats) {
+      if (!m) continue;
+      if (m.specularIntensity !== undefined) m.specularIntensity = 0.5;
+      for (const key of ["map", "normalMap", "roughnessMap", "metalnessMap"]) {
+        if (m[key]) m[key].anisotropy = 8;
+      }
+    }
+  });
+}
+function fitBoatRig(model) {
+  model.updateMatrixWorld(true);
+  const raw = new THREE.Box3().setFromObject(model);
+  const lengthX = Math.max(1e-4, raw.getSize(new THREE.Vector3()).x);
+  const rig = new THREE.Group();
+  rig.name = "boatModel";
+  rig.scale.setScalar(6.2 / lengthX);
+  rig.rotation.y = -Math.PI / 2;
+  rig.add(model);
+  rig.updateMatrixWorld(true);
+  const fitted = new THREE.Box3().setFromObject(rig);
+  const center = fitted.getCenter(new THREE.Vector3());
+  rig.position.set(-center.x, -0.35 - fitted.min.y, -center.z);
+  tuneSpecular(rig);
+  return { rig, scale: 6.2 / lengthX };
+}
+const gltfLoader = new GLTFLoader();
+gltfLoader.setMeshoptDecoder(MeshoptDecoder);
+function loadGltf(url) {
+  return new Promise((resolve, reject) => gltfLoader.load(url, resolve, undefined, reject));
+}
+function glbFailed(name, err) {
+  window.__bootErr = "glb " + name + " " + (err && err.message ? err.message : err);
+  console.error(name, err);
+}
+window.__boatReady = {};
+
+loadGltf("/boat_web.glb").then((gltf) => {
+  const fitted = fitBoatRig(gltf.scene);
+  boat.remove(hullMesh);
+  hullMesh.geometry.dispose();
+  boat.add(fitted.rig);
+  moored.add(fitted.rig.clone(true));
+  window.__boatReady.boat = { scale: +fitted.scale.toFixed(3), moorWater: inWater(MOOR_X, MOOR_Z) };
+}).catch((err) => glbFailed("boat", err));
+
+loadGltf("/rower_web.glb").then((gltf) => {
+  const rower = gltf.scene;
+  rower.scale.setScalar(1.35);
+  rower.rotation.y = Math.PI;
+  rower.updateMatrixWorld(true);
+  const rb = new THREE.Box3().setFromObject(rower);
+  const rs = rb.getSize(new THREE.Vector3());
+  const hip = rb.min.y + rs.y * 0.42;
+  rower.position.set(-(rb.min.x + rb.max.x) / 2, -hip, -(rb.min.z + rb.max.z) / 2);
+  tuneSpecular(rower);
+  rowerPivot = new THREE.Group();
+  rowerPivot.name = "rower";
+  rowerPivot.position.set(-0.05, 0.22, 1.85);
+  rowerPivot.add(rower);
+  boat.add(rowerPivot);
+  window.__boatReady.rowerH = +rs.y.toFixed(3);
+}).catch((err) => glbFailed("rower", err));
+
+loadGltf("/cargo_web.glb").then((gltf) => {
+  const cargo = gltf.scene;
+  cargo.name = "cargo";
+  cargo.scale.setScalar(1.8);
+  cargo.rotation.y = 0.65;
+  cargo.updateMatrixWorld(true);
+  const cb = new THREE.Box3().setFromObject(cargo);
+  const deckTop = 0.7; // 码头 A 甲板顶：中心 0.55 + 半厚 0.15
+  cargo.position.set(
+    169.5 - (cb.min.x + cb.max.x) / 2,
+    deckTop - cb.min.y,
+    wz(-14.5) - (cb.min.z + cb.max.z) / 2,
+  );
+  tuneSpecular(cargo);
+  scene.add(cargo);
+  window.__boatReady.cargoH = +new THREE.Box3().setFromObject(cargo).getSize(new THREE.Vector3()).y.toFixed(2);
+}).catch((err) => glbFailed("cargo", err));
+
+loadGltf("/brazier_web.glb").then((gltf) => {
+  let src = null;
+  gltf.scene.updateMatrixWorld(true);
+  gltf.scene.traverse((o) => { if (o.isMesh) src = o; });
+  const geo = src.geometry.clone();
+  geo.applyMatrix4(src.matrixWorld);
+  geo.computeBoundingBox();
+  const bb = geo.boundingBox;
+  const bh = Math.max(1e-4, bb.max.y - bb.min.y);
+  const bScale = 1.2 / bh;
+  geo.translate(-(bb.min.x + bb.max.x) / 2, -bb.min.y, -(bb.min.z + bb.max.z) / 2);
+  geo.scale(bScale, bScale, bScale);
+  if (src.material.specularIntensity !== undefined) src.material.specularIntensity = 0.5;
+  for (const key of ["map", "normalMap", "roughnessMap", "metalnessMap"]) {
+    if (src.material[key]) src.material[key].anisotropy = 8;
+  }
+  const braziers = new THREE.InstancedMesh(geo, src.material, Math.max(1, brazierSpots.length));
+  braziers.name = "brazierGlb";
+  braziers.castShadow = braziers.receiveShadow = SHADOW;
+  braziers.frustumCulled = false;
+  const bd = new THREE.Object3D();
+  brazierSpots.forEach((p, i) => {
+    bd.position.set(p.x, 10.8, wz(p.z));
+    bd.rotation.set(0, 0, 0);
+    bd.scale.set(1, 1, 1);
+    bd.updateMatrix();
+    braziers.setMatrixAt(i, bd.matrix);
+  });
+  braziers.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+  scene.add(braziers);
+  // 火焰球（bfire）和点光源保持原样；只换盆身。GLB 盆 4.5k 面 ×23，桌面还要再被水面反射多画一遍，
+  // 所以只有离相机 BRAZIER_GLB_DIST 以内的用 GLB，更远的仍用原来的低面数程序火盆。
+  const proc = scene.getObjectByName("brazier");
+  if (proc) proc.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+  const BRAZIER_GLB_DIST = 95;
+  updateBraziers = () => {
+    let nGlb = 0, nProc = 0;
+    for (const p of brazierSpots) {
+      const dx = p.x - camera.position.x, dz = wz(p.z) - camera.position.z;
+      bd.position.set(p.x, 10.8, wz(p.z));
+      bd.rotation.set(0, 0, 0);
+      bd.scale.set(1, 1, 1);
+      bd.updateMatrix();
+      if (dx * dx + dz * dz < BRAZIER_GLB_DIST * BRAZIER_GLB_DIST) braziers.setMatrixAt(nGlb++, bd.matrix);
+      else if (proc) proc.setMatrixAt(nProc++, bd.matrix);
+    }
+    braziers.count = nGlb;
+    braziers.instanceMatrix.needsUpdate = true;
+    if (proc) {
+      proc.count = nProc;
+      proc.instanceMatrix.needsUpdate = true;
+    }
+  };
+  window.__boatReady.brazierScale = +bScale.toFixed(3);
+  window.__boatReady.braziers = brazierSpots.length;
+}).catch((err) => glbFailed("brazier", err));
+
 for (const [mesh, label] of [
   [baseBuf.mesh(rammed), "rammed"],
   [darkBuf.mesh(rammedDark), "rammedDark"],
@@ -2091,6 +2245,94 @@ fill.position.set(...specToWorld(40, 30, 80));
 fill.target.position.set(...specToWorld(175, 8, 180));
 scene.add(fill);
 scene.add(fill.target);
+
+// ---- 城外第一部分（public/outskirts.js）接线 ----
+const plantTime = { value: 0 };
+const plantBoat = { value: new THREE.Vector3() };
+const plantSun = { value: new THREE.Vector3(0, 1, 0) };
+
+// 风只在顶点着色器里做；无除法、无 normalize，距船 112–150 渐隐（缩放到 0，不产生 NaN）。
+function plantMat(opts) {
+  const mat = new THREE.MeshStandardMaterial({
+    color: opts.color || 0xffffff,
+    roughness: opts.roughness ?? 0.94,
+    metalness: 0,
+    side: THREE.DoubleSide,
+    vertexColors: !!opts.vertexColors,
+    transparent: !!opts.transparent,
+    opacity: opts.opacity ?? 1,
+    depthWrite: !opts.transparent,
+  });
+  mat.customProgramCacheKey = () => "plant-" + opts.key;
+  mat.onBeforeCompile = (shader) => {
+    shader.uniforms.uTime = plantTime;
+    shader.uniforms.uAmp = { value: opts.amp };
+    shader.uniforms.uFreq = { value: opts.freq };
+    shader.uniforms.uBoat = plantBoat;
+    shader.vertexShader = shader.vertexShader
+      .replace("#include <common>", `#include <common>
+attribute float aWind;
+uniform float uTime;
+uniform float uAmp;
+uniform float uFreq;
+uniform vec3 uBoat;`)
+      .replace("#include <begin_vertex>", `#include <begin_vertex>
+#ifdef USE_INSTANCING
+        vec3 root = vec3(instanceMatrix[3].x, instanceMatrix[3].y, instanceMatrix[3].z);
+        float phase = root.x * 0.17 + root.z * 0.13;
+        float gust = 0.38 + 0.62 * pow(max(sin(uTime * 0.23 + root.x * 0.011 + root.z * 0.008), 0.0), 0.5);
+        gust *= 0.55 + 0.45 * sin(uTime * 0.09 + 1.4);
+        float k = clamp(aWind, 0.0, 1.0);
+        transformed.x += sin(uTime * uFreq + phase) * gust * k * uAmp;
+        transformed.z += cos(uTime * uFreq * 0.81 + phase * 1.6) * gust * k * uAmp * 0.7;
+        float dist = distance(root.xz, uBoat.xz);
+        transformed *= 1.0 - smoothstep(112.0, 150.0, dist);
+#endif`);
+  };
+  return mat;
+}
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+// 与 buildOuterGround / bankPlants 里的 bankY 一致：主场景外岸没有 terrainLift。
+function groundY(x, z) {
+  const d = polyEdgeDist(x, z, outerPoly);
+  const sw = Math.max(0.8, slopeWidthAt(x, z));
+  const ch = crestHeight(x, z);
+  return d >= sw ? ch : ch * (d / sw);
+}
+function outsideLand(x, z) {
+  return !pointInPoly(x, z, outerPoly) && !inWater(x, z);
+}
+// outskirts.js 仍用旧的 dress(mat, tex, ...) 调用；这里映射到 materials.js 的新材质集。
+const texPlaster = { id: "plaster" };
+const texRed = { id: "red" };
+function dressLegacy(mat, tex) {
+  if (tex === texPlaster) {
+    return MATS.dress(mat, { maps: MATS.maps.plaster, tile: 3, mode: "tri", kind: "plaster", foot: true, normalScale: 0.85 });
+  }
+  if (tex === texRed) {
+    return MATS.dress(mat, {
+      maps: MATS.maps.wood, tile: 2, mode: "tri", kind: "pillar", grain: 1,
+      tint: [0x9e / 255, 0x2b / 255, 0x1f / 255], roughBias: -0.2, gain: 2.15, normalScale: 1,
+    });
+  }
+  return mat;
+}
+window.__stage = "before-outskirts";
+try {
+  bootOutskirts({
+    scene, isPhone, groundY, polyEdgeDist, outerPoly, inWater, outsideLand, wz,
+    dress: dressLegacy, DEG, mulberry32, plantMat,
+    rammed, rammedDark, roofMat, doorMat, woodMat, texPlaster, texRed,
+  });
+} catch (err) { window.__bootErr = "outskirts " + String(err && err.stack || err); console.error(err); }
+window.__stage = "after-outskirts";
 
 let camera;
 if (topView) {
@@ -2144,7 +2386,8 @@ function applyView() {
   camera.fov = phone && land ? 46 : 50;
   camera.aspect = window.innerWidth / Math.max(1, window.innerHeight);
   camera.near = 0.2;
-  camera.far = 900;
+  // 太行山山脊远端离航线最远约 2000，900 会把山体整段切掉。
+  camera.far = 2400;
   camera.updateProjectionMatrix();
 }
 applyView();
@@ -2566,6 +2809,9 @@ function applyHour(dt) {
   skyMat.uniforms.sunGlow.value.setHex(n("skyBlend") < 0.001 ? 0xffc48a : hex("skyG"));
   if (n("skyBlend") < 0.001) skyMat.uniforms.sunGlow.value.setHex(0xffc48a);
   groundMat.emissiveIntensity = n("groundEm");
+  window.__night = n("nightMist");
+  window.__mist = n("mist");
+  plantSun.value.copy(shownDir);
   if (water && water.material && water.material.uniforms) {
     const wu = water.material.uniforms;
     if (wu.uTime) wu.uTime.value = time;
@@ -2679,6 +2925,17 @@ function frame(now) {
   const proj = step(dt);
   boat.position.set(boatX, boatY, wz(boatZ));
   boat.rotation.set(0, Math.PI - yaw, 0);
+  moored.position.set(MOOR_X, 0.2 + waveY(MOOR_X, MOOR_Z, time), wz(MOOR_Z));
+  moored.rotation.z = Math.sin(time * 0.65) * 0.012;
+  if (rowerPivot) {
+    // 臀部俯仰 ±6°，周期约 2.4 秒，随船速变；停船静止。
+    const sp = Math.min(1, Math.abs(speed) / MAX_SPEED);
+    if (sp < 0.04) rowerPivot.rotation.x = 0;
+    else {
+      const period = 2.4 / (0.55 + 0.45 * sp);
+      rowerPivot.rotation.x = Math.sin(time * Math.PI * 2 / period) * (6 * DEG) * (0.35 + 0.65 * sp);
+    }
+  }
   if (audioGain && audioCtx) {
     const vol = 0.006 + 0.11 * Math.min(1, Math.abs(speed) / MAX_SPEED);
     audioGain.gain.setTargetAtTime(vol, audioCtx.currentTime, 0.08);
@@ -2690,6 +2947,10 @@ function frame(now) {
   sky.position.copy(camera.position);
   sky.updateMatrixWorld();
   if (updateBuildings) updateBuildings();
+  plantTime.value = time;
+  plantBoat.value.set(boatX, 0, wz(boatZ));
+  if (updateBraziers) updateBraziers();
+  if (window.__tickOutskirts) window.__tickOutskirts(time, camera);
   renderer.render(scene, camera);
   fpsN++;
   if (now - fpsT >= 1000) {
@@ -2783,7 +3044,7 @@ window.__debug = {
     const t0 = performance.now();
     for (let i = 0; i < n; i++) renderer.render(scene, camera);
     const dt = performance.now() - t0;
-    return { ms: +(dt / n).toFixed(2), fps: Math.round(n * 1000 / Math.max(1, dt)), calls: renderer.info.render.calls };
+    return { ms: +(dt / n).toFixed(2), fps: Math.round(n * 1000 / Math.max(1, dt)), calls: renderer.info.render.calls, tris: renderer.info.render.triangles };
   },
   state() {
     const p = project(boatX, boatZ, segHint);
@@ -2857,6 +3118,7 @@ window.__bigMeshes = () => {
   return rows;
 };
 window.__scene = scene;
+window.__camera = camera;
 window.__px = (cssX, cssY) => new Promise((resolve) => {
   window.__after = () => {
     const gl = renderer.getContext();

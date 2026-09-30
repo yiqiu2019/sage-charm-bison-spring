@@ -273,5 +273,7 @@ varying float vFoot;` : "",
     maps: woodMap, tile: 2, mode: "tri", kind: "pillar", grain: 1, tint: [0x9e / 255, 0x2b / 255, 0x1f / 255], roughBias: -0.2, gain: 2.15, normalScale: 1,
   });
 
-  return { hangtu, hangtuDark, plaster, ground, dirt, wood, woodVert, woodMixed, door, pillar, ready };
+  // dress / maps are exported so outskirts.js can dress its own materials with the same PBR set.
+  const maps = { hangtu: hangtuMap, plaster: plasterMap, dirt: dirtMap, bank: bankMap, wood: woodMap };
+  return { hangtu, hangtuDark, plaster, ground, dirt, wood, woodVert, woodMixed, door, pillar, ready, dress, maps };
 }
