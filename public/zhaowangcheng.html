@@ -1368,7 +1368,9 @@ uniform vec2 uWind;`)
   }
   const torch = new THREE.InstancedMesh(new THREE.SphereGeometry(0.16, 6, 4), flameMat, 2);
   torch.name = "torch";
-  [[120.4, 6.85, -72], [135.6, 6.85, -72]].forEach((p, i) => {
+  // 火把原在旗杆顶 (y 6.85)，正压在幡的横杆上，像旗子着火。幡布宽 1.2，只要火把还在这根杆上就会叠在幡布上，
+  // 所以移到桥南端第一对栏杆柱顶（x 122.15 / 133.85，z −73，柱顶 y 1.8），离幡布边缘 1.15 以上，仍在桥头。
+  [[122.15, 1.95, -73], [133.85, 1.95, -73]].forEach((p, i) => {
     dummy.position.set(p[0], p[1], wz(p[2]));
     dummy.scale.setScalar(0);
     dummy.rotation.set(0, 0, 0);
@@ -1596,7 +1598,20 @@ function bandMesh(innerEdge, outerEdge, yInner, yOuter) {
     const c = outerEdge[i], d = outerEdge[(i + 1) % n];
     const ya = yInner(a[0], a[1]), yb = yInner(b[0], b[1]);
     const yc = yOuter(c[0], c[1]), yd = yOuter(d[0], d[1]);
-    buf.quad([a[0], ya, a[1]], [b[0], yb, b[1]], [d[0], yd, d[1]], [c[0], yc, c[1]], [0, 1, 0]);
+    const p0 = [a[0], ya, a[1]], p1 = [b[0], yb, b[1]], p2 = [d[0], yd, d[1]], p3 = [c[0], yc, c[1]];
+    // 岸线凹角处 crest 与水边交叉，四边形会拧成领结，其中一个三角形朝下（发黑）。
+    // 法线仍按 quad() 的规则取；逐个三角形检查朝向，朝下的交换绕序。顶点位置不变。
+    const ax = p1[0] - p0[0], ay = p1[1] - p0[1], az = p1[2] - p0[2];
+    const bx = p3[0] - p0[0], by = p3[1] - p0[1], bz = p3[2] - p0[2];
+    let nx = ay * bz - az * by, ny = az * bx - ax * bz, nz = ax * by - ay * bx;
+    const len = Math.hypot(nx, ny, nz) || 1;
+    const s = ny < 0 ? -1 / len : 1 / len;
+    const nrm = [nx * s, ny * s, nz * s];
+    const up = (u, v, w) => (v[2] - u[2]) * (w[0] - u[0]) - (v[0] - u[0]) * (w[2] - u[2]) > 0;
+    for (const [u, v, w] of [[p0, p1, p2], [p0, p2, p3]]) {
+      if (up(u, v, w)) buf.tri(u, v, w, nrm);
+      else buf.tri(u, w, v, nrm);
+    }
   }
   return buf.mesh(groundMat);
 }
@@ -1630,15 +1645,21 @@ function shapeMesh(poly, hole) {
   const geo = new THREE.ShapeGeometry(shape);
   const pos = geo.attributes.position;
   for (let i = 0; i < pos.count; i++) pos.setXYZ(i, pos.getX(i), 0, wz(pos.getY(i)));
+  // (x, y) → (x, 0, −y) 本身就把 ShapeGeometry 的 +Z 正面转成了 +Y，原来无条件交换绕序反而让地面朝下
+  // （双面材质按背面翻转法线 → 城内地面发黑）。这里逐个三角形检查，只把朝下的换成朝上。
+  const faceUp = (a, b, c) => (pos.getZ(b) - pos.getZ(a)) * (pos.getX(c) - pos.getX(a))
+    - (pos.getX(b) - pos.getX(a)) * (pos.getZ(c) - pos.getZ(a)) > 0;
   if (geo.index) {
     const index = geo.index;
     for (let i = 0; i < index.count; i += 3) {
+      if (faceUp(index.getX(i), index.getX(i + 1), index.getX(i + 2))) continue;
       const t = index.getX(i + 1);
       index.setX(i + 1, index.getX(i + 2));
       index.setX(i + 2, t);
     }
   } else {
     for (let i = 0; i < pos.count; i += 3) {
+      if (faceUp(i, i + 1, i + 2)) continue;
       const x = pos.getX(i + 1), y = pos.getY(i + 1), z = pos.getZ(i + 1);
       pos.setXYZ(i + 1, pos.getX(i + 2), pos.getY(i + 2), pos.getZ(i + 2));
       pos.setXYZ(i + 2, x, y, z);
@@ -2408,7 +2429,15 @@ for (let i = 0; i < 400; i++) {
 }
 const stars = new THREE.Points(
   new THREE.BufferGeometry().setAttribute("position", new THREE.Float32BufferAttribute(starPos, 3)),
-  new THREE.PointsMaterial({ color: 0xe7eef8, size: 1.35, sizeAttenuation: false, fog: false, depthWrite: false, depthTest: false, transparent: true, opacity: 0 }),
+  // 星星跟天球一起放在不透明队列里最先画（renderOrder −1），之后的墙体、桥、地面照常盖住它。
+  // 原来 transparent: true 会让它排到所有不透明物体之后，加上 depthTest: false 就画在墙面上了。
+  // CustomBlending 用与 NormalBlending 相同的混合因子，保留按 opacity 渐隐。
+  new THREE.PointsMaterial({
+    color: 0xe7eef8, size: 1.35, sizeAttenuation: false, fog: false, depthWrite: false, depthTest: false,
+    transparent: false, opacity: 0,
+    blending: THREE.CustomBlending, blendSrc: THREE.SrcAlphaFactor, blendDst: THREE.OneMinusSrcAlphaFactor,
+    blendSrcAlpha: THREE.OneFactor, blendDstAlpha: THREE.OneMinusSrcAlphaFactor,
+  }),
 );
 stars.renderOrder = -1;
 stars.frustumCulled = false;
