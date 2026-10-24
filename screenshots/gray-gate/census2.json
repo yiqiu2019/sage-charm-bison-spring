@@ -1,0 +1,3182 @@
+{
+ "rows": [
+  {
+   "kind": "mesh",
+   "name": "gatePassage",
+   "big": 18,
+   "sx": 18,
+   "sy": 9,
+   "sz": 8.1,
+   "at": {
+    "x": 128,
+    "y": 5.3,
+    "z": 4.1
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "gateWall",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "gate-wall-fade1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "gateFloor",
+   "big": 17.9,
+   "sx": 17.9,
+   "sy": 0,
+   "sz": 7.6,
+   "at": {
+    "x": 128,
+    "y": 0.8,
+    "z": 4.1
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "gateFloor",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "gate-floor-fade1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "gateWood",
+   "big": 17.8,
+   "sx": 17.8,
+   "sy": 9.1,
+   "sz": 7.3,
+   "at": {
+    "x": 128,
+    "y": 5.3,
+    "z": 3.8
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "gateWood",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "gate-wood-fade1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "gateDoor",
+   "big": 17.9,
+   "sx": 17.9,
+   "sy": 8.7,
+   "sz": 2.2,
+   "at": {
+    "x": 128,
+    "y": 5.2,
+    "z": 5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "gateDoor",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": true,
+     "key": "gate-door-backfade1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "gatePushou",
+   "big": 13.3,
+   "sx": 13.3,
+   "sy": 1,
+   "sz": 2,
+   "at": {
+    "x": 127.8,
+    "y": 3,
+    "z": 4.9
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "gatePushou",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0.5,
+     "color": "ffffff",
+     "map": true,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "brPlank",
+   "n": 214,
+   "maxS": 12.4,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 128,
+     "y": 0.8,
+     "z": -6.2,
+     "sx": 12.4,
+     "sy": 0.12,
+     "sz": 0.3
+    },
+    {
+     "x": 128,
+     "y": 0.9,
+     "z": -6.5,
+     "sx": 12.4,
+     "sy": 0.12,
+     "sz": 0.3
+    },
+    {
+     "x": 128,
+     "y": 0.9,
+     "z": -6.8,
+     "sx": 12.4,
+     "sy": 0.12,
+     "sz": 0.3
+    },
+    {
+     "x": 128,
+     "y": 1,
+     "z": -7.1,
+     "sx": 12.4,
+     "sy": 0.12,
+     "sz": 0.3
+    },
+    {
+     "x": 128,
+     "y": 1.1,
+     "z": -7.4,
+     "sx": 12.4,
+     "sy": 0.12,
+     "sz": 0.3
+    },
+    {
+     "x": 128,
+     "y": 1.1,
+     "z": -7.7,
+     "sx": 12.4,
+     "sy": 0.12,
+     "sz": 0.3
+    },
+    {
+     "x": 128,
+     "y": 1.2,
+     "z": -8,
+     "sx": 12.4,
+     "sy": 0.12,
+     "sz": 0.3
+    },
+    {
+     "x": 128,
+     "y": 1.3,
+     "z": -8.3,
+     "sx": 12.4,
+     "sy": 0.12,
+     "sz": 0.3
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "bridge-age-bridgeH"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "brBeam",
+   "n": 15,
+   "maxS": 43,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 123.2,
+     "y": 1.9,
+     "z": -12.1,
+     "sx": 0.3,
+     "sy": 0.35,
+     "sz": 12.32
+    },
+    {
+     "x": 125.6,
+     "y": 1.9,
+     "z": -12.1,
+     "sx": 0.3,
+     "sy": 0.35,
+     "sz": 12.32
+    },
+    {
+     "x": 128,
+     "y": 1.9,
+     "z": -12.1,
+     "sx": 0.3,
+     "sy": 0.35,
+     "sz": 12.32
+    },
+    {
+     "x": 130.4,
+     "y": 1.9,
+     "z": -12.1,
+     "sx": 0.3,
+     "sy": 0.35,
+     "sz": 12.32
+    },
+    {
+     "x": 132.8,
+     "y": 1.9,
+     "z": -12.1,
+     "sx": 0.3,
+     "sy": 0.35,
+     "sz": 12.32
+    },
+    {
+     "x": 123.2,
+     "y": 3.3,
+     "z": -39.5,
+     "sx": 0.3,
+     "sy": 0.35,
+     "sz": 43
+    },
+    {
+     "x": 125.6,
+     "y": 3.3,
+     "z": -39.5,
+     "sx": 0.3,
+     "sy": 0.35,
+     "sz": 43
+    },
+    {
+     "x": 128,
+     "y": 3.3,
+     "z": -39.5,
+     "sx": 0.3,
+     "sy": 0.35,
+     "sz": 43
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "bridge-age-bridgeH"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "brCap",
+   "n": 6,
+   "maxS": 13.2,
+   "nan": 0,
+   "nearN": 6,
+   "near": [
+    {
+     "x": 128,
+     "y": 2.9,
+     "z": -22,
+     "sx": 13,
+     "sy": 0.4,
+     "sz": 0.4
+    },
+    {
+     "x": 128,
+     "y": 2.9,
+     "z": -30,
+     "sx": 13,
+     "sy": 0.4,
+     "sz": 0.4
+    },
+    {
+     "x": 128,
+     "y": 2.9,
+     "z": -50,
+     "sx": 13,
+     "sy": 0.4,
+     "sz": 0.4
+    },
+    {
+     "x": 128,
+     "y": 2.9,
+     "z": -57,
+     "sx": 13,
+     "sy": 0.4,
+     "sz": 0.4
+    },
+    {
+     "x": 128,
+     "y": 0.5,
+     "z": -6.1,
+     "sx": 13.2,
+     "sy": 0.32,
+     "sz": 0.48
+    },
+    {
+     "x": 128,
+     "y": 0.5,
+     "z": -72.9,
+     "sx": 13.2,
+     "sy": 0.32,
+     "sz": 0.48
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "bridge-age-bridgeH"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "brRail",
+   "n": 136,
+   "maxS": 2.02,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 122.1,
+     "y": 2,
+     "z": -72,
+     "sx": 0.1,
+     "sy": 0.12,
+     "sz": 2.02
+    },
+    {
+     "x": 122.1,
+     "y": 1,
+     "z": -72,
+     "sx": 0.16,
+     "sy": 0.14,
+     "sz": 2.02
+    },
+    {
+     "x": 133.9,
+     "y": 2,
+     "z": -72,
+     "sx": 0.1,
+     "sy": 0.12,
+     "sz": 2.02
+    },
+    {
+     "x": 133.9,
+     "y": 1,
+     "z": -72,
+     "sx": 0.16,
+     "sy": 0.14,
+     "sz": 2.02
+    },
+    {
+     "x": 122.1,
+     "y": 2.5,
+     "z": -70,
+     "sx": 0.1,
+     "sy": 0.12,
+     "sz": 2.02
+    },
+    {
+     "x": 122.1,
+     "y": 1.4,
+     "z": -70,
+     "sx": 0.16,
+     "sy": 0.14,
+     "sz": 2.02
+    },
+    {
+     "x": 133.9,
+     "y": 2.5,
+     "z": -70,
+     "sx": 0.1,
+     "sy": 0.12,
+     "sz": 2.02
+    },
+    {
+     "x": 133.9,
+     "y": 1.4,
+     "z": -70,
+     "sx": 0.16,
+     "sy": 0.14,
+     "sz": 2.02
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "bridge-age-bridgeH"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "brBrace",
+   "n": 8,
+   "maxS": 3.9,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 123.3,
+     "y": 2.3,
+     "z": -31.7,
+     "sx": 0.22,
+     "sy": 0.22,
+     "sz": 3.9
+    },
+    {
+     "x": 126.1,
+     "y": 2.3,
+     "z": -31.7,
+     "sx": 0.22,
+     "sy": 0.22,
+     "sz": 3.9
+    },
+    {
+     "x": 129.9,
+     "y": 2.3,
+     "z": -31.7,
+     "sx": 0.22,
+     "sy": 0.22,
+     "sz": 3.9
+    },
+    {
+     "x": 132.6,
+     "y": 2.3,
+     "z": -31.7,
+     "sx": 0.22,
+     "sy": 0.22,
+     "sz": 3.9
+    },
+    {
+     "x": 123.3,
+     "y": 2.3,
+     "z": -48.3,
+     "sx": 0.22,
+     "sy": 0.22,
+     "sz": 3.9
+    },
+    {
+     "x": 126.1,
+     "y": 2.3,
+     "z": -48.3,
+     "sx": 0.22,
+     "sy": 0.22,
+     "sz": 3.9
+    },
+    {
+     "x": 129.9,
+     "y": 2.3,
+     "z": -48.3,
+     "sx": 0.22,
+     "sy": 0.22,
+     "sz": 3.9
+    },
+    {
+     "x": 132.6,
+     "y": 2.3,
+     "z": -48.3,
+     "sx": 0.22,
+     "sy": 0.22,
+     "sz": 3.9
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "bridge-age-bridgeH"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "brPost",
+   "n": 70,
+   "maxS": 1.05,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 122.1,
+     "y": 1.3,
+     "z": -73,
+     "sx": 0.24,
+     "sy": 1.05,
+     "sz": 0.24
+    },
+    {
+     "x": 133.9,
+     "y": 1.3,
+     "z": -73,
+     "sx": 0.24,
+     "sy": 1.05,
+     "sz": 0.24
+    },
+    {
+     "x": 122.1,
+     "y": 1.8,
+     "z": -71,
+     "sx": 0.18,
+     "sy": 1.05,
+     "sz": 0.18
+    },
+    {
+     "x": 133.9,
+     "y": 1.8,
+     "z": -71,
+     "sx": 0.18,
+     "sy": 1.05,
+     "sz": 0.18
+    },
+    {
+     "x": 122.1,
+     "y": 2.2,
+     "z": -69.1,
+     "sx": 0.18,
+     "sy": 1.05,
+     "sz": 0.18
+    },
+    {
+     "x": 133.9,
+     "y": 2.2,
+     "z": -69.1,
+     "sx": 0.18,
+     "sy": 1.05,
+     "sz": 0.18
+    },
+    {
+     "x": 122.1,
+     "y": 2.7,
+     "z": -67.1,
+     "sx": 0.18,
+     "sy": 1.05,
+     "sz": 0.18
+    },
+    {
+     "x": 133.9,
+     "y": 2.7,
+     "z": -67.1,
+     "sx": 0.18,
+     "sy": 1.05,
+     "sz": 0.18
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "bridge-age-bridgeV"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "brPier",
+   "n": 16,
+   "maxS": 4.23,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 123.5,
+     "y": 0.6,
+     "z": -22,
+     "sx": 1,
+     "sy": 4.23,
+     "sz": 1
+    },
+    {
+     "x": 123.5,
+     "y": 0.6,
+     "z": -30,
+     "sx": 1,
+     "sy": 4.23,
+     "sz": 1
+    },
+    {
+     "x": 123.5,
+     "y": 0.6,
+     "z": -50,
+     "sx": 1,
+     "sy": 4.23,
+     "sz": 1
+    },
+    {
+     "x": 123.5,
+     "y": 0.6,
+     "z": -57,
+     "sx": 1,
+     "sy": 4.23,
+     "sz": 1
+    },
+    {
+     "x": 126.5,
+     "y": 0.6,
+     "z": -22,
+     "sx": 1,
+     "sy": 4.23,
+     "sz": 1
+    },
+    {
+     "x": 126.5,
+     "y": 0.6,
+     "z": -30,
+     "sx": 1,
+     "sy": 4.23,
+     "sz": 1
+    },
+    {
+     "x": 126.5,
+     "y": 0.6,
+     "z": -50,
+     "sx": 1,
+     "sy": 4.23,
+     "sz": 1
+    },
+    {
+     "x": 126.5,
+     "y": 0.6,
+     "z": -57,
+     "sx": 1,
+     "sy": 4.23,
+     "sz": 1
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "bridge-age-bridgeV"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "whiteWall",
+   "big": 396,
+   "sx": 360,
+   "sy": 24,
+   "sz": 396,
+   "at": {
+    "x": 175,
+    "y": 12.8,
+    "z": 187
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "redBand",
+   "big": 395.1,
+   "sx": 359.1,
+   "sy": 17.3,
+   "sz": 395.1,
+   "at": {
+    "x": 175,
+    "y": 13.8,
+    "z": 187
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "9e2b1f",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "woodwork",
+   "big": 160.7,
+   "sx": 21.4,
+   "sy": 32,
+   "sz": 160.7,
+   "at": {
+    "x": 131,
+    "y": 16.8,
+    "z": 8.2
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|2|0|-1|0|0|0|wood|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "shengRoof",
+   "big": 169.4,
+   "sx": 169.4,
+   "sy": 11.2,
+   "sz": 52.2,
+   "at": {
+    "x": 197.1,
+    "y": 19.2,
+    "z": 89.7
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5e6468",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "wflag",
+   "n": 38,
+   "maxS": 8.57,
+   "nan": 0,
+   "nearN": 2,
+   "near": [
+    {
+     "x": 120.4,
+     "y": 6.8,
+     "z": -72,
+     "sx": 1.2,
+     "sy": 4.11,
+     "sz": 1
+    },
+    {
+     "x": 135.6,
+     "y": 6.8,
+     "z": -72,
+     "sx": 1.2,
+     "sy": 4.11,
+     "sz": 1
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0.4,
+     "color": "ffffff",
+     "map": true,
+     "key": "flag-banner-1"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "flagbar",
+   "n": 38,
+   "maxS": 2.66,
+   "nan": 0,
+   "nearN": 2,
+   "near": [
+    {
+     "x": 120.4,
+     "y": 6.8,
+     "z": -72,
+     "sx": 1.36,
+     "sy": 1,
+     "sz": 1
+    },
+    {
+     "x": 135.6,
+     "y": 6.8,
+     "z": -72,
+     "sx": 1.36,
+     "sy": 1,
+     "sz": 1
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|2|0|1|0|0|0|wood|"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "flagpeg",
+   "n": 38,
+   "maxS": 1,
+   "nan": 0,
+   "nearN": 2,
+   "near": [
+    {
+     "x": 120.4,
+     "y": 6.8,
+     "z": -72,
+     "sx": 1,
+     "sy": 1,
+     "sz": 1
+    },
+    {
+     "x": 135.6,
+     "y": 6.8,
+     "z": -72,
+     "sx": 1,
+     "sy": 1,
+     "sz": 1
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|2|0|1|0|0|0|wood|"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "lamp",
+   "n": 76,
+   "maxS": 1,
+   "nan": 0,
+   "nearN": 2,
+   "near": [
+    {
+     "x": 124,
+     "y": 2.4,
+     "z": 18,
+     "sx": 1,
+     "sy": 1,
+     "sz": 1
+    },
+    {
+     "x": 140,
+     "y": 2.4,
+     "z": 18,
+     "sx": 1,
+     "sy": 1,
+     "sz": 1
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "8c6a3a",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "dish",
+   "n": 76,
+   "maxS": 1,
+   "nan": 0,
+   "nearN": 2,
+   "near": [
+    {
+     "x": 124,
+     "y": 2.4,
+     "z": 18,
+     "sx": 1,
+     "sy": 1,
+     "sz": 1
+    },
+    {
+     "x": 140,
+     "y": 2.4,
+     "z": 18,
+     "sx": 1,
+     "sy": 1,
+     "sz": 1
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "8c6a3a",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "flame",
+   "n": 76,
+   "maxS": 1,
+   "nan": 0,
+   "nearN": 2,
+   "near": [
+    {
+     "x": 124,
+     "y": 2.4,
+     "z": 18,
+     "sx": 1,
+     "sy": 1,
+     "sz": 1
+    },
+    {
+     "x": 140,
+     "y": 2.4,
+     "z": 18,
+     "sx": 1,
+     "sy": 1,
+     "sz": 1
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffb347",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "innerBank",
+   "big": 412.3,
+   "sx": 378.6,
+   "sy": 2.5,
+   "sz": 412.3,
+   "at": {
+    "x": 175,
+    "y": 0.4,
+    "z": 188.1
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "8c7e64",
+     "map": false,
+     "key": "inner-bank-w3e"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "outerSlope",
+   "big": 536.6,
+   "sx": 510.5,
+   "sy": 2.2,
+   "sz": 536.6,
+   "at": {
+    "x": 175.8,
+    "y": 1.1,
+    "z": 189.1
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-blend|6|0|0|0|1|0|ground|fieldO1b"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "outerShelf",
+   "big": 571.8,
+   "sx": 545.8,
+   "sy": 1.4,
+   "sz": 571.8,
+   "at": {
+    "x": 176.1,
+    "y": 1.5,
+    "z": 188.7
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-blend|6|0|0|0|1|0|ground|fieldO1b"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "ramp",
+   "big": 60,
+   "sx": 60,
+   "sy": 0.8,
+   "sz": 5,
+   "at": {
+    "x": 128,
+    "y": 0.4,
+    "z": -13.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "wall-earth-w1i"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "innerGround",
+   "big": 391,
+   "sx": 350,
+   "sy": 0,
+   "sz": 391,
+   "at": {
+    "x": 175,
+    "y": 0.8,
+    "z": 184.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-xz|6|0|0|0|0|0|dirt|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "outerGround",
+   "big": 1792,
+   "sx": 1792,
+   "sy": 1.5,
+   "sz": 1792,
+   "at": {
+    "x": 173,
+    "y": 1.6,
+    "z": 188
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-blend|6|0|0|0|1|0|ground|fieldO1b"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "apron",
+   "big": 519.8,
+   "sx": 491.3,
+   "sy": 0.4,
+   "sz": 519.8,
+   "at": {
+    "x": 175.4,
+    "y": -0.3,
+    "z": 189.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-blend|6|0|0|0|1|0|ground|fieldO1b"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "water",
+   "big": 667.4,
+   "sx": 663.6,
+   "sy": 667.4,
+   "sz": 0.2,
+   "at": {
+    "x": 260.2,
+    "y": 0.1,
+    "z": 261.9
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "ShaderMaterial",
+     "name": "MoatWater",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "",
+     "map": false,
+     "key": "moat-water-n1-lake"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 11,
+   "sx": 8,
+   "sy": 0.3,
+   "sz": 11,
+   "at": {
+    "x": 168,
+    "y": 0.6,
+    "z": -17.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|2|0|0|0|0|0|wood|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "rammed",
+   "big": 380,
+   "sx": 350,
+   "sy": 11.3,
+   "sz": 380,
+   "at": {
+    "x": 175,
+    "y": 6.5,
+    "z": 190
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "wall-earth-w1i"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "tiles",
+   "big": 375.8,
+   "sx": 345.8,
+   "sy": 1.5,
+   "sz": 375.8,
+   "at": {
+    "x": 175,
+    "y": 11.6,
+    "z": 190
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "5e6468",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "reed",
+   "n": 124,
+   "maxS": 3.57,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 84.6,
+     "y": 0.6,
+     "z": -53,
+     "sx": 2.87,
+     "sy": 3.02,
+     "sz": 1
+    },
+    {
+     "x": 84.6,
+     "y": 0.6,
+     "z": -53,
+     "sx": 2.87,
+     "sy": 3.02,
+     "sz": 1
+    },
+    {
+     "x": 84.6,
+     "y": 0.6,
+     "z": -53,
+     "sx": 2.87,
+     "sy": 3.02,
+     "sz": 1
+    },
+    {
+     "x": 84.7,
+     "y": 0.7,
+     "z": -53.6,
+     "sx": 2.01,
+     "sy": 2.6,
+     "sz": 1
+    },
+    {
+     "x": 84.7,
+     "y": 0.7,
+     "z": -53.6,
+     "sx": 2.01,
+     "sy": 2.6,
+     "sz": 1
+    },
+    {
+     "x": 86.7,
+     "y": 0.5,
+     "z": -53.5,
+     "sx": 1.47,
+     "sy": 2.01,
+     "sz": 1
+    },
+    {
+     "x": 86.7,
+     "y": 0.5,
+     "z": -53.5,
+     "sx": 1.47,
+     "sy": 2.01,
+     "sz": 1
+    },
+    {
+     "x": 86.7,
+     "y": 0.5,
+     "z": -53.5,
+     "sx": 1.47,
+     "sy": 2.01,
+     "sz": 1
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0.4,
+     "color": "ffffff",
+     "map": true,
+     "key": "reed-clump-3"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "reed",
+   "n": 61,
+   "maxS": 3.24,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 160.2,
+     "y": 0.2,
+     "z": -55.8,
+     "sx": 1.59,
+     "sy": 2.19,
+     "sz": 1
+    },
+    {
+     "x": 160.2,
+     "y": 0.2,
+     "z": -55.8,
+     "sx": 1.59,
+     "sy": 2.19,
+     "sz": 1
+    },
+    {
+     "x": 160.2,
+     "y": 0.2,
+     "z": -55.8,
+     "sx": 1.59,
+     "sy": 2.19,
+     "sz": 1
+    },
+    {
+     "x": 159.6,
+     "y": 0.1,
+     "z": -56.4,
+     "sx": 1.71,
+     "sy": 2.33,
+     "sz": 1
+    },
+    {
+     "x": 159.6,
+     "y": 0.1,
+     "z": -56.4,
+     "sx": 1.71,
+     "sy": 2.33,
+     "sz": 1
+    },
+    {
+     "x": 160.6,
+     "y": 0.2,
+     "z": -56,
+     "sx": 1.8,
+     "sy": 2.48,
+     "sz": 1
+    },
+    {
+     "x": 160.6,
+     "y": 0.2,
+     "z": -56,
+     "sx": 1.8,
+     "sy": 2.48,
+     "sz": 1
+    },
+    {
+     "x": 160.6,
+     "y": 0.2,
+     "z": -56,
+     "sx": 1.8,
+     "sy": 2.48,
+     "sz": 1
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0.4,
+     "color": "ffffff",
+     "map": true,
+     "key": "reed-clump-3"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "bankGrass",
+   "n": 19405,
+   "maxS": 1.37,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 80.5,
+     "y": 0.2,
+     "z": -48.7,
+     "sx": 1.29,
+     "sy": 1.16,
+     "sz": 1.29
+    },
+    {
+     "x": 80.2,
+     "y": 0.3,
+     "z": -49.5,
+     "sx": 0.91,
+     "sy": 0.82,
+     "sz": 0.91
+    },
+    {
+     "x": 80,
+     "y": 0.4,
+     "z": -50.2,
+     "sx": 1.01,
+     "sy": 0.91,
+     "sz": 1.01
+    },
+    {
+     "x": 81.2,
+     "y": 0.1,
+     "z": -48.6,
+     "sx": 1.13,
+     "sy": 1.02,
+     "sz": 1.13
+    },
+    {
+     "x": 81.1,
+     "y": 0.3,
+     "z": -49.5,
+     "sx": 1.1,
+     "sy": 0.99,
+     "sz": 1.1
+    },
+    {
+     "x": 80.8,
+     "y": 0.5,
+     "z": -50.5,
+     "sx": 0.87,
+     "sy": 0.79,
+     "sz": 0.87
+    },
+    {
+     "x": 80.3,
+     "y": 0.7,
+     "z": -51.7,
+     "sx": 1.33,
+     "sy": 1.2,
+     "sz": 1.33
+    },
+    {
+     "x": 80.1,
+     "y": 0.9,
+     "z": -52.7,
+     "sx": 1.05,
+     "sy": 0.94,
+     "sz": 1.05
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "bank-grass-1"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "bankStones",
+   "n": 4169,
+   "maxS": 2.79,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 81.2,
+     "y": 0.1,
+     "z": -48.6,
+     "sx": 1.17,
+     "sy": 0.91,
+     "sz": 1.07
+    },
+    {
+     "x": 81.9,
+     "y": 0.1,
+     "z": -48.8,
+     "sx": 1.08,
+     "sy": 0.85,
+     "sz": 1
+    },
+    {
+     "x": 82.4,
+     "y": 0.2,
+     "z": -49.3,
+     "sx": 1.13,
+     "sy": 0.88,
+     "sz": 1.04
+    },
+    {
+     "x": 82.4,
+     "y": 0.2,
+     "z": -49.3,
+     "sx": 1.51,
+     "sy": 1.18,
+     "sz": 1.39
+    },
+    {
+     "x": 83.1,
+     "y": 0.1,
+     "z": -49.4,
+     "sx": 0.84,
+     "sy": 0.66,
+     "sz": 0.77
+    },
+    {
+     "x": 83.2,
+     "y": 0.1,
+     "z": -49,
+     "sx": 0.87,
+     "sy": 0.68,
+     "sz": 0.8
+    },
+    {
+     "x": 83.9,
+     "y": 0.1,
+     "z": -49.1,
+     "sx": 0.9,
+     "sy": 0.7,
+     "sz": 0.82
+    },
+    {
+     "x": 85.2,
+     "y": 0.1,
+     "z": -49.4,
+     "sx": 1.06,
+     "sy": 0.83,
+     "sz": 0.98
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 27.3,
+   "sx": 0.8,
+   "sy": 0.6,
+   "sz": 27.3,
+   "at": {
+    "x": 98,
+    "y": 2.3,
+    "z": -103
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-strata|8|0|0|0|0|1|hangtu|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 27.3,
+   "sx": 0.7,
+   "sy": 2.6,
+   "sz": 27.3,
+   "at": {
+    "x": 98,
+    "y": 3.9,
+    "z": -103
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BufferGeometry",
+   "big": 27.6,
+   "sx": 27.6,
+   "sy": 0.5,
+   "sz": 1.3,
+   "at": {
+    "x": 98,
+    "y": 5.4,
+    "z": -103
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5e6468",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 14.2,
+   "sx": 0.3,
+   "sy": 0.6,
+   "sz": 14.2,
+   "at": {
+    "x": 97.8,
+    "y": 2.3,
+    "z": -103.7
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-strata|8|0|0|0|0|1|hangtu|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 14.2,
+   "sx": 0.3,
+   "sy": 2.9,
+   "sz": 14.2,
+   "at": {
+    "x": 97.8,
+    "y": 3.7,
+    "z": -103.7
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 5.1,
+   "sx": 5.1,
+   "sy": 3.1,
+   "sz": 0.2,
+   "at": {
+    "x": 90.7,
+    "y": 3.5,
+    "z": -106.2
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 5.1,
+   "sx": 5.1,
+   "sy": 3.1,
+   "sz": 0.2,
+   "at": {
+    "x": 104.9,
+    "y": 3.5,
+    "z": -106.2
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 3.4,
+   "sx": 0.3,
+   "sy": 3.4,
+   "sz": 0.3,
+   "at": {
+    "x": 91.3,
+    "y": 3.7,
+    "z": -108.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|2|-0.2|1|0|0|0|pillar|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 3.4,
+   "sx": 0.3,
+   "sy": 3.4,
+   "sz": 0.3,
+   "at": {
+    "x": 94.5,
+    "y": 3.7,
+    "z": -108.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|2|-0.2|1|0|0|0|pillar|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 3.4,
+   "sx": 0.3,
+   "sy": 3.4,
+   "sz": 0.3,
+   "at": {
+    "x": 97.8,
+    "y": 3.7,
+    "z": -108.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|2|-0.2|1|0|0|0|pillar|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 3.4,
+   "sx": 0.3,
+   "sy": 3.4,
+   "sz": 0.3,
+   "at": {
+    "x": 101.1,
+    "y": 3.7,
+    "z": -108.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|2|-0.2|1|0|0|0|pillar|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 3.4,
+   "sx": 0.3,
+   "sy": 3.4,
+   "sz": 0.3,
+   "at": {
+    "x": 104.4,
+    "y": 3.7,
+    "z": -108.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|2|-0.2|1|0|0|0|pillar|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BufferGeometry",
+   "big": 15,
+   "sx": 15,
+   "sy": 1.5,
+   "sz": 5.9,
+   "at": {
+    "x": 97.8,
+    "y": 6.2,
+    "z": -106.2
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5e6468",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 6,
+   "sx": 2.3,
+   "sy": 0.1,
+   "sz": 6,
+   "at": {
+    "x": 97.8,
+    "y": 2,
+    "z": -106
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "cbb892",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 16,
+   "sx": 16,
+   "sy": 0.3,
+   "sz": 12,
+   "at": {
+    "x": 152,
+    "y": 1.1,
+    "z": -101
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "7e7058",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 16,
+   "sx": 16,
+   "sy": 0.6,
+   "sz": 0.8,
+   "at": {
+    "x": 152,
+    "y": 1.5,
+    "z": -107
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-strata|8|0|0|0|0|1|hangtu|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 16,
+   "sx": 16,
+   "sy": 2.6,
+   "sz": 0.7,
+   "at": {
+    "x": 152,
+    "y": 3.1,
+    "z": -107
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BufferGeometry",
+   "big": 16.3,
+   "sx": 16.3,
+   "sy": 0.5,
+   "sz": 1.3,
+   "at": {
+    "x": 152,
+    "y": 4.7,
+    "z": -107
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5e6468",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 6.6,
+   "sx": 6.6,
+   "sy": 0.6,
+   "sz": 0.8,
+   "at": {
+    "x": 147.3,
+    "y": 1.5,
+    "z": -95
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-strata|8|0|0|0|0|1|hangtu|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 6.6,
+   "sx": 6.6,
+   "sy": 2.6,
+   "sz": 0.7,
+   "at": {
+    "x": 147.3,
+    "y": 3.1,
+    "z": -95
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BufferGeometry",
+   "big": 6.9,
+   "sx": 6.9,
+   "sy": 0.5,
+   "sz": 1.3,
+   "at": {
+    "x": 147.3,
+    "y": 4.7,
+    "z": -95
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5e6468",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 6.6,
+   "sx": 6.6,
+   "sy": 0.6,
+   "sz": 0.8,
+   "at": {
+    "x": 156.7,
+    "y": 1.5,
+    "z": -95
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-strata|8|0|0|0|0|1|hangtu|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 6.6,
+   "sx": 6.6,
+   "sy": 2.6,
+   "sz": 0.7,
+   "at": {
+    "x": 156.7,
+    "y": 3.1,
+    "z": -95
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BufferGeometry",
+   "big": 6.9,
+   "sx": 6.9,
+   "sy": 0.5,
+   "sz": 1.3,
+   "at": {
+    "x": 156.7,
+    "y": 4.7,
+    "z": -95
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5e6468",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 11.4,
+   "sx": 0.8,
+   "sy": 0.6,
+   "sz": 11.4,
+   "at": {
+    "x": 160,
+    "y": 1.5,
+    "z": -101
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-strata|8|0|0|0|0|1|hangtu|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 11.4,
+   "sx": 0.7,
+   "sy": 2.6,
+   "sz": 11.4,
+   "at": {
+    "x": 160,
+    "y": 3.1,
+    "z": -101
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BufferGeometry",
+   "big": 11.7,
+   "sx": 11.7,
+   "sy": 0.5,
+   "sz": 1.3,
+   "at": {
+    "x": 160,
+    "y": 4.7,
+    "z": -101
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5e6468",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 11.4,
+   "sx": 0.8,
+   "sy": 0.6,
+   "sz": 11.4,
+   "at": {
+    "x": 144,
+    "y": 1.5,
+    "z": -101
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-strata|8|0|0|0|0|1|hangtu|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BoxGeometry",
+   "big": 11.4,
+   "sx": 0.7,
+   "sy": 2.6,
+   "sz": 11.4,
+   "at": {
+    "x": 144,
+    "y": 3.1,
+    "z": -101
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "arch-tri|3|0|0|1|0|0|plaster|"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "BufferGeometry",
+   "big": 11.7,
+   "sx": 11.7,
+   "sy": 0.5,
+   "sz": 1.3,
+   "at": {
+    "x": 144,
+    "y": 4.7,
+    "z": -101
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5e6468",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "southLand",
+   "big": 912.6,
+   "sx": 493.5,
+   "sy": 2.7,
+   "sz": 912.6,
+   "at": {
+    "x": 13.7,
+    "y": 2.1,
+    "z": -243.7
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "south-earth-s1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "southFields",
+   "big": 424.8,
+   "sx": 260,
+   "sy": 1.5,
+   "sz": 424.8,
+   "at": {
+    "x": 130,
+    "y": 1.6,
+    "z": -286.4
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": true,
+     "key": "south-field-s1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "southPuddles",
+   "big": 408,
+   "sx": 245.8,
+   "sy": 1.3,
+   "sz": 408,
+   "at": {
+    "x": 132.9,
+    "y": 1.7,
+    "z": -291.1
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "south-puddle-s1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "westRoad",
+   "big": 673.1,
+   "sx": 673.1,
+   "sy": 1.3,
+   "sz": 274.4,
+   "at": {
+    "x": 206.9,
+    "y": 1.7,
+    "z": 498.7
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "7e7058",
+     "map": false,
+     "key": "west-road-o1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "westRut",
+   "big": 672,
+   "sx": 672,
+   "sy": 1.3,
+   "sz": 272.5,
+   "at": {
+    "x": 207,
+    "y": 1.7,
+    "z": 498.8
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5a4636",
+     "map": false,
+     "key": "west-rut-o1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "westRut",
+   "big": 670.4,
+   "sx": 670.4,
+   "sy": 1.3,
+   "sz": 272.1,
+   "at": {
+    "x": 207.1,
+    "y": 1.7,
+    "z": 497.9
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "5a4636",
+     "map": false,
+     "key": "west-rut-o1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "groveWall",
+   "big": 576.9,
+   "sx": 576.9,
+   "sy": 2.8,
+   "sz": 109.2,
+   "at": {
+    "x": 134,
+    "y": 2.5,
+    "z": -305.9
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "grove-wall-s2b"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "northLand",
+   "big": 732,
+   "sx": 732,
+   "sy": 2.9,
+   "sz": 388,
+   "at": {
+    "x": 406,
+    "y": 1.4,
+    "z": 616
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "north-land-n1"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "terracePlaster",
+   "big": 353.8,
+   "sx": 320.8,
+   "sy": 12.2,
+   "sz": 353.8,
+   "at": {
+    "x": 178,
+    "y": 8.1,
+    "z": 189.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "terrace-plaster-c2"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "terraceEarth",
+   "big": 353.6,
+   "sx": 320.6,
+   "sy": 13.4,
+   "sz": 353.6,
+   "at": {
+    "x": 178,
+    "y": 7.5,
+    "z": 189.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "terrace-earth-c2"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "terraceWood",
+   "big": 353.7,
+   "sx": 320.7,
+   "sy": 5.9,
+   "sz": 353.7,
+   "at": {
+    "x": 178,
+    "y": 12.1,
+    "z": 189.5
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "4a3226",
+     "map": false,
+     "key": "terrace-wood-c2"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "terraceRail",
+   "n": 58,
+   "maxS": 44.81,
+   "nan": 0,
+   "nearN": 0,
+   "near": [],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "4a3226",
+     "map": false,
+     "key": "terrace-deck-c2"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "PlaneGeometry",
+   "big": 620,
+   "sx": 560,
+   "sy": 620,
+   "sz": 0,
+   "at": {
+    "x": 180,
+    "y": 0.3,
+    "z": 170
+   },
+   "vis": false,
+   "mat": [
+    {
+     "type": "ShaderMaterial",
+     "name": "",
+     "trans": true,
+     "dw": false,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "PlaneGeometry",
+   "big": 620,
+   "sx": 560,
+   "sy": 620,
+   "sz": 0,
+   "at": {
+    "x": 180,
+    "y": 1.1,
+    "z": 170
+   },
+   "vis": false,
+   "mat": [
+    {
+     "type": "ShaderMaterial",
+     "name": "",
+     "trans": true,
+     "dw": false,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "PlaneGeometry",
+   "big": 620,
+   "sx": 560,
+   "sy": 620,
+   "sz": 0,
+   "at": {
+    "x": 180,
+    "y": 1.7,
+    "z": 170
+   },
+   "vis": false,
+   "mat": [
+    {
+     "type": "ShaderMaterial",
+     "name": "",
+     "trans": true,
+     "dw": false,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "",
+     "map": false,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "brazierSmoke",
+   "n": 115,
+   "maxS": 1,
+   "nan": 0,
+   "nearN": 0,
+   "near": [],
+   "mat": [
+    {
+     "type": "MeshBasicMaterial",
+     "name": "",
+     "trans": true,
+     "dw": false,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "b7c0c4",
+     "map": true,
+     "key": "(shader) => {\n    shader.uniforms.uTime = { value: 0 };\n    shader.uniforms.uOn = { value: 0 };\n    smokeUniforms = shader.uniforms;\n    shader.vertexShader = shader.vertexShader\n      .replace(\"#include <common>\", \"#include <common>\\nuniform float uTime;\\nvarying float vFade;\")\n      .replace(\"#include <begin_vertex>\", `#include <begin_vertex>\n#ifdef USE_INSTANCING\n        float seed = instanceMatrix[3].x * 0.17 + instanceMatrix[3].z * 0.13 + position.x;\n        float t = fract(uTime * 0.08 + seed);\n        transformed.y += t * 2.1;\n        transformed.x += sin(uTime * 0.6 + seed * 4.0) * t * 0.18;\n        vFade = sin(t * 3.14159);\n#endif`);\n    shader.fragmentShader = shader.fragmentShader\n      .replace(\"#include <common>\", \"#include <common>\\nuniform float uOn;\\nvarying float vFade;\")\n      .replace(\"#include <dithering_fragment>\", \"#include <dithering_fragment>\\ngl_FragColor.a *= vFade * uOn;\");\n  }"
+    }
+   ]
+  },
+  {
+   "kind": "mesh",
+   "name": "nearHills",
+   "big": 1436.2,
+   "sx": 539.6,
+   "sy": 27.8,
+   "sz": 1436.2,
+   "at": {
+    "x": -405.2,
+    "y": 14.7,
+    "z": 190
+   },
+   "vis": true,
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 0,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": false,
+     "key": "near-hill-cover-1"
+    }
+   ]
+  },
+  {
+   "kind": "inst",
+   "name": "reedGlb",
+   "n": 32,
+   "maxS": 11.5,
+   "nan": 0,
+   "nearN": 8,
+   "near": [
+    {
+     "x": 172.4,
+     "y": 0.5,
+     "z": -53.4,
+     "sx": 4.21,
+     "sy": 10.11,
+     "sz": 4.39
+    },
+    {
+     "x": 165.7,
+     "y": 0,
+     "z": -51.6,
+     "sx": 2.78,
+     "sy": 10.36,
+     "sz": 5.52
+    },
+    {
+     "x": 166.3,
+     "y": 0.4,
+     "z": -54.3,
+     "sx": 4.75,
+     "sy": 8.79,
+     "sz": 5.74
+    },
+    {
+     "x": 162.5,
+     "y": 0.1,
+     "z": -52.6,
+     "sx": 4.49,
+     "sy": 9.03,
+     "sz": 5.6
+    },
+    {
+     "x": 163.1,
+     "y": 0.4,
+     "z": -54.7,
+     "sx": 4.45,
+     "sy": 10.73,
+     "sz": 4.99
+    },
+    {
+     "x": 159.3,
+     "y": 0.1,
+     "z": -58,
+     "sx": 4.19,
+     "sy": 6.61,
+     "sz": 5.82
+    },
+    {
+     "x": 160.9,
+     "y": 0.3,
+     "z": -55.5,
+     "sx": 3.67,
+     "sy": 8.49,
+     "sz": 6.46
+    },
+    {
+     "x": 159.6,
+     "y": 0.1,
+     "z": -54.7,
+     "sx": 3.78,
+     "sy": 10.18,
+     "sz": 7
+    }
+   ],
+   "mat": [
+    {
+     "type": "MeshStandardMaterial",
+     "name": "Material.001",
+     "trans": false,
+     "dw": true,
+     "dt": true,
+     "side": 2,
+     "alphaTest": 0,
+     "color": "ffffff",
+     "map": true,
+     "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+   ]
+  }
+ ],
+ "guards": {
+  "ready": true,
+  "skipped": null,
+  "guards": [
+   {
+    "name": "guardSword",
+    "x": 135.7,
+    "z": -2.5,
+    "yaw": -10,
+    "scale": 1.542,
+    "head": 1.72,
+    "rawHead": 1.115,
+    "rawTop": 1.136,
+    "minY": 0
+   },
+   {
+    "name": "guardGe",
+    "x": 120.3,
+    "z": -2.5,
+    "yaw": 10,
+    "scale": 1.793,
+    "head": 1.72,
+    "rawHead": 0.959,
+    "rawTop": 1.096,
+    "minY": 0
+   }
+  ]
+ },
+ "reeds": {
+  "clumps": 6109,
+  "cards": 15768
+ }
+}

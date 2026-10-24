@@ -1,0 +1,19 @@
+{
+  "bench": {
+    "bench": {
+      "ms": 23.06,
+      "fps": 43,
+      "calls": 565,
+      "tris": 13469448
+    },
+    "exposure": null,
+    "tone": null,
+    "post": null,
+    "fog": {
+      "c": "b97351",
+      "n": 80,
+      "f": 600
+    }
+  },
+  "errs": []
+}

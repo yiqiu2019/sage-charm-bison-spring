@@ -1,0 +1,103 @@
+{
+  "moatAfter": {
+    "ms": 15.26,
+    "fps": 66,
+    "calls": 550,
+    "tris": 3634704
+  },
+  "aveAfter": {
+    "ms": 4.84,
+    "fps": 207,
+    "calls": 185,
+    "tris": 6498168
+  },
+  "moatBefore": {
+    "ms": 14.95,
+    "fps": 67,
+    "calls": 546,
+    "tris": 3621332
+  },
+  "aveBefore": {
+    "ms": 9.85,
+    "fps": 102,
+    "calls": 181,
+    "tris": 6484796
+  },
+  "names": {
+    "groveWall": 1,
+    "groveBoard": 1,
+    "southAveBoard": 1,
+    "autumnTree": 290,
+    "southAveTree": 10,
+    "groveTree": 6
+  },
+  "grove": {
+    "models": 300,
+    "boards": 3008,
+    "species": {
+      "oak": 1450,
+      "smoke": 250,
+      "pine": 267,
+      "bare": 53,
+      "bush": 952,
+      "small": 36
+    },
+    "interior": {
+      "oak": 1450,
+      "smoke": 250,
+      "pine": 267,
+      "bare": 53
+    },
+    "interiorN": 2020,
+    "oakPct": 0.718,
+    "smokePct": 0.124,
+    "pinePct": 0.132,
+    "barePct": 0.026,
+    "bush": 952,
+    "wall": {
+      "segN": 13,
+      "gaps": 5,
+      "gapW": [
+        5.1,
+        5.3,
+        14.9,
+        5.8,
+        4.6
+      ],
+      "tris": 670,
+      "segLens": [
+        52.3,
+        35.1,
+        71.2,
+        73.8,
+        68.6,
+        45.2,
+        56.5,
+        53.6,
+        57.9,
+        51.1,
+        48.1,
+        61.5,
+        51
+      ],
+      "northFace": -251.3,
+      "aveGap": 14.9
+    },
+    "edgeAt128": -266.6,
+    "wallAt128": -254.2,
+    "northTree": -264.3,
+    "southTree": -667.3,
+    "boardMeshes": 1,
+    "far0": 155,
+    "far1": 200,
+    "modelMeshes": 6,
+    "modelKinds": {
+      "t0": 123,
+      "t1": 94,
+      "t2": 83
+    },
+    "draws": 8,
+    "shown": 398,
+    "nearD": 37.1
+  }
+}

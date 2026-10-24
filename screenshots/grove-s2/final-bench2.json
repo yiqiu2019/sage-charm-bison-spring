@@ -1,0 +1,92 @@
+{
+  "moatAfter": {
+    "ms": 21.45,
+    "fps": 47,
+    "calls": 550,
+    "tris": 3634704
+  },
+  "aveAfter": {
+    "ms": 10.31,
+    "fps": 97,
+    "calls": 185,
+    "tris": 6498168
+  },
+  "moatBefore": {
+    "ms": 14.14,
+    "fps": 71,
+    "calls": 546,
+    "tris": 3621332
+  },
+  "aveBefore": {
+    "ms": 9.82,
+    "fps": 102,
+    "calls": 169,
+    "tris": 4418442
+  },
+  "moatModelTris": 0,
+  "aveModelTris": 1033177,
+  "moatBoardTris": 6016,
+  "aveBoardTris": 6016,
+  "wallTris": 670,
+  "aveTrees": [
+    {
+      "name": "groveWall",
+      "n": 1,
+      "vis": true,
+      "culled": true,
+      "tris": 670
+    },
+    {
+      "name": "groveBoard",
+      "n": 3008,
+      "vis": true,
+      "culled": true,
+      "tris": 6016
+    },
+    {
+      "name": "groveTree",
+      "n": 62,
+      "vis": true,
+      "culled": false,
+      "tris": 107818
+    },
+    {
+      "name": "groveTree",
+      "n": 62,
+      "vis": true,
+      "culled": false,
+      "tris": 302684
+    },
+    {
+      "name": "groveTree",
+      "n": 54,
+      "vis": true,
+      "culled": false,
+      "tris": 33264
+    },
+    {
+      "name": "groveTree",
+      "n": 54,
+      "vis": true,
+      "culled": false,
+      "tris": 254340
+    },
+    {
+      "name": "groveTree",
+      "n": 83,
+      "vis": true,
+      "culled": false,
+      "tris": 138859
+    },
+    {
+      "name": "groveTree",
+      "n": 83,
+      "vis": true,
+      "culled": false,
+      "tris": 196212
+    }
+  ],
+  "shown": 398,
+  "nearD": 37.1,
+  "draws": 8
+}

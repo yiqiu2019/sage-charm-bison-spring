@@ -1,0 +1,36 @@
+{
+  "bench": {
+    "offWest": {
+      "ms": 24.08,
+      "fps": 42,
+      "calls": 511,
+      "tris": 3673694
+    },
+    "onWest": {
+      "ms": 22.6,
+      "fps": 44,
+      "calls": 511,
+      "tris": 3673694
+    },
+    "offB": {
+      "ms": 19.38,
+      "fps": 52,
+      "calls": 369,
+      "tris": 3243952
+    },
+    "onB": {
+      "ms": 14.9,
+      "fps": 67,
+      "calls": 369,
+      "tris": 3243952
+    },
+    "meta": {
+      "aniso": 8,
+      "cs": "",
+      "w": 1024,
+      "key": "sky-clouds-v4",
+      "prec": "highp"
+    }
+  },
+  "errs": []
+}

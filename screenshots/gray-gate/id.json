@@ -1,0 +1,377 @@
+{
+  "errors": [],
+  "info": {
+    "odd": [
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": 195.5,
+        "y": 2.4,
+        "z": 86,
+        "mat": "MeshBasicMaterial",
+        "tr": true,
+        "op": 0.55,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": "#ffffff"
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": -148,
+        "y": 5,
+        "z": -74,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": -148,
+        "y": 5,
+        "z": -74,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": -156,
+        "y": 5.2,
+        "z": -96,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": -156,
+        "y": 5.2,
+        "z": -96,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": -168,
+        "y": 4.8,
+        "z": -322,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": -168,
+        "y": 4.8,
+        "z": -322,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": -150,
+        "y": 4.6,
+        "z": -338,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": -150,
+        "y": 4.6,
+        "z": -338,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": false,
+        "order": 2,
+        "x": 180,
+        "y": 0.3,
+        "z": -170,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": false,
+        "order": 2,
+        "x": 180,
+        "y": 1.1,
+        "z": -170,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": false,
+        "order": 2,
+        "x": 180,
+        "y": 1.7,
+        "z": -170,
+        "mat": "ShaderMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": ""
+      },
+      {
+        "name": "Mesh",
+        "type": "Mesh",
+        "vis": false,
+        "order": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "mat": "MeshBasicMaterial",
+        "tr": true,
+        "op": 0.35,
+        "dw": false,
+        "dt": true,
+        "side": 0,
+        "color": "#ffb060",
+        "count": 23
+      },
+      {
+        "name": "brazierSmoke",
+        "type": "Mesh",
+        "vis": true,
+        "order": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "mat": "MeshBasicMaterial",
+        "tr": true,
+        "op": 1,
+        "dw": false,
+        "dt": true,
+        "side": 2,
+        "color": "#b7c0c4",
+        "count": 115
+      }
+    ],
+    "backdropOdd": [],
+    "hits": [
+      {
+        "nx": -0.4,
+        "ny": 0.55,
+        "h": [
+          {
+            "d": 32.7,
+            "name": "whiteWall",
+            "color": "#ffffff",
+            "y": 14.71
+          }
+        ]
+      },
+      {
+        "nx": -0.2,
+        "ny": 0.55,
+        "h": []
+      },
+      {
+        "nx": 0,
+        "ny": 0.55,
+        "h": []
+      },
+      {
+        "nx": 0.2,
+        "ny": 0.55,
+        "h": []
+      },
+      {
+        "nx": 0.4,
+        "ny": 0.55,
+        "h": [
+          {
+            "d": 32.7,
+            "name": "whiteWall",
+            "color": "#ffffff",
+            "y": 14.71
+          }
+        ]
+      },
+      {
+        "nx": -0.4,
+        "ny": 0.65,
+        "h": []
+      },
+      {
+        "nx": -0.2,
+        "ny": 0.65,
+        "h": []
+      },
+      {
+        "nx": 0,
+        "ny": 0.65,
+        "h": []
+      },
+      {
+        "nx": 0.2,
+        "ny": 0.65,
+        "h": []
+      },
+      {
+        "nx": 0.4,
+        "ny": 0.65,
+        "h": []
+      },
+      {
+        "nx": -0.4,
+        "ny": 0.75,
+        "h": []
+      },
+      {
+        "nx": -0.2,
+        "ny": 0.75,
+        "h": []
+      },
+      {
+        "nx": 0,
+        "ny": 0.75,
+        "h": []
+      },
+      {
+        "nx": 0.2,
+        "ny": 0.75,
+        "h": []
+      },
+      {
+        "nx": 0.4,
+        "ny": 0.75,
+        "h": []
+      },
+      {
+        "nx": -0.4,
+        "ny": 0.85,
+        "h": []
+      },
+      {
+        "nx": -0.2,
+        "ny": 0.85,
+        "h": []
+      },
+      {
+        "nx": 0,
+        "ny": 0.85,
+        "h": []
+      },
+      {
+        "nx": 0.2,
+        "ny": 0.85,
+        "h": []
+      },
+      {
+        "nx": 0.4,
+        "ny": 0.85,
+        "h": []
+      },
+      {
+        "nx": -0.4,
+        "ny": 0.95,
+        "h": []
+      },
+      {
+        "nx": -0.2,
+        "ny": 0.95,
+        "h": []
+      },
+      {
+        "nx": 0,
+        "ny": 0.95,
+        "h": []
+      },
+      {
+        "nx": 0.2,
+        "ny": 0.95,
+        "h": []
+      },
+      {
+        "nx": 0.4,
+        "ny": 0.95,
+        "h": []
+      }
+    ],
+    "boot": null,
+    "stage": "after-outskirts"
+  }
+}

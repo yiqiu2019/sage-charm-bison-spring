@@ -1,0 +1,33 @@
+{
+ "note": "4 clumps, roots at bottom edge of each rect; v measured from bottom (three.js flipY default)",
+ "clumps": [
+  {
+   "u0": 0.0029,
+   "u1": 0.2466,
+   "v_bottom": 0.0059,
+   "v_top": 0.6367,
+   "width_over_height": 0.772
+  },
+  {
+   "u0": 0.2529,
+   "u1": 0.4971,
+   "v_bottom": 0.0059,
+   "v_top": 0.6807,
+   "width_over_height": 0.724
+  },
+  {
+   "u0": 0.5029,
+   "u1": 0.7471,
+   "v_bottom": 0.0059,
+   "v_top": 0.5205,
+   "width_over_height": 0.949
+  },
+  {
+   "u0": 0.7529,
+   "u1": 0.9971,
+   "v_bottom": 0.0059,
+   "v_top": 0.6729,
+   "width_over_height": 0.732
+  }
+ ]
+}

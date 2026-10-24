@@ -1,0 +1,53 @@
+{
+ "note": "top row 3 grass clumps, bottom row 3 shrubs; roots at bottom of each rect; v measured from bottom (three.js flipY default)",
+ "items": [
+  {
+   "kind": "grass",
+   "u0": 0.083,
+   "u1": 0.25,
+   "v_bottom": 0.5039,
+   "v_top": 0.9941,
+   "width_over_height": 0.681
+  },
+  {
+   "kind": "grass",
+   "u0": 0.4053,
+   "u1": 0.5933,
+   "v_bottom": 0.5039,
+   "v_top": 0.9941,
+   "width_over_height": 0.767
+  },
+  {
+   "kind": "grass",
+   "u0": 0.7393,
+   "u1": 0.9258,
+   "v_bottom": 0.5039,
+   "v_top": 0.9932,
+   "width_over_height": 0.762
+  },
+  {
+   "kind": "shrub",
+   "u0": 0.0239,
+   "u1": 0.3091,
+   "v_bottom": 0.0039,
+   "v_top": 0.4941,
+   "width_over_height": 1.163
+  },
+  {
+   "kind": "shrub",
+   "u0": 0.3706,
+   "u1": 0.6284,
+   "v_bottom": 0.0039,
+   "v_top": 0.4941,
+   "width_over_height": 1.052
+  },
+  {
+   "kind": "shrub",
+   "u0": 0.7056,
+   "u1": 0.9595,
+   "v_bottom": 0.0039,
+   "v_top": 0.4941,
+   "width_over_height": 1.036
+  }
+ ]
+}

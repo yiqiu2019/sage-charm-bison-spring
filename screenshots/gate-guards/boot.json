@@ -1,0 +1,36 @@
+{
+  "boot": {
+    "err": null,
+    "stage": "after-outskirts",
+    "guards": {
+      "ready": true,
+      "skipped": null,
+      "guards": [
+        {
+          "name": "guardGe",
+          "x": 120.3,
+          "z": -2.5,
+          "yaw": 10,
+          "scale": 1.793,
+          "head": 1.72,
+          "rawHead": 0.959,
+          "rawTop": 1.096,
+          "minY": 0
+        },
+        {
+          "name": "guardSword",
+          "x": 135.7,
+          "z": -2.5,
+          "yaw": -10,
+          "scale": 1.542,
+          "head": 1.72,
+          "rawHead": 1.115,
+          "rawTop": 1.136,
+          "minY": 0
+        }
+      ]
+    },
+    "paint": true
+  },
+  "errs": []
+}

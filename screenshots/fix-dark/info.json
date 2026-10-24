@@ -1,0 +1,209 @@
+{
+  "mats": [
+    {
+      "name": "terracePlaster",
+      "count": null,
+      "side": 2,
+      "shadowSide": null,
+      "vertexColors": true,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terraceEarth",
+      "count": null,
+      "side": 2,
+      "shadowSide": null,
+      "vertexColors": true,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terraceWood",
+      "count": null,
+      "side": 2,
+      "shadowSide": null,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terraceColumn",
+      "count": 46,
+      "side": 2,
+      "shadowSide": null,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terraceDeck",
+      "count": 26,
+      "side": 2,
+      "shadowSide": null,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terraceRail",
+      "count": 58,
+      "side": 2,
+      "shadowSide": null,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terraceRoof",
+      "count": 26,
+      "side": 2,
+      "shadowSide": null,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terraceFlag",
+      "count": 3,
+      "side": 2,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terracePole",
+      "count": 3,
+      "side": 2,
+      "shadowSide": null,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terraceBrazier",
+      "count": 17,
+      "side": 2,
+      "shadowSide": null,
+      "vertexColors": false,
+      "metalness": 1,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terraceFlame",
+      "count": 17,
+      "side": 0,
+      "shadowSide": null,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": false
+    },
+    {
+      "name": "terracelougelod0",
+      "count": 2,
+      "side": 0,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terracelougelod1",
+      "count": 3,
+      "side": 0,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terracelougelod2",
+      "count": 0,
+      "side": 0,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terracewangloulod0",
+      "count": 1,
+      "side": 0,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terracewangloulod1",
+      "count": 2,
+      "side": 0,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terracewangloulod2",
+      "count": 0,
+      "side": 0,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terracechangdianlod0",
+      "count": 1,
+      "side": 0,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terracechangdianlod1",
+      "count": 2,
+      "side": 0,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    },
+    {
+      "name": "terracechangdianlod2",
+      "count": 0,
+      "side": 0,
+      "shadowSide": 0,
+      "vertexColors": false,
+      "metalness": 0,
+      "cast": false,
+      "recv": true
+    }
+  ],
+  "bias": {
+    "bias": -0.0006,
+    "normalBias": 0.045
+  },
+  "errs": null
+}

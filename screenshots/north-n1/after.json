@@ -1,0 +1,156 @@
+{
+  "shown": {
+    "ms": 4.69,
+    "fps": 213,
+    "calls": 99,
+    "tris": 965688
+  },
+  "hidden": {
+    "ms": 12.02,
+    "fps": 83,
+    "calls": 79,
+    "tris": 820138
+  },
+  "deltaCalls": 20,
+  "deltaTris": 145550,
+  "ne": {
+    "shown": {
+      "ms": 12.73,
+      "fps": 79,
+      "calls": 97,
+      "tris": 1075538
+    },
+    "hidden": {
+      "ms": 13.32,
+      "fps": 75,
+      "calls": 79,
+      "tris": 820138
+    },
+    "deltaCalls": 18,
+    "deltaTris": 255400
+  },
+  "air": {
+    "shown": {
+      "ms": 9.03,
+      "fps": 111,
+      "calls": 111,
+      "tris": 1056924
+    },
+    "hidden": {
+      "ms": 7.93,
+      "fps": 126,
+      "calls": 87,
+      "tris": 831046
+    },
+    "deltaCalls": 24,
+    "deltaTris": 225878
+  },
+  "visibleNorth": 12,
+  "names": {
+    "northLand": 1,
+    "northBridge": 1,
+    "northReed": 2,
+    "northGrass": 1,
+    "northTree": 15
+  },
+  "north": {
+    "prep": {
+      "ready": true,
+      "waterEdge": {
+        "min": 418.5,
+        "max": 449,
+        "atMin": 414,
+        "atMax": 322,
+        "at200": 440.5,
+        "at140": 428.5,
+        "at330": 449,
+        "at395": 445
+      },
+      "gap": {
+        "at200": 44.1,
+        "at140": 41.5
+      },
+      "lakeZ": {
+        "southMin": 470,
+        "southMax": 499.8,
+        "northMin": 545.5,
+        "northMax": 595.3
+      },
+      "causewayStart": {
+        "x": 410.6,
+        "z": 447.6,
+        "t0": 22
+      },
+      "specStartInWater": true,
+      "cross": {
+        "x": 470,
+        "z": 507
+      }
+    },
+    "landQuads": 5967,
+    "landVerts": 6335,
+    "waterQuads": 2015,
+    "reeds": 2432,
+    "reedBins": 21,
+    "reedMeshes": 2,
+    "grass": 1533,
+    "shrubs": 450,
+    "grassBins": 18,
+    "grassMeshes": 1,
+    "drawsSync": 5,
+    "reflection": "shared-moat-planar",
+    "trees": {
+      "spots": 103,
+      "meshes": 15,
+      "kinds": {
+        "t1": 53,
+        "t0": 47,
+        "t2": 3
+      }
+    },
+    "treeMeshes": 15,
+    "draws": 12
+  },
+  "trees": {
+    "spots": 103,
+    "meshes": 15,
+    "kinds": {
+      "t1": 53,
+      "t0": 47,
+      "t2": 3
+    }
+  },
+  "prep": {
+    "ready": true,
+    "waterEdge": {
+      "min": 418.5,
+      "max": 449,
+      "atMin": 414,
+      "atMax": 322,
+      "at200": 440.5,
+      "at140": 428.5,
+      "at330": 449,
+      "at395": 445
+    },
+    "gap": {
+      "at200": 44.1,
+      "at140": 41.5
+    },
+    "lakeZ": {
+      "southMin": 470,
+      "southMax": 499.8,
+      "northMin": 545.5,
+      "northMax": 595.3
+    },
+    "causewayStart": {
+      "x": 410.6,
+      "z": 447.6,
+      "t0": 22
+    },
+    "specStartInWater": true,
+    "cross": {
+      "x": 470,
+      "z": 507
+    }
+  }
+}

@@ -1,0 +1,241 @@
+{
+ "atlas": {
+  "file_high": "hill_trees_2048.webp",
+  "file_low": "hill_trees_1024.webp",
+  "cols": 4,
+  "rows": 3,
+  "cellPx_high": 512,
+  "flipY": true,
+  "colorSpace": "sRGB"
+ },
+ "cells": [
+  {
+   "name": "oak_a",
+   "species": "oak",
+   "col": 0,
+   "row": 0,
+   "uv": {
+    "u0": 0.0376,
+    "u1": 0.21289,
+    "v0": 0.66797,
+    "v1": 0.98698
+   },
+   "aspect": 0.733,
+   "heightRange_m": [
+    10,
+    16
+   ],
+   "avgColor": "#3d2f1b",
+   "source": "tree.glb"
+  },
+  {
+   "name": "oak_b",
+   "species": "oak",
+   "col": 1,
+   "row": 0,
+   "uv": {
+    "u0": 0.28564,
+    "u1": 0.46289,
+    "v0": 0.66797,
+    "v1": 0.98893
+   },
+   "aspect": 0.736,
+   "heightRange_m": [
+    10,
+    16
+   ],
+   "avgColor": "#4a381e",
+   "source": "tree_1.glb"
+  },
+  {
+   "name": "oak_c",
+   "species": "oak",
+   "col": 2,
+   "row": 0,
+   "uv": {
+    "u0": 0.53906,
+    "u1": 0.70996,
+    "v0": 0.66797,
+    "v1": 0.97917
+   },
+   "aspect": 0.732,
+   "heightRange_m": [
+    10,
+    16
+   ],
+   "avgColor": "#3b2d19",
+   "source": "tree.glb"
+  },
+  {
+   "name": "oak_d",
+   "species": "oak",
+   "col": 3,
+   "row": 0,
+   "uv": {
+    "u0": 0.77881,
+    "u1": 0.9668,
+    "v0": 0.66797,
+    "v1": 0.97852
+   },
+   "aspect": 0.807,
+   "heightRange_m": [
+    10,
+    16
+   ],
+   "avgColor": "#4b391e",
+   "source": "tree_1.glb"
+  },
+  {
+   "name": "pine_a",
+   "species": "pine",
+   "col": 0,
+   "row": 1,
+   "uv": {
+    "u0": 0.04395,
+    "u1": 0.20752,
+    "v0": 0.33464,
+    "v1": 0.6582
+   },
+   "aspect": 0.674,
+   "heightRange_m": [
+    8,
+    14
+   ],
+   "avgColor": "#1d2117",
+   "source": "tree_2.glb"
+  },
+  {
+   "name": "pine_b",
+   "species": "pine",
+   "col": 1,
+   "row": 1,
+   "uv": {
+    "u0": 0.29834,
+    "u1": 0.45947,
+    "v0": 0.33464,
+    "v1": 0.6582
+   },
+   "aspect": 0.664,
+   "heightRange_m": [
+    8,
+    14
+   ],
+   "avgColor": "#181d13",
+   "source": "tree_2.glb"
+  },
+  {
+   "name": "smoke_a",
+   "species": "smoke",
+   "col": 2,
+   "row": 1,
+   "uv": {
+    "u0": 0.53418,
+    "u1": 0.7168,
+    "v0": 0.33464,
+    "v1": 0.6556
+   },
+   "aspect": 0.759,
+   "heightRange_m": [
+    4,
+    7
+   ],
+   "avgColor": "#4a2215",
+   "source": "tree_1.glb"
+  },
+  {
+   "name": "bare_a",
+   "species": "bare",
+   "col": 3,
+   "row": 1,
+   "uv": {
+    "u0": 0.79297,
+    "u1": 0.9585,
+    "v0": 0.33464,
+    "v1": 0.63281
+   },
+   "aspect": 0.74,
+   "heightRange_m": [
+    9,
+    13
+   ],
+   "avgColor": "#3a372e",
+   "source": "tree.glb"
+  },
+  {
+   "name": "bush_a",
+   "species": "bush",
+   "col": 0,
+   "row": 2,
+   "uv": {
+    "u0": 0.00879,
+    "u1": 0.23633,
+    "v0": 0.0,
+    "v1": 0.15885
+   },
+   "aspect": 1.91,
+   "heightRange_m": [
+    1.5,
+    3.0
+   ],
+   "avgColor": "#2a2415",
+   "source": "tree_4.glb"
+  },
+  {
+   "name": "bush_b",
+   "species": "bush",
+   "col": 1,
+   "row": 2,
+   "uv": {
+    "u0": 0.30859,
+    "u1": 0.45801,
+    "v0": 0.0,
+    "v1": 0.11263
+   },
+   "aspect": 1.769,
+   "heightRange_m": [
+    1.5,
+    3.0
+   ],
+   "avgColor": "#2a2416",
+   "source": "tree_4.glb"
+  },
+  {
+   "name": "bush_c",
+   "species": "bush",
+   "col": 2,
+   "row": 2,
+   "uv": {
+    "u0": 0.54199,
+    "u1": 0.71533,
+    "v0": 0.0,
+    "v1": 0.11133
+   },
+   "aspect": 2.076,
+   "heightRange_m": [
+    1.5,
+    3.0
+   ],
+   "avgColor": "#342614",
+   "source": "tree_4.glb"
+  },
+  {
+   "name": "bush_d",
+   "species": "bush",
+   "col": 3,
+   "row": 2,
+   "uv": {
+    "u0": 0.78467,
+    "u1": 0.95801,
+    "v0": 0.0,
+    "v1": 0.11133
+   },
+   "aspect": 2.076,
+   "heightRange_m": [
+    1.5,
+    3.0
+   ],
+   "avgColor": "#35150e",
+   "source": "tree_4.glb"
+  }
+ ]
+}

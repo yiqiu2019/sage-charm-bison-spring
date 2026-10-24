@@ -1,0 +1,115 @@
+{
+  "moat": {
+    "ms": 20.75,
+    "fps": 48,
+    "calls": 562,
+    "tris": 4478062
+  },
+  "ave": {
+    "ms": 10.45,
+    "fps": 96,
+    "calls": 259,
+    "tris": 7654692
+  },
+  "names": {
+    "groveWall": 1,
+    "groveBoard": 1,
+    "southAveBoard": 1,
+    "autumnTree": 290,
+    "southAveTree": 10,
+    "groveTree": 6
+  },
+  "grove": {
+    "models": 300,
+    "boards": 4508,
+    "species": {
+      "oak": 2653,
+      "smoke": 388,
+      "pine": 482,
+      "bare": 129,
+      "bush": 816,
+      "small": 40
+    },
+    "treeBoards": 3692,
+    "oakPct": 0.719,
+    "smokePct": 0.105,
+    "pinePct": 0.131,
+    "barePct": 0.035,
+    "bush": 816,
+    "wall": {
+      "segN": 18,
+      "gaps": 6,
+      "tris": 180,
+      "segLens": [
+        47.7,
+        52.2,
+        50.8,
+        26,
+        42.2,
+        51.3,
+        58.3,
+        33.9,
+        71,
+        62.1,
+        62.2,
+        39.7,
+        59.1,
+        69.2,
+        39,
+        70.3,
+        44.2,
+        32.1
+      ]
+    },
+    "edgeAt128": -219.8,
+    "boardMeshes": 1,
+    "modelMeshes": 6,
+    "modelKinds": {
+      "t0": 99,
+      "t1": 72,
+      "t2": 129
+    }
+  },
+  "flags": [
+    [
+      "groveWall",
+      false,
+      0
+    ],
+    [
+      "groveBoard",
+      false,
+      4508
+    ],
+    [
+      "groveTree",
+      false,
+      99
+    ],
+    [
+      "groveTree",
+      false,
+      99
+    ],
+    [
+      "groveTree",
+      false,
+      71
+    ],
+    [
+      "groveTree",
+      false,
+      71
+    ],
+    [
+      "groveTree",
+      false,
+      129
+    ],
+    [
+      "groveTree",
+      false,
+      129
+    ]
+  ]
+}

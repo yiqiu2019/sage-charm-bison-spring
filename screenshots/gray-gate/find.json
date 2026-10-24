@@ -1,0 +1,1657 @@
+{
+  "facing": [
+    {
+      "name": "brPlank",
+      "mat": "MeshStandardMaterial",
+      "key": "bridge-age-bridgeH",
+      "trans": false,
+      "count": 214,
+      "hits": 208,
+      "samples": [
+        {
+          "i": 0,
+          "x": 128,
+          "y": 0.8,
+          "specZ": -6.2,
+          "sx": 12.4,
+          "sy": 0.12,
+          "face": 1,
+          "dist": 22.1
+        },
+        {
+          "i": 1,
+          "x": 128,
+          "y": 0.9,
+          "specZ": -6.5,
+          "sx": 12.4,
+          "sy": 0.12,
+          "face": 1,
+          "dist": 21.8
+        },
+        {
+          "i": 2,
+          "x": 128,
+          "y": 0.9,
+          "specZ": -6.8,
+          "sx": 12.4,
+          "sy": 0.12,
+          "face": 1,
+          "dist": 21.5
+        },
+        {
+          "i": 3,
+          "x": 128,
+          "y": 1,
+          "specZ": -7.1,
+          "sx": 12.4,
+          "sy": 0.12,
+          "face": 1,
+          "dist": 21.1
+        },
+        {
+          "i": 4,
+          "x": 128,
+          "y": 1.1,
+          "specZ": -7.4,
+          "sx": 12.4,
+          "sy": 0.12,
+          "face": 1,
+          "dist": 20.8
+        },
+        {
+          "i": 5,
+          "x": 128,
+          "y": 1.1,
+          "specZ": -7.7,
+          "sx": 12.4,
+          "sy": 0.12,
+          "face": 1,
+          "dist": 20.5
+        }
+      ]
+    },
+    {
+      "name": "brBeam",
+      "mat": "MeshStandardMaterial",
+      "key": "bridge-age-bridgeH",
+      "trans": false,
+      "count": 15,
+      "hits": 15,
+      "samples": [
+        {
+          "i": 0,
+          "x": 123.2,
+          "y": 1.9,
+          "specZ": -12.1,
+          "sx": 0.3,
+          "sy": 0.35,
+          "face": 0.95,
+          "dist": 16.8
+        },
+        {
+          "i": 1,
+          "x": 125.6,
+          "y": 1.9,
+          "specZ": -12.1,
+          "sx": 0.3,
+          "sy": 0.35,
+          "face": 0.99,
+          "dist": 16.3
+        },
+        {
+          "i": 2,
+          "x": 128,
+          "y": 1.9,
+          "specZ": -12.1,
+          "sx": 0.3,
+          "sy": 0.35,
+          "face": 1,
+          "dist": 16.1
+        },
+        {
+          "i": 3,
+          "x": 130.4,
+          "y": 1.9,
+          "specZ": -12.1,
+          "sx": 0.3,
+          "sy": 0.35,
+          "face": 0.99,
+          "dist": 16.3
+        },
+        {
+          "i": 4,
+          "x": 132.8,
+          "y": 1.9,
+          "specZ": -12.1,
+          "sx": 0.3,
+          "sy": 0.35,
+          "face": 0.95,
+          "dist": 16.8
+        },
+        {
+          "i": 5,
+          "x": 123.2,
+          "y": 3.3,
+          "specZ": -39.5,
+          "sx": 0.3,
+          "sy": 0.35,
+          "face": 0.92,
+          "dist": 12.5
+        }
+      ]
+    },
+    {
+      "name": "brCap",
+      "mat": "MeshStandardMaterial",
+      "key": "bridge-age-bridgeH",
+      "trans": false,
+      "count": 6,
+      "hits": 6,
+      "samples": [
+        {
+          "i": 0,
+          "x": 128,
+          "y": 2.9,
+          "specZ": -22,
+          "sx": 13,
+          "sy": 0.4,
+          "face": 0.98,
+          "dist": 6.1
+        },
+        {
+          "i": 1,
+          "x": 128,
+          "y": 2.9,
+          "specZ": -30,
+          "sx": 13,
+          "sy": 0.4,
+          "face": 0.84,
+          "dist": 2.4
+        },
+        {
+          "i": 2,
+          "x": 128,
+          "y": 2.9,
+          "specZ": -50,
+          "sx": 13,
+          "sy": 0.4,
+          "face": 1,
+          "dist": 22
+        },
+        {
+          "i": 3,
+          "x": 128,
+          "y": 2.9,
+          "specZ": -57,
+          "sx": 13,
+          "sy": 0.4,
+          "face": 1,
+          "dist": 29
+        },
+        {
+          "i": 4,
+          "x": 128,
+          "y": 0.5,
+          "specZ": -6.1,
+          "sx": 13.2,
+          "sy": 0.32,
+          "face": 0.99,
+          "dist": 22.3
+        },
+        {
+          "i": 5,
+          "x": 128,
+          "y": 0.5,
+          "specZ": -72.9,
+          "sx": 13.2,
+          "sy": 0.32,
+          "face": 1,
+          "dist": 45.1
+        }
+      ]
+    },
+    {
+      "name": "brRail",
+      "mat": "MeshStandardMaterial",
+      "key": "bridge-age-bridgeH",
+      "trans": false,
+      "count": 136,
+      "hits": 104,
+      "samples": [
+        {
+          "i": 0,
+          "x": 122.1,
+          "y": 2,
+          "specZ": -72,
+          "sx": 0.1,
+          "sy": 0.12,
+          "face": 0.98,
+          "dist": 44.4
+        },
+        {
+          "i": 1,
+          "x": 122.1,
+          "y": 1,
+          "specZ": -72,
+          "sx": 0.16,
+          "sy": 0.14,
+          "face": 0.98,
+          "dist": 44.5
+        },
+        {
+          "i": 2,
+          "x": 133.9,
+          "y": 2,
+          "specZ": -72,
+          "sx": 0.1,
+          "sy": 0.12,
+          "face": 0.98,
+          "dist": 44.4
+        },
+        {
+          "i": 3,
+          "x": 133.9,
+          "y": 1,
+          "specZ": -72,
+          "sx": 0.16,
+          "sy": 0.14,
+          "face": 0.98,
+          "dist": 44.5
+        },
+        {
+          "i": 4,
+          "x": 122.1,
+          "y": 2.5,
+          "specZ": -70,
+          "sx": 0.1,
+          "sy": 0.12,
+          "face": 0.97,
+          "dist": 42.5
+        },
+        {
+          "i": 5,
+          "x": 122.1,
+          "y": 1.4,
+          "specZ": -70,
+          "sx": 0.16,
+          "sy": 0.14,
+          "face": 0.98,
+          "dist": 42.5
+        }
+      ]
+    },
+    {
+      "name": "brBrace",
+      "mat": "MeshStandardMaterial",
+      "key": "bridge-age-bridgeH",
+      "trans": false,
+      "count": 8,
+      "hits": 4,
+      "samples": [
+        {
+          "i": 4,
+          "x": 123.3,
+          "y": 2.3,
+          "specZ": -48.3,
+          "sx": 0.22,
+          "sy": 0.22,
+          "face": 0.89,
+          "dist": 20.9
+        },
+        {
+          "i": 5,
+          "x": 126.1,
+          "y": 2.3,
+          "specZ": -48.3,
+          "sx": 0.22,
+          "sy": 0.22,
+          "face": 0.88,
+          "dist": 20.5
+        },
+        {
+          "i": 6,
+          "x": 129.9,
+          "y": 2.3,
+          "specZ": -48.3,
+          "sx": 0.22,
+          "sy": 0.22,
+          "face": 0.88,
+          "dist": 20.5
+        },
+        {
+          "i": 7,
+          "x": 132.6,
+          "y": 2.3,
+          "specZ": -48.3,
+          "sx": 0.22,
+          "sy": 0.22,
+          "face": 0.89,
+          "dist": 20.9
+        }
+      ]
+    },
+    {
+      "name": "brPost",
+      "mat": "MeshStandardMaterial",
+      "key": "bridge-age-bridgeV",
+      "trans": false,
+      "count": 70,
+      "hits": 52,
+      "samples": [
+        {
+          "i": 0,
+          "x": 122.1,
+          "y": 1.3,
+          "specZ": -73,
+          "sx": 0.24,
+          "sy": 1.05,
+          "face": 0.99,
+          "dist": 45.5
+        },
+        {
+          "i": 1,
+          "x": 133.9,
+          "y": 1.3,
+          "specZ": -73,
+          "sx": 0.24,
+          "sy": 1.05,
+          "face": 0.99,
+          "dist": 45.5
+        },
+        {
+          "i": 2,
+          "x": 122.1,
+          "y": 1.8,
+          "specZ": -71,
+          "sx": 0.18,
+          "sy": 1.05,
+          "face": 0.99,
+          "dist": 43.5
+        },
+        {
+          "i": 3,
+          "x": 133.9,
+          "y": 1.8,
+          "specZ": -71,
+          "sx": 0.18,
+          "sy": 1.05,
+          "face": 0.99,
+          "dist": 43.5
+        },
+        {
+          "i": 4,
+          "x": 122.1,
+          "y": 2.2,
+          "specZ": -69.1,
+          "sx": 0.18,
+          "sy": 1.05,
+          "face": 0.99,
+          "dist": 41.5
+        },
+        {
+          "i": 5,
+          "x": 133.9,
+          "y": 2.2,
+          "specZ": -69.1,
+          "sx": 0.18,
+          "sy": 1.05,
+          "face": 0.99,
+          "dist": 41.5
+        }
+      ]
+    },
+    {
+      "name": "brPier",
+      "mat": "MeshStandardMaterial",
+      "key": "bridge-age-bridgeV",
+      "trans": false,
+      "count": 16,
+      "hits": 10,
+      "samples": [
+        {
+          "i": 2,
+          "x": 123.5,
+          "y": 0.6,
+          "specZ": -50,
+          "sx": 1,
+          "sy": 4.23,
+          "face": 0.97,
+          "dist": 22.7
+        },
+        {
+          "i": 3,
+          "x": 123.5,
+          "y": 0.6,
+          "specZ": -57,
+          "sx": 1,
+          "sy": 4.23,
+          "face": 0.98,
+          "dist": 29.6
+        },
+        {
+          "i": 4,
+          "x": 126.5,
+          "y": 0.6,
+          "specZ": -22,
+          "sx": 1,
+          "sy": 4.23,
+          "face": 0.84,
+          "dist": 7.1
+        },
+        {
+          "i": 6,
+          "x": 126.5,
+          "y": 0.6,
+          "specZ": -50,
+          "sx": 1,
+          "sy": 4.23,
+          "face": 0.98,
+          "dist": 22.3
+        },
+        {
+          "i": 7,
+          "x": 126.5,
+          "y": 0.6,
+          "specZ": -57,
+          "sx": 1,
+          "sy": 4.23,
+          "face": 0.99,
+          "dist": 29.3
+        },
+        {
+          "i": 8,
+          "x": 129.5,
+          "y": 0.6,
+          "specZ": -22,
+          "sx": 1,
+          "sy": 4.23,
+          "face": 0.84,
+          "dist": 7.1
+        }
+      ]
+    },
+    {
+      "name": "brBron",
+      "mat": "MeshStandardMaterial",
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}",
+      "trans": false,
+      "count": 70,
+      "hits": 52,
+      "samples": [
+        {
+          "i": 0,
+          "x": 122.1,
+          "y": 1.9,
+          "specZ": -73,
+          "sx": 0.28,
+          "sy": 0.08,
+          "face": 0.99,
+          "dist": 45.4
+        },
+        {
+          "i": 1,
+          "x": 133.9,
+          "y": 1.9,
+          "specZ": -73,
+          "sx": 0.28,
+          "sy": 0.08,
+          "face": 0.99,
+          "dist": 45.4
+        },
+        {
+          "i": 2,
+          "x": 122.1,
+          "y": 2.3,
+          "specZ": -71,
+          "sx": 0.22,
+          "sy": 0.08,
+          "face": 0.99,
+          "dist": 43.5
+        },
+        {
+          "i": 3,
+          "x": 133.9,
+          "y": 2.3,
+          "specZ": -71,
+          "sx": 0.22,
+          "sy": 0.08,
+          "face": 0.99,
+          "dist": 43.5
+        },
+        {
+          "i": 4,
+          "x": 122.1,
+          "y": 2.8,
+          "specZ": -69.1,
+          "sx": 0.22,
+          "sy": 0.08,
+          "face": 0.99,
+          "dist": 41.5
+        },
+        {
+          "i": 5,
+          "x": 133.9,
+          "y": 2.8,
+          "specZ": -69.1,
+          "sx": 0.22,
+          "sy": 0.08,
+          "face": 0.99,
+          "dist": 41.5
+        }
+      ]
+    },
+    {
+      "name": "wflag",
+      "mat": "MeshStandardMaterial",
+      "key": "flag-banner-1",
+      "trans": false,
+      "count": 38,
+      "hits": 2,
+      "samples": [
+        {
+          "i": 0,
+          "x": 120.4,
+          "y": 6.8,
+          "specZ": -72,
+          "sx": 1.2,
+          "sy": 4.11,
+          "face": 0.98,
+          "dist": 44.7
+        },
+        {
+          "i": 1,
+          "x": 135.6,
+          "y": 6.8,
+          "specZ": -72,
+          "sx": 1.2,
+          "sy": 4.11,
+          "face": 0.98,
+          "dist": 44.7
+        }
+      ]
+    },
+    {
+      "name": "flagbar",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-tri|2|0|1|0|0|0|wood|",
+      "trans": false,
+      "count": 38,
+      "hits": 2,
+      "samples": [
+        {
+          "i": 0,
+          "x": 120.4,
+          "y": 6.8,
+          "specZ": -72,
+          "sx": 1.36,
+          "sy": 1,
+          "face": 0.98,
+          "dist": 44.7
+        },
+        {
+          "i": 1,
+          "x": 135.6,
+          "y": 6.8,
+          "specZ": -72,
+          "sx": 1.36,
+          "sy": 1,
+          "face": 0.98,
+          "dist": 44.7
+        }
+      ]
+    },
+    {
+      "name": "flagpeg",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-tri|2|0|1|0|0|0|wood|",
+      "trans": false,
+      "count": 38,
+      "hits": 2,
+      "samples": [
+        {
+          "i": 0,
+          "x": 120.4,
+          "y": 6.8,
+          "specZ": -72,
+          "sx": 1,
+          "sy": 1,
+          "face": 0.98,
+          "dist": 44.7
+        },
+        {
+          "i": 1,
+          "x": 135.6,
+          "y": 6.8,
+          "specZ": -72,
+          "sx": 1,
+          "sy": 1,
+          "face": 0.98,
+          "dist": 44.7
+        }
+      ]
+    },
+    {
+      "name": "reed",
+      "mat": "MeshStandardMaterial",
+      "key": "reed-clump-3",
+      "trans": false,
+      "count": 124,
+      "hits": 17,
+      "samples": [
+        {
+          "i": 80,
+          "x": 90.9,
+          "y": 0.3,
+          "specZ": -53.3,
+          "sx": 2.2,
+          "sy": 3,
+          "face": 0.97,
+          "dist": 45.1
+        },
+        {
+          "i": 82,
+          "x": 90.1,
+          "y": 0.3,
+          "specZ": -53.1,
+          "sx": 2.41,
+          "sy": 2.54,
+          "face": 0.94,
+          "dist": 45.6
+        },
+        {
+          "i": 84,
+          "x": 90.1,
+          "y": 0.3,
+          "specZ": -53.1,
+          "sx": 2.41,
+          "sy": 2.54,
+          "face": 0.83,
+          "dist": 45.6
+        },
+        {
+          "i": 85,
+          "x": 90.2,
+          "y": 0.4,
+          "specZ": -53.4,
+          "sx": 2.4,
+          "sy": 2.53,
+          "face": 0.95,
+          "dist": 45.7
+        },
+        {
+          "i": 89,
+          "x": 91.1,
+          "y": 0.3,
+          "specZ": -53.5,
+          "sx": 1.99,
+          "sy": 2.58,
+          "face": 0.97,
+          "dist": 45
+        },
+        {
+          "i": 95,
+          "x": 95.5,
+          "y": 0.2,
+          "specZ": -55.7,
+          "sx": 2.23,
+          "sy": 2.35,
+          "face": 0.84,
+          "dist": 42.8
+        }
+      ]
+    },
+    {
+      "name": "reed",
+      "mat": "MeshStandardMaterial",
+      "key": "reed-clump-3",
+      "trans": false,
+      "count": 61,
+      "hits": 13,
+      "samples": [
+        {
+          "i": 1,
+          "x": 160.2,
+          "y": 0.2,
+          "specZ": -55.8,
+          "sx": 1.59,
+          "sy": 2.19,
+          "face": 0.96,
+          "dist": 42.8
+        },
+        {
+          "i": 4,
+          "x": 159.6,
+          "y": 0.1,
+          "specZ": -56.4,
+          "sx": 1.71,
+          "sy": 2.33,
+          "face": 0.99,
+          "dist": 42.7
+        },
+        {
+          "i": 5,
+          "x": 160.6,
+          "y": 0.2,
+          "specZ": -56,
+          "sx": 1.8,
+          "sy": 2.48,
+          "face": 0.98,
+          "dist": 43.2
+        },
+        {
+          "i": 8,
+          "x": 160.2,
+          "y": 0.2,
+          "specZ": -56.8,
+          "sx": 1.47,
+          "sy": 2.01,
+          "face": 0.97,
+          "dist": 43.4
+        },
+        {
+          "i": 12,
+          "x": 160.2,
+          "y": 0.1,
+          "specZ": -55.6,
+          "sx": 2.5,
+          "sy": 3.24,
+          "face": 0.88,
+          "dist": 42.6
+        },
+        {
+          "i": 13,
+          "x": 160.2,
+          "y": 0.1,
+          "specZ": -55.6,
+          "sx": 2.5,
+          "sy": 3.24,
+          "face": 0.83,
+          "dist": 42.6
+        }
+      ]
+    },
+    {
+      "name": "bankGrass",
+      "mat": "MeshStandardMaterial",
+      "key": "bank-grass-1",
+      "trans": false,
+      "count": 19405,
+      "hits": 304,
+      "samples": [
+        {
+          "i": 1464,
+          "x": 91.1,
+          "y": 0.1,
+          "specZ": -51.6,
+          "sx": 1.13,
+          "sy": 1.02,
+          "face": 0.87,
+          "dist": 44
+        },
+        {
+          "i": 1466,
+          "x": 90.7,
+          "y": 0.4,
+          "specZ": -53.5,
+          "sx": 1.15,
+          "sy": 1.03,
+          "face": 0.97,
+          "dist": 45.4
+        },
+        {
+          "i": 1467,
+          "x": 90.2,
+          "y": 0.6,
+          "specZ": -54.3,
+          "sx": 1.32,
+          "sy": 1.19,
+          "face": 0.95,
+          "dist": 46.2
+        },
+        {
+          "i": 1472,
+          "x": 91,
+          "y": 0.4,
+          "specZ": -53.4,
+          "sx": 1.26,
+          "sy": 1.13,
+          "face": 0.89,
+          "dist": 45
+        },
+        {
+          "i": 1473,
+          "x": 91,
+          "y": 0.6,
+          "specZ": -54.5,
+          "sx": 0.86,
+          "sy": 0.77,
+          "face": 0.91,
+          "dist": 45.7
+        },
+        {
+          "i": 1477,
+          "x": 92.1,
+          "y": 0.3,
+          "specZ": -52.8,
+          "sx": 0.83,
+          "sy": 0.74,
+          "face": 1,
+          "dist": 43.8
+        }
+      ]
+    },
+    {
+      "name": "bankStones",
+      "mat": "MeshStandardMaterial",
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}",
+      "trans": false,
+      "count": 4169,
+      "hits": 59,
+      "samples": [
+        {
+          "i": 309,
+          "x": 92.5,
+          "y": 0,
+          "specZ": -51.6,
+          "sx": 0.84,
+          "sy": 0.65,
+          "face": 0.99,
+          "dist": 42.9
+        },
+        {
+          "i": 310,
+          "x": 94.3,
+          "y": 0.1,
+          "specZ": -52.6,
+          "sx": 0.93,
+          "sy": 0.73,
+          "face": 0.97,
+          "dist": 41.9
+        },
+        {
+          "i": 311,
+          "x": 94.3,
+          "y": 0.1,
+          "specZ": -52.7,
+          "sx": 0.99,
+          "sy": 0.77,
+          "face": 0.88,
+          "dist": 42
+        },
+        {
+          "i": 312,
+          "x": 95,
+          "y": 0,
+          "specZ": -52.3,
+          "sx": 0.92,
+          "sy": 0.72,
+          "face": 0.94,
+          "dist": 41.2
+        },
+        {
+          "i": 314,
+          "x": 96.2,
+          "y": 0.1,
+          "specZ": -53,
+          "sx": 0.89,
+          "sy": 0.69,
+          "face": 1,
+          "dist": 40.6
+        },
+        {
+          "i": 321,
+          "x": 96.9,
+          "y": 0.1,
+          "specZ": -55.4,
+          "sx": 1.09,
+          "sy": 0.85,
+          "face": 0.97,
+          "dist": 41.7
+        }
+      ]
+    },
+    {
+      "name": "innerGrass",
+      "mat": "MeshStandardMaterial",
+      "key": "inner-grass-w3",
+      "trans": false,
+      "count": 17,
+      "hits": 1,
+      "samples": [
+        {
+          "i": 14,
+          "x": 92.5,
+          "y": 0.8,
+          "specZ": -0.4,
+          "sx": 0.3,
+          "sy": 0.44,
+          "face": 0.94,
+          "dist": 45.1
+        }
+      ]
+    },
+    {
+      "name": "innerGrass",
+      "mat": "MeshStandardMaterial",
+      "key": "inner-grass-w3",
+      "trans": false,
+      "count": 6,
+      "hits": 2,
+      "samples": [
+        {
+          "i": 0,
+          "x": 169,
+          "y": 0.9,
+          "specZ": -0.6,
+          "sx": 0.28,
+          "sy": 0.36,
+          "face": 0.82,
+          "dist": 49.4
+        },
+        {
+          "i": 1,
+          "x": 169,
+          "y": 0.8,
+          "specZ": -1.3,
+          "sx": 0.24,
+          "sy": 0.31,
+          "face": 0.99,
+          "dist": 49
+        }
+      ]
+    },
+    {
+      "name": "BoxGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}",
+      "trans": false,
+      "alpha": 0,
+      "dist": 76.9,
+      "face": 0.95,
+      "x": 152,
+      "y": 1.1,
+      "specZ": -101
+    },
+    {
+      "name": "BoxGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-strata|8|0|0|0|0|1|hangtu|",
+      "trans": false,
+      "alpha": 0,
+      "dist": 69.8,
+      "face": 0.96,
+      "x": 147.3,
+      "y": 1.5,
+      "specZ": -95
+    },
+    {
+      "name": "BoxGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-tri|3|0|0|1|0|0|plaster|",
+      "trans": false,
+      "alpha": 0,
+      "dist": 69.7,
+      "face": 0.96,
+      "x": 147.3,
+      "y": 3.1,
+      "specZ": -95
+    },
+    {
+      "name": "BufferGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}",
+      "trans": false,
+      "alpha": 0,
+      "dist": 69.7,
+      "face": 0.96,
+      "x": 147.3,
+      "y": 4.4,
+      "specZ": -95
+    },
+    {
+      "name": "BoxGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-strata|8|0|0|0|0|1|hangtu|",
+      "trans": false,
+      "alpha": 0,
+      "dist": 72.9,
+      "face": 0.92,
+      "x": 156.7,
+      "y": 1.5,
+      "specZ": -95
+    },
+    {
+      "name": "BoxGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-tri|3|0|0|1|0|0|plaster|",
+      "trans": false,
+      "alpha": 0,
+      "dist": 72.9,
+      "face": 0.92,
+      "x": 156.7,
+      "y": 3.1,
+      "specZ": -95
+    },
+    {
+      "name": "BufferGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}",
+      "trans": false,
+      "alpha": 0,
+      "dist": 72.9,
+      "face": 0.92,
+      "x": 156.7,
+      "y": 4.4,
+      "specZ": -95
+    },
+    {
+      "name": "BoxGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-strata|8|0|0|0|0|1|hangtu|",
+      "trans": false,
+      "alpha": 0,
+      "dist": 79.8,
+      "face": 0.92,
+      "x": 160,
+      "y": 1.5,
+      "specZ": -101
+    },
+    {
+      "name": "BoxGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-tri|3|0|0|1|0|0|plaster|",
+      "trans": false,
+      "alpha": 0,
+      "dist": 79.7,
+      "face": 0.92,
+      "x": 160,
+      "y": 3.1,
+      "specZ": -101
+    },
+    {
+      "name": "BoxGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-strata|8|0|0|0|0|1|hangtu|",
+      "trans": false,
+      "alpha": 0,
+      "dist": 74.8,
+      "face": 0.98,
+      "x": 144,
+      "y": 1.5,
+      "specZ": -101
+    },
+    {
+      "name": "BoxGeometry",
+      "mat": "MeshStandardMaterial",
+      "key": "arch-tri|3|0|0|1|0|0|plaster|",
+      "trans": false,
+      "alpha": 0,
+      "dist": 74.7,
+      "face": 0.98,
+      "x": 144,
+      "y": 3.1,
+      "specZ": -101
+    },
+    {
+      "name": "reedGlb",
+      "mat": "Material.001",
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}",
+      "trans": false,
+      "count": 32,
+      "hits": 13,
+      "samples": [
+        {
+          "i": 1,
+          "x": 165.7,
+          "y": 0,
+          "specZ": -51.6,
+          "sx": 2.78,
+          "sy": 10.36,
+          "face": 0.87,
+          "dist": 44.6
+        },
+        {
+          "i": 2,
+          "x": 166.3,
+          "y": 0.4,
+          "specZ": -54.3,
+          "sx": 4.75,
+          "sy": 8.79,
+          "face": 0.6,
+          "dist": 46.6
+        },
+        {
+          "i": 3,
+          "x": 162.5,
+          "y": 0.1,
+          "specZ": -52.6,
+          "sx": 4.49,
+          "sy": 9.03,
+          "face": 0.66,
+          "dist": 42.6
+        },
+        {
+          "i": 4,
+          "x": 163.1,
+          "y": 0.4,
+          "specZ": -54.7,
+          "sx": 4.45,
+          "sy": 10.73,
+          "face": 0.84,
+          "dist": 44.2
+        },
+        {
+          "i": 5,
+          "x": 159.3,
+          "y": 0.1,
+          "specZ": -58,
+          "sx": 4.19,
+          "sy": 6.61,
+          "face": 0.6,
+          "dist": 43.5
+        },
+        {
+          "i": 6,
+          "x": 160.9,
+          "y": 0.3,
+          "specZ": -55.5,
+          "sx": 3.67,
+          "sy": 8.49,
+          "face": 0.82,
+          "dist": 43.1
+        }
+      ]
+    }
+  ],
+  "mist": [
+    {
+      "name": "",
+      "y": 5.02,
+      "rot": [
+        0,
+        0,
+        0
+      ],
+      "op": 0.24,
+      "vis": true,
+      "params": {
+        "width": 1.15,
+        "height": 7,
+        "widthSegments": 1,
+        "heightSegments": 8
+      }
+    },
+    {
+      "name": "",
+      "y": 5.02,
+      "rot": [
+        0,
+        1.571,
+        0
+      ],
+      "op": 0.24,
+      "vis": true,
+      "params": {
+        "width": 1.15,
+        "height": 7,
+        "widthSegments": 1,
+        "heightSegments": 8
+      }
+    },
+    {
+      "name": "",
+      "y": 5.18,
+      "rot": [
+        0,
+        0,
+        0
+      ],
+      "op": 0.24,
+      "vis": true,
+      "params": {
+        "width": 1.15,
+        "height": 7,
+        "widthSegments": 1,
+        "heightSegments": 8
+      }
+    },
+    {
+      "name": "",
+      "y": 5.18,
+      "rot": [
+        0,
+        1.571,
+        0
+      ],
+      "op": 0.24,
+      "vis": true,
+      "params": {
+        "width": 1.15,
+        "height": 7,
+        "widthSegments": 1,
+        "heightSegments": 8
+      }
+    },
+    {
+      "name": "",
+      "y": 4.81,
+      "rot": [
+        0,
+        0,
+        0
+      ],
+      "op": 0.24,
+      "vis": true,
+      "params": {
+        "width": 1.15,
+        "height": 7,
+        "widthSegments": 1,
+        "heightSegments": 8
+      }
+    },
+    {
+      "name": "",
+      "y": 4.81,
+      "rot": [
+        0,
+        1.571,
+        0
+      ],
+      "op": 0.24,
+      "vis": true,
+      "params": {
+        "width": 1.15,
+        "height": 7,
+        "widthSegments": 1,
+        "heightSegments": 8
+      }
+    },
+    {
+      "name": "",
+      "y": 4.64,
+      "rot": [
+        0,
+        0,
+        0
+      ],
+      "op": 0.24,
+      "vis": true,
+      "params": {
+        "width": 1.15,
+        "height": 7,
+        "widthSegments": 1,
+        "heightSegments": 8
+      }
+    },
+    {
+      "name": "",
+      "y": 4.64,
+      "rot": [
+        0,
+        1.571,
+        0
+      ],
+      "op": 0.24,
+      "vis": true,
+      "params": {
+        "width": 1.15,
+        "height": 7,
+        "widthSegments": 1,
+        "heightSegments": 8
+      }
+    },
+    {
+      "name": "",
+      "y": 0.35,
+      "rot": [
+        -1.571,
+        0,
+        0
+      ],
+      "op": 0,
+      "vis": false,
+      "params": {
+        "width": 560,
+        "height": 620,
+        "widthSegments": 1,
+        "heightSegments": 1
+      }
+    },
+    {
+      "name": "",
+      "y": 1.05,
+      "rot": [
+        -1.571,
+        0,
+        0
+      ],
+      "op": 0,
+      "vis": false,
+      "params": {
+        "width": 560,
+        "height": 620,
+        "widthSegments": 1,
+        "heightSegments": 1
+      }
+    },
+    {
+      "name": "",
+      "y": 1.7,
+      "rot": [
+        -1.571,
+        0,
+        0
+      ],
+      "op": 0,
+      "vis": false,
+      "params": {
+        "width": 560,
+        "height": 620,
+        "widthSegments": 1,
+        "heightSegments": 1
+      }
+    }
+  ],
+  "center": [
+    {
+      "d": 29.1,
+      "name": "rammed",
+      "color": "#ffffff",
+      "y": 5.46
+    },
+    {
+      "d": 62.9,
+      "name": "cityTree",
+      "color": "#ffffff",
+      "y": 6.92
+    },
+    {
+      "d": 78,
+      "name": "cheek",
+      "color": "#ffffff",
+      "y": 7.57
+    },
+    {
+      "d": 78.3,
+      "name": "cheek",
+      "color": "#ffffff",
+      "y": 7.59
+    }
+  ],
+  "grid": [
+    {
+      "x": -0.35,
+      "y": -0.2,
+      "hits": [
+        {
+          "d": 30.7,
+          "name": "rammed",
+          "color": "#ffffff",
+          "y": 2.73
+        },
+        {
+          "d": 32.2,
+          "name": "gatePassage",
+          "color": "#ffffff",
+          "y": 2.66
+        },
+        {
+          "d": 52.4,
+          "name": "PlaneGeometry",
+          "color": "ShaderMaterial",
+          "y": 1.7
+        },
+        {
+          "d": 66,
+          "name": "PlaneGeometry",
+          "color": "ShaderMaterial",
+          "y": 1.05
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "y": -0.2,
+      "hits": [
+        {
+          "d": 28.5,
+          "name": "rammed",
+          "color": "#ffffff",
+          "y": 2.79
+        },
+        {
+          "d": 50.3,
+          "name": "PlaneGeometry",
+          "color": "ShaderMaterial",
+          "y": 1.7
+        },
+        {
+          "d": 63.4,
+          "name": "PlaneGeometry",
+          "color": "ShaderMaterial",
+          "y": 1.05
+        },
+        {
+          "d": 68.5,
+          "name": "innerGround",
+          "color": "#ffffff",
+          "y": 0.8
+        }
+      ]
+    },
+    {
+      "x": 0.35,
+      "y": -0.2,
+      "hits": [
+        {
+          "d": 32.2,
+          "name": "gatePassage",
+          "color": "#ffffff",
+          "y": 2.66
+        },
+        {
+          "d": 52.4,
+          "name": "PlaneGeometry",
+          "color": "ShaderMaterial",
+          "y": 1.7
+        },
+        {
+          "d": 66,
+          "name": "PlaneGeometry",
+          "color": "ShaderMaterial",
+          "y": 1.05
+        },
+        {
+          "d": 71.3,
+          "name": "innerGround",
+          "color": "#ffffff",
+          "y": 0.8
+        }
+      ]
+    },
+    {
+      "x": -0.35,
+      "y": 0,
+      "hits": [
+        {
+          "d": 30.7,
+          "name": "rammed",
+          "color": "#ffffff",
+          "y": 5.47
+        },
+        {
+          "d": 32.1,
+          "name": "gatePassage",
+          "color": "#ffffff",
+          "y": 5.53
+        },
+        {
+          "d": 117.4,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 9.08
+        },
+        {
+          "d": 117.5,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 9.09
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "hits": [
+        {
+          "d": 29.1,
+          "name": "rammed",
+          "color": "#ffffff",
+          "y": 5.46
+        },
+        {
+          "d": 62.9,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 6.92
+        },
+        {
+          "d": 78,
+          "name": "cheek",
+          "color": "#ffffff",
+          "y": 7.57
+        },
+        {
+          "d": 78.3,
+          "name": "cheek",
+          "color": "#ffffff",
+          "y": 7.59
+        }
+      ]
+    },
+    {
+      "x": 0.35,
+      "y": 0,
+      "hits": [
+        {
+          "d": 32.1,
+          "name": "gatePassage",
+          "color": "#ffffff",
+          "y": 5.53
+        },
+        {
+          "d": 64.9,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 6.9
+        },
+        {
+          "d": 69.8,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 7.1
+        },
+        {
+          "d": 86.9,
+          "name": "whiteWall",
+          "color": "#ffffff",
+          "y": 7.81
+        }
+      ]
+    },
+    {
+      "x": -0.35,
+      "y": 0.25,
+      "hits": [
+        {
+          "d": 31.5,
+          "name": "rammed",
+          "color": "#ffffff",
+          "y": 9
+        },
+        {
+          "d": 32.3,
+          "name": "gatePassage",
+          "color": "#ffffff",
+          "y": 9.12
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0.25,
+      "hits": [
+        {
+          "d": 30.2,
+          "name": "rammed",
+          "color": "#ffffff",
+          "y": 9
+        },
+        {
+          "d": 35.5,
+          "name": "gatePassage",
+          "color": "#ffffff",
+          "y": 9.84
+        },
+        {
+          "d": 62.9,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 14.19
+        },
+        {
+          "d": 63,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 14.19
+        }
+      ]
+    },
+    {
+      "x": 0.35,
+      "y": 0.25,
+      "hits": [
+        {
+          "d": 32.3,
+          "name": "gatePassage",
+          "color": "#ffffff",
+          "y": 9.12
+        },
+        {
+          "d": 62.6,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 13.74
+        },
+        {
+          "d": 62.7,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 13.76
+        },
+        {
+          "d": 63,
+          "name": "cityTree",
+          "color": "#ffffff",
+          "y": 13.81
+        }
+      ]
+    }
+  ],
+  "post": {
+    "enabled": true,
+    "phone": false,
+    "ao": true,
+    "bloom": true,
+    "aoErr": null,
+    "exposure": 0.52,
+    "sat": 0.94,
+    "shadowTint": 0.16,
+    "highTint": 0.04,
+    "contrast": 0.16,
+    "fogH": 0.12,
+    "bloomStrength": 0.12,
+    "beautyMs": 38982.69999999995,
+    "aoMs": 74.39999999990687
+  }
+}

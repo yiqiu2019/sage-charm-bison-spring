@@ -1,0 +1,18 @@
+{
+  "shown": {
+    "ms": 15.4,
+    "fps": 65,
+    "calls": 537,
+    "tris": 4415842
+  },
+  "hidden": {
+    "ms": 11.93,
+    "fps": 84,
+    "calls": 520,
+    "tris": 4178426
+  },
+  "deltaCalls": 17,
+  "deltaTris": 237416,
+  "on": 17,
+  "layer": 2
+}

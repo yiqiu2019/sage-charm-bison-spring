@@ -1,0 +1,3106 @@
+{
+  "errors": [],
+  "info": {
+    "stage": "after-outskirts",
+    "city": {
+      "spots": 55,
+      "kinds": {
+        "t0": 41,
+        "t1": 14
+      },
+      "cities": {
+        "W": 25,
+        "E": 12,
+        "N": 18
+      },
+      "bins": 18,
+      "phone": false,
+      "raw": 55,
+      "blocked": 12,
+      "violations": [
+        "band ww1"
+      ],
+      "modelH": {
+        "t0": 83.69,
+        "t1": 71.69
+      },
+      "crown": {
+        "t0": 34.25,
+        "t1": 26.7
+      },
+      "meshes": 6,
+      "draws": 4
+    },
+    "boot": null,
+    "buildings": {
+      "ready": true,
+      "phone": false,
+      "info": [
+        {
+          "name": "pavilion",
+          "count": 9,
+          "raw": [
+            0.926,
+            0.477,
+            0.68
+          ]
+        },
+        {
+          "name": "hall2",
+          "count": 1,
+          "raw": [
+            0.928,
+            0.636,
+            0.641
+          ]
+        }
+      ],
+      "spots": {
+        "pavilion": [
+          {
+            "x": 111,
+            "y": 14.8,
+            "z": -5.5,
+            "s": 14.5,
+            "yaw": 0,
+            "matrix": {
+              "elements": [
+                14.5,
+                0,
+                0,
+                0,
+                0,
+                14.5,
+                0,
+                0,
+                0,
+                0,
+                14.5,
+                0,
+                111,
+                14.8,
+                5.5,
+                1
+              ]
+            },
+            "wx": 111,
+            "wy": 17.8,
+            "wz": 5.5
+          },
+          {
+            "x": 145,
+            "y": 14.8,
+            "z": -5.5,
+            "s": 14.5,
+            "yaw": 0,
+            "matrix": {
+              "elements": [
+                14.5,
+                0,
+                0,
+                0,
+                0,
+                14.5,
+                0,
+                0,
+                0,
+                0,
+                14.5,
+                0,
+                145,
+                14.8,
+                5.5,
+                1
+              ]
+            },
+            "wx": 145,
+            "wy": 17.8,
+            "wz": 5.5
+          },
+          {
+            "x": 2,
+            "y": 14.8,
+            "z": 2,
+            "s": 12.5,
+            "yaw": -1.5707963267948966,
+            "matrix": {
+              "elements": [
+                2.7755575615628914e-15,
+                0,
+                12.5,
+                0,
+                0,
+                12.5,
+                0,
+                0,
+                -12.5,
+                0,
+                2.7755575615628914e-15,
+                0,
+                2,
+                14.8,
+                -2,
+                1
+              ]
+            },
+            "wx": 2,
+            "wy": 17.8,
+            "wz": -2
+          },
+          {
+            "x": 2,
+            "y": 14.8,
+            "z": 218,
+            "s": 12.5,
+            "yaw": -1.5707963267948966,
+            "matrix": {
+              "elements": [
+                2.7755575615628914e-15,
+                0,
+                12.5,
+                0,
+                0,
+                12.5,
+                0,
+                0,
+                -12.5,
+                0,
+                2.7755575615628914e-15,
+                0,
+                2,
+                14.8,
+                -218,
+                1
+              ]
+            },
+            "wx": 2,
+            "wy": 17.8,
+            "wz": -218
+          },
+          {
+            "x": 92,
+            "y": 14.8,
+            "z": 378,
+            "s": 12.5,
+            "yaw": 3.141592653589793,
+            "matrix": {
+              "elements": [
+                -12.5,
+                0,
+                -1.5308084989341915e-15,
+                0,
+                0,
+                12.5,
+                0,
+                0,
+                1.5308084989341915e-15,
+                0,
+                -12.5,
+                0,
+                92,
+                14.8,
+                -378,
+                1
+              ]
+            },
+            "wx": 92,
+            "wy": 17.8,
+            "wz": -378
+          },
+          {
+            "x": 348,
+            "y": 14.8,
+            "z": 378,
+            "s": 12.5,
+            "yaw": 3.141592653589793,
+            "matrix": {
+              "elements": [
+                -12.5,
+                0,
+                -1.5308084989341915e-15,
+                0,
+                0,
+                12.5,
+                0,
+                0,
+                1.5308084989341915e-15,
+                0,
+                -12.5,
+                0,
+                348,
+                14.8,
+                -378,
+                1
+              ]
+            },
+            "wx": 348,
+            "wy": 17.8,
+            "wz": -378
+          },
+          {
+            "x": 348,
+            "y": 14.8,
+            "z": 2,
+            "s": 12.5,
+            "yaw": 0,
+            "matrix": {
+              "elements": [
+                12.5,
+                0,
+                0,
+                0,
+                0,
+                12.5,
+                0,
+                0,
+                0,
+                0,
+                12.5,
+                0,
+                348,
+                14.8,
+                -2,
+                1
+              ]
+            },
+            "wx": 348,
+            "wy": 17.8,
+            "wz": -2
+          },
+          {
+            "x": 128,
+            "y": 16,
+            "z": 118,
+            "s": 14.5,
+            "yaw": 0,
+            "matrix": {
+              "elements": [
+                14.5,
+                0,
+                0,
+                0,
+                0,
+                14.5,
+                0,
+                0,
+                0,
+                0,
+                14.5,
+                0,
+                128,
+                16,
+                -118,
+                1
+              ]
+            },
+            "wx": 128,
+            "wy": 19,
+            "wz": -118
+          },
+          {
+            "x": 124,
+            "y": 12,
+            "z": 148,
+            "s": 13,
+            "yaw": 0,
+            "matrix": {
+              "elements": [
+                13,
+                0,
+                0,
+                0,
+                0,
+                13,
+                0,
+                0,
+                0,
+                0,
+                13,
+                0,
+                124,
+                12,
+                -148,
+                1
+              ]
+            },
+            "wx": 124,
+            "wy": 15,
+            "wz": -148
+          }
+        ],
+        "hall2": [
+          {
+            "x": 132,
+            "y": 24.8,
+            "z": 85,
+            "s": 19,
+            "yaw": 0,
+            "matrix": {
+              "elements": [
+                19,
+                0,
+                0,
+                0,
+                0,
+                19,
+                0,
+                0,
+                0,
+                0,
+                19,
+                0,
+                132,
+                24.8,
+                -85,
+                1
+              ]
+            },
+            "wx": 132,
+            "wy": 27.8,
+            "wz": -85
+          }
+        ]
+      }
+    },
+    "rows": [
+      {
+        "name": "gateDoor",
+        "type": "Mesh",
+        "vis": true,
+        "inst": false,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": true,
+        "mapImg": "1024x1024",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "wflag",
+        "type": "Mesh",
+        "vis": true,
+        "count": 38,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "448x1536",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "flagbar",
+        "type": "Mesh",
+        "vis": true,
+        "count": 38,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": false,
+        "mapImg": "",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "flagpeg",
+        "type": "Mesh",
+        "vis": true,
+        "count": 38,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": false,
+        "mapImg": "",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "wflagpole",
+        "type": "Mesh",
+        "vis": true,
+        "count": 32,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": false,
+        "mapImg": "",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "water",
+        "type": "Reflector",
+        "vis": true,
+        "inst": false,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": false,
+        "mapImg": "",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 510,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 6,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 1031,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 1166,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 947,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 994,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 1056,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 987,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 979,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 900,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 996,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 687,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 294,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 119,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 159,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 165,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 547,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 447,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 185,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 183,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 200,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 141,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 262,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 231,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 150,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 109,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 303,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 333,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 83,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 152,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 123,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 29,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 111,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 47,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 111,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 139,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 145,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 137,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 124,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 61,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 144,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 54,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 60,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 101,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "reed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 60,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "groveWall",
+        "type": "Mesh",
+        "vis": true,
+        "inst": false,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": false,
+        "mapImg": "",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "groveBoard",
+        "type": "Mesh",
+        "vis": true,
+        "count": 3008,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1536",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "northReed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 830,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "northReed",
+        "type": "Mesh",
+        "vis": true,
+        "count": 1602,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "cityTree",
+        "type": "Mesh",
+        "vis": false,
+        "count": 0,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "1024x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "cityTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 23,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "512x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "cityTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 27,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "385x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "cityTree",
+        "type": "Mesh",
+        "vis": false,
+        "count": 0,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "1024x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "cityTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 4,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "512x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "cityTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 11,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "312x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "terraceFlag",
+        "type": "Mesh",
+        "vis": true,
+        "count": 3,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "448x1536",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "brazierSmoke",
+        "type": "Mesh",
+        "vis": true,
+        "count": 115,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": true,
+        "map": true,
+        "mapImg": "64x64",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "southAveBoard",
+        "type": "Mesh",
+        "vis": true,
+        "count": 60,
+        "inst": true,
+        "alphaTest": 0.35,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1536",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "hillTrees",
+        "type": "Mesh",
+        "vis": true,
+        "count": 2878,
+        "inst": true,
+        "alphaTest": 0.4,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1536",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "pavilion_lod0",
+        "type": "Mesh",
+        "vis": true,
+        "count": 0,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": true,
+        "mapImg": "1024x1024",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "pavilion_lod1",
+        "type": "Mesh",
+        "vis": true,
+        "count": 0,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": true,
+        "mapImg": "512x512",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "pavilion_lod2",
+        "type": "Mesh",
+        "vis": true,
+        "count": 0,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": false,
+        "mapImg": "",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "hall2_lod0",
+        "type": "Mesh",
+        "vis": true,
+        "count": 0,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": true,
+        "mapImg": "1024x1024",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "hall2_lod1",
+        "type": "Mesh",
+        "vis": true,
+        "count": 0,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": true,
+        "mapImg": "512x512",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "hall2_lod2",
+        "type": "Mesh",
+        "vis": true,
+        "count": 0,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": false,
+        "mapImg": "",
+        "opacity": 1,
+        "side": 0
+      },
+      {
+        "name": "reedGlb",
+        "type": "Mesh",
+        "vis": true,
+        "count": 32,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": true,
+        "mapImg": "1024x1024",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "groveTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 123,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": true,
+        "mapImg": "256x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "groveTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 123,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "512x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "groveTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 94,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": true,
+        "mapImg": "256x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "groveTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 94,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "512x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "groveTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 83,
+        "inst": true,
+        "alphaTest": 0,
+        "transparent": false,
+        "map": true,
+        "mapImg": "256x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "groveTree",
+        "type": "Mesh",
+        "vis": true,
+        "count": 83,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "512x512",
+        "opacity": 1,
+        "side": 2
+      },
+      {
+        "name": "fieldBoard",
+        "type": "Mesh",
+        "vis": true,
+        "count": 1746,
+        "inst": true,
+        "alphaTest": 0.45,
+        "transparent": false,
+        "map": true,
+        "mapImg": "2048x1536",
+        "opacity": 1,
+        "side": 2
+      }
+    ]
+  },
+  "scan": [
+    {
+      "name": "wflag",
+      "count": 38,
+      "vis": true,
+      "maxS": 8.57,
+      "closest": 48.1,
+      "closestP": {
+        "x": 80,
+        "y": 17.8,
+        "z": -3.7,
+        "sx": 1.4,
+        "sy": 4.8
+      },
+      "bigNear": 15
+    },
+    {
+      "name": "flagbar",
+      "count": 38,
+      "vis": true,
+      "maxS": 2.66,
+      "closest": 48.1,
+      "closestP": {
+        "x": 80,
+        "y": 17.8,
+        "z": -3.7,
+        "sx": 1.56,
+        "sy": 1
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "flagpeg",
+      "count": 38,
+      "vis": true,
+      "maxS": 1,
+      "closest": 48.1,
+      "closestP": {
+        "x": 80,
+        "y": 17.8,
+        "z": -3.7,
+        "sx": 1,
+        "sy": 1
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "wflagpole",
+      "count": 32,
+      "vis": true,
+      "maxS": 12,
+      "closest": 48.1,
+      "closestP": {
+        "x": 80,
+        "y": 10.8,
+        "z": -3.7,
+        "sx": 1,
+        "sy": 7
+      },
+      "bigNear": 13
+    },
+    {
+      "name": "reed",
+      "count": 510,
+      "vis": true,
+      "maxS": 3.52,
+      "closest": 411.9,
+      "closestP": {
+        "x": 405.9,
+        "y": 0.6,
+        "z": -304,
+        "sx": 1.63,
+        "sy": 2.25
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 6,
+      "vis": true,
+      "maxS": 2.31,
+      "closest": 449.2,
+      "closestP": {
+        "x": 420.2,
+        "y": 0.7,
+        "z": -341.2,
+        "sx": 1.74,
+        "sy": 2.25
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 1031,
+      "vis": true,
+      "maxS": 3.55,
+      "closest": 457.8,
+      "closestP": {
+        "x": 410.2,
+        "y": 0.1,
+        "z": -360.4,
+        "sx": 3.03,
+        "sy": 3.19
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 1166,
+      "vis": true,
+      "maxS": 3.46,
+      "closest": 487.9,
+      "closestP": {
+        "x": 360.8,
+        "y": 0.1,
+        "z": -428.7,
+        "sx": 1.95,
+        "sy": 2.06
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 947,
+      "vis": true,
+      "maxS": 3.57,
+      "closest": 470.7,
+      "closestP": {
+        "x": 300.1,
+        "y": 0.5,
+        "z": -438.1,
+        "sx": 1.9,
+        "sy": 2.63
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 994,
+      "vis": true,
+      "maxS": 3.52,
+      "closest": 452.4,
+      "closestP": {
+        "x": 240.2,
+        "y": 0.2,
+        "z": -438.3,
+        "sx": 2.02,
+        "sy": 2.13
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 1056,
+      "vis": true,
+      "maxS": 3.55,
+      "closest": 441.2,
+      "closestP": {
+        "x": 217.8,
+        "y": 0.1,
+        "z": -431.9,
+        "sx": 1.88,
+        "sy": 2.56
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 987,
+      "vis": true,
+      "maxS": 3.51,
+      "closest": 429.6,
+      "closestP": {
+        "x": 136.7,
+        "y": 0,
+        "z": -429.5,
+        "sx": 2.44,
+        "sy": 2.57
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 979,
+      "vis": true,
+      "maxS": 3.49,
+      "closest": 435.5,
+      "closestP": {
+        "x": 117.1,
+        "y": 0.1,
+        "z": -435.4,
+        "sx": 1.87,
+        "sy": 2.58
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 900,
+      "vis": true,
+      "maxS": 3.52,
+      "closest": 434,
+      "closestP": {
+        "x": 19.1,
+        "y": 0.6,
+        "z": -420.1,
+        "sx": 1.7,
+        "sy": 2.34
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 996,
+      "vis": true,
+      "maxS": 3.52,
+      "closest": 373.4,
+      "closestP": {
+        "x": 29.2,
+        "y": 0.2,
+        "z": -360.1,
+        "sx": 1.64,
+        "sy": 2.27
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 687,
+      "vis": true,
+      "maxS": 3.44,
+      "closest": 313.9,
+      "closestP": {
+        "x": 37.5,
+        "y": 0.8,
+        "z": -300.6,
+        "sx": 2.01,
+        "sy": 2.61
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 294,
+      "vis": true,
+      "maxS": 3.36,
+      "closest": 149,
+      "closestP": {
+        "x": -8.2,
+        "y": 0.6,
+        "z": 60.4,
+        "sx": 1.89,
+        "sy": 2.61
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 119,
+      "vis": true,
+      "maxS": 3.31,
+      "closest": 140.2,
+      "closestP": {
+        "x": -0.6,
+        "y": 0.4,
+        "z": 55.8,
+        "sx": 2.01,
+        "sy": 2.6
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 159,
+      "vis": true,
+      "maxS": 3.35,
+      "closest": 115.6,
+      "closestP": {
+        "x": 26.5,
+        "y": 0.1,
+        "z": 55.4,
+        "sx": 1.69,
+        "sy": 2.18
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 165,
+      "vis": true,
+      "maxS": 3.28,
+      "closest": 92.8,
+      "closestP": {
+        "x": 58.6,
+        "y": 0.1,
+        "z": 61.6,
+        "sx": 2.41,
+        "sy": 3.12
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 547,
+      "vis": true,
+      "maxS": 3.54,
+      "closest": 277.6,
+      "closestP": {
+        "x": 43.9,
+        "y": 0.1,
+        "z": -264.5,
+        "sx": 1.57,
+        "sy": 2.04
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 447,
+      "vis": true,
+      "maxS": 3.43,
+      "closest": 299.3,
+      "closestP": {
+        "x": -50,
+        "y": 0.3,
+        "z": -240.6,
+        "sx": 2.56,
+        "sy": 2.7
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 185,
+      "vis": true,
+      "maxS": 3.45,
+      "closest": 312.3,
+      "closestP": {
+        "x": -60,
+        "y": 0.4,
+        "z": -249.4,
+        "sx": 2.26,
+        "sy": 3.12
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 183,
+      "vis": true,
+      "maxS": 3.45,
+      "closest": 284.2,
+      "closestP": {
+        "x": -57.1,
+        "y": 0,
+        "z": -215.7,
+        "sx": 2.17,
+        "sy": 2.81
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 200,
+      "vis": true,
+      "maxS": 3.35,
+      "closest": 267.2,
+      "closestP": {
+        "x": -69.1,
+        "y": 0.4,
+        "z": -180.3,
+        "sx": 1.93,
+        "sy": 2.49
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 141,
+      "vis": true,
+      "maxS": 3.36,
+      "closest": 227.5,
+      "closestP": {
+        "x": -64.9,
+        "y": 0.4,
+        "z": -120.6,
+        "sx": 1.9,
+        "sy": 2.46
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 262,
+      "vis": true,
+      "maxS": 3.38,
+      "closest": 230.2,
+      "closestP": {
+        "x": -59.8,
+        "y": 0.2,
+        "z": -133.2,
+        "sx": 2.25,
+        "sy": 3.11
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 231,
+      "vis": true,
+      "maxS": 3.27,
+      "closest": 203.4,
+      "closestP": {
+        "x": -64.9,
+        "y": 0,
+        "z": -64.6,
+        "sx": 2.19,
+        "sy": 2.99
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 150,
+      "vis": true,
+      "maxS": 3.31,
+      "closest": 203.3,
+      "closestP": {
+        "x": -56.9,
+        "y": 0,
+        "z": -84.6,
+        "sx": 2.47,
+        "sy": 2.6
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 109,
+      "vis": true,
+      "maxS": 3.33,
+      "closest": 190,
+      "closestP": {
+        "x": -62,
+        "y": 0.5,
+        "z": -1.7,
+        "sx": 2.82,
+        "sy": 2.98
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 303,
+      "vis": true,
+      "maxS": 3.46,
+      "closest": 177.1,
+      "closestP": {
+        "x": -48,
+        "y": 0.1,
+        "z": -19.4,
+        "sx": 2.39,
+        "sy": 2.52
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 333,
+      "vis": true,
+      "maxS": 3.4,
+      "closest": 191,
+      "closestP": {
+        "x": -63,
+        "y": 0.2,
+        "z": 2.2,
+        "sx": 1.48,
+        "sy": 1.92
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 83,
+      "vis": true,
+      "maxS": 3.5,
+      "closest": 205.6,
+      "closestP": {
+        "x": 325,
+        "y": 0.6,
+        "z": 59,
+        "sx": 2.18,
+        "sy": 2.97
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 152,
+      "vis": true,
+      "maxS": 3.22,
+      "closest": 240.2,
+      "closestP": {
+        "x": 361.2,
+        "y": 0.7,
+        "z": 57.6,
+        "sx": 2.15,
+        "sy": 2.27
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 123,
+      "vis": true,
+      "maxS": 3.5,
+      "closest": 249.9,
+      "closestP": {
+        "x": 369.5,
+        "y": 0.8,
+        "z": 64.1,
+        "sx": 1.43,
+        "sy": 1.96
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 29,
+      "vis": true,
+      "maxS": 3.45,
+      "closest": 294.6,
+      "closestP": {
+        "x": 420.1,
+        "y": 0.1,
+        "z": 38.1,
+        "sx": 2.2,
+        "sy": 3
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 111,
+      "vis": true,
+      "maxS": 3.31,
+      "closest": 281.2,
+      "closestP": {
+        "x": 409.2,
+        "y": 0.5,
+        "z": -1.9,
+        "sx": 2.23,
+        "sy": 3.05
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 47,
+      "vis": true,
+      "maxS": 3.55,
+      "closest": 292.5,
+      "closestP": {
+        "x": 420,
+        "y": 0.3,
+        "z": -17,
+        "sx": 1.45,
+        "sy": 1.98
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 111,
+      "vis": true,
+      "maxS": 3.51,
+      "closest": 283.7,
+      "closestP": {
+        "x": 404.1,
+        "y": 0.5,
+        "z": -65.2,
+        "sx": 2.12,
+        "sy": 2.24
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 139,
+      "vis": true,
+      "maxS": 3.37,
+      "closest": 303.9,
+      "closestP": {
+        "x": 406.2,
+        "y": 0.3,
+        "z": -122.1,
+        "sx": 2.38,
+        "sy": 3.29
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 145,
+      "vis": true,
+      "maxS": 3.39,
+      "closest": 333,
+      "closestP": {
+        "x": 404.9,
+        "y": 1.1,
+        "z": -185,
+        "sx": 1.41,
+        "sy": 1.82
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 137,
+      "vis": true,
+      "maxS": 3.4,
+      "closest": 377.3,
+      "closestP": {
+        "x": 419,
+        "y": 0.7,
+        "z": -240.2,
+        "sx": 2.06,
+        "sy": 2.17
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 124,
+      "vis": true,
+      "maxS": 3.57,
+      "closest": 63.8,
+      "closestP": {
+        "x": 96.8,
+        "y": 0,
+        "z": 55.6,
+        "sx": 2.36,
+        "sy": 3.05
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 61,
+      "vis": true,
+      "maxS": 3.24,
+      "closest": 64,
+      "closestP": {
+        "x": 160.4,
+        "y": 0.2,
+        "z": 55.2,
+        "sx": 2.25,
+        "sy": 2.37
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 144,
+      "vis": true,
+      "maxS": 3.41,
+      "closest": 71.6,
+      "closestP": {
+        "x": 180.1,
+        "y": 0.2,
+        "z": 49.1,
+        "sx": 1.24,
+        "sy": 1.61
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 54,
+      "vis": true,
+      "maxS": 3.43,
+      "closest": 97.6,
+      "closestP": {
+        "x": 204.4,
+        "y": 0.4,
+        "z": 60.7,
+        "sx": 1.54,
+        "sy": 2.11
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 60,
+      "vis": true,
+      "maxS": 3.49,
+      "closest": 125.3,
+      "closestP": {
+        "x": 240.3,
+        "y": 0.7,
+        "z": 55.6,
+        "sx": 2.29,
+        "sy": 2.42
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 101,
+      "vis": true,
+      "maxS": 3.22,
+      "closest": 149.4,
+      "closestP": {
+        "x": 264.8,
+        "y": 0.6,
+        "z": 60.1,
+        "sx": 1.42,
+        "sy": 1.96
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "reed",
+      "count": 60,
+      "vis": true,
+      "maxS": 3.11,
+      "closest": 185,
+      "closestP": {
+        "x": 300.5,
+        "y": 0.2,
+        "z": 67.1,
+        "sx": 2.58,
+        "sy": 2.72
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "bankGrass",
+      "count": 19405,
+      "vis": true,
+      "maxS": 1.37,
+      "closest": 59.7,
+      "closestP": {
+        "x": 126.9,
+        "y": 0.1,
+        "z": 59.7,
+        "sx": 1.27,
+        "sy": 1.14
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 25,
+      "vis": true,
+      "maxS": 0.5,
+      "closest": 78,
+      "closestP": {
+        "x": 50,
+        "y": 0.8,
+        "z": 1,
+        "sx": 0.26,
+        "sy": 0.34
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 17,
+      "vis": true,
+      "maxS": 0.46,
+      "closest": 32.1,
+      "closestP": {
+        "x": 95.9,
+        "y": 0.7,
+        "z": 1.4,
+        "sx": 0.31,
+        "sy": 0.4
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 6,
+      "vis": true,
+      "maxS": 0.48,
+      "closest": 41,
+      "closestP": {
+        "x": 169,
+        "y": 0.9,
+        "z": 0.6,
+        "sx": 0.28,
+        "sy": 0.36
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 22,
+      "vis": true,
+      "maxS": 0.5,
+      "closest": 56.3,
+      "closestP": {
+        "x": 184.3,
+        "y": 0.8,
+        "z": 0.8,
+        "sx": 0.21,
+        "sy": 0.31
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 23,
+      "vis": true,
+      "maxS": 0.47,
+      "closest": 112.4,
+      "closestP": {
+        "x": 240.4,
+        "y": 0.9,
+        "z": 0.7,
+        "sx": 0.27,
+        "sy": 0.4
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 14,
+      "vis": true,
+      "maxS": 0.48,
+      "closest": 175.3,
+      "closestP": {
+        "x": 303.3,
+        "y": 0.9,
+        "z": 0.4,
+        "sx": 0.22,
+        "sy": 0.29
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 27,
+      "vis": true,
+      "maxS": 0.48,
+      "closest": 222.4,
+      "closestP": {
+        "x": 350.4,
+        "y": 1.1,
+        "z": -2.4,
+        "sx": 0.21,
+        "sy": 0.28
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 23,
+      "vis": true,
+      "maxS": 0.49,
+      "closest": 234,
+      "closestP": {
+        "x": 351.1,
+        "y": 0.8,
+        "z": -70.4,
+        "sx": 0.28,
+        "sy": 0.37
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 1,
+      "vis": true,
+      "maxS": 0.47,
+      "closest": 257.5,
+      "closestP": {
+        "x": 360.2,
+        "y": 0.6,
+        "z": -111.2,
+        "sx": 0.32,
+        "sy": 0.47
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 29,
+      "vis": true,
+      "maxS": 0.48,
+      "closest": 254.8,
+      "closestP": {
+        "x": 351.2,
+        "y": 0.8,
+        "z": -123.1,
+        "sx": 0.37,
+        "sy": 0.48
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 1,
+      "vis": true,
+      "maxS": 0.3,
+      "closest": 286.3,
+      "closestP": {
+        "x": 360.3,
+        "y": 0.5,
+        "z": -167.3,
+        "sx": 0.2,
+        "sy": 0.3
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 35,
+      "vis": true,
+      "maxS": 0.49,
+      "closest": 287.2,
+      "closestP": {
+        "x": 351.1,
+        "y": 0.8,
+        "z": -180.9,
+        "sx": 0.22,
+        "sy": 0.29
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 16,
+      "vis": true,
+      "maxS": 0.5,
+      "closest": 329.3,
+      "closestP": {
+        "x": 351.3,
+        "y": 0.8,
+        "z": -242.1,
+        "sx": 0.33,
+        "sy": 0.43
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 15,
+      "vis": true,
+      "maxS": 0.48,
+      "closest": 376.5,
+      "closestP": {
+        "x": 351,
+        "y": 0.8,
+        "z": -303.3,
+        "sx": 0.25,
+        "sy": 0.33
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 1,
+      "vis": true,
+      "maxS": 0.43,
+      "closest": 410.9,
+      "closestP": {
+        "x": 360.2,
+        "y": 0.6,
+        "z": -339,
+        "sx": 0.33,
+        "sy": 0.43
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 30,
+      "vis": true,
+      "maxS": 0.5,
+      "closest": 419.4,
+      "closestP": {
+        "x": 303.4,
+        "y": 0.8,
+        "z": -380.9,
+        "sx": 0.37,
+        "sy": 0.49
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 23,
+      "vis": true,
+      "maxS": 0.5,
+      "closest": 402.9,
+      "closestP": {
+        "x": 242.2,
+        "y": 0.7,
+        "z": -386.4,
+        "sx": 0.19,
+        "sy": 0.28
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 19,
+      "vis": true,
+      "maxS": 0.49,
+      "closest": 386.3,
+      "closestP": {
+        "x": 196.3,
+        "y": 1.1,
+        "z": -380.2,
+        "sx": 0.32,
+        "sy": 0.46
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 27,
+      "vis": true,
+      "maxS": 0.48,
+      "closest": 380.4,
+      "closestP": {
+        "x": 133.4,
+        "y": 1,
+        "z": -380.4,
+        "sx": 0.23,
+        "sy": 0.3
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 23,
+      "vis": true,
+      "maxS": 0.5,
+      "closest": 367.8,
+      "closestP": {
+        "x": 89,
+        "y": 0.8,
+        "z": -365.7,
+        "sx": 0.27,
+        "sy": 0.35
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 18,
+      "vis": true,
+      "maxS": 0.49,
+      "closest": 304.9,
+      "closestP": {
+        "x": 80.1,
+        "y": 0.6,
+        "z": -301.1,
+        "sx": 0.22,
+        "sy": 0.28
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 19,
+      "vis": true,
+      "maxS": 0.48,
+      "closest": 249.7,
+      "closestP": {
+        "x": 89.8,
+        "y": 1.1,
+        "z": -246.7,
+        "sx": 0.21,
+        "sy": 0.28
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 18,
+      "vis": true,
+      "maxS": 0.5,
+      "closest": 224.6,
+      "closestP": {
+        "x": 88.8,
+        "y": 0.8,
+        "z": -221.2,
+        "sx": 0.33,
+        "sy": 0.44
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 21,
+      "vis": true,
+      "maxS": 0.49,
+      "closest": 232.7,
+      "closestP": {
+        "x": 55.3,
+        "y": 0.8,
+        "z": -221,
+        "sx": 0.3,
+        "sy": 0.44
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 24,
+      "vis": true,
+      "maxS": 0.48,
+      "closest": 224,
+      "closestP": {
+        "x": -2.8,
+        "y": 0.7,
+        "z": -181.9,
+        "sx": 0.34,
+        "sy": 0.44
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 26,
+      "vis": true,
+      "maxS": 0.5,
+      "closest": 179.8,
+      "closestP": {
+        "x": -0.4,
+        "y": 1,
+        "z": -125.8,
+        "sx": 0.28,
+        "sy": 0.41
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 26,
+      "vis": true,
+      "maxS": 0.5,
+      "closest": 143.7,
+      "closestP": {
+        "x": -0.4,
+        "y": 1.1,
+        "z": -64.6,
+        "sx": 0.3,
+        "sy": 0.44
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 17,
+      "vis": true,
+      "maxS": 0.49,
+      "closest": 128.1,
+      "closestP": {
+        "x": -0.1,
+        "y": 1.2,
+        "z": 0,
+        "sx": 0.37,
+        "sy": 0.48
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 1,
+      "vis": true,
+      "maxS": 0.44,
+      "closest": 232.1,
+      "closestP": {
+        "x": 360,
+        "y": 0.8,
+        "z": 5.6,
+        "sx": 0.34,
+        "sy": 0.44
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "innerGrass",
+      "count": 3,
+      "vis": true,
+      "maxS": 0.49,
+      "closest": 129.2,
+      "closestP": {
+        "x": -1.2,
+        "y": 0.8,
+        "z": 1.2,
+        "sx": 0.27,
+        "sy": 0.4
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "groveBoard",
+      "count": 3008,
+      "vis": true,
+      "maxS": 16,
+      "closest": 265.1,
+      "closestP": {
+        "x": 140.8,
+        "y": 1.4,
+        "z": 264.8,
+        "sx": 4.77,
+        "sy": 2.3
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "northReed",
+      "count": 830,
+      "vis": true,
+      "maxS": 4.4,
+      "closest": 436.7,
+      "closestP": {
+        "x": 138.8,
+        "y": 1.6,
+        "z": -436.5,
+        "sx": 3.93,
+        "sy": 4.14
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "northReed",
+      "count": 1602,
+      "vis": true,
+      "maxS": 4.39,
+      "closest": 450.2,
+      "closestP": {
+        "x": 222.2,
+        "y": 1.2,
+        "z": -440.2,
+        "sx": 2.53,
+        "sy": 3.45
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "northGrass",
+      "count": 2827,
+      "vis": true,
+      "maxS": 2.01,
+      "closest": 494.2,
+      "closestP": {
+        "x": 72.5,
+        "y": 2.3,
+        "z": -491.1,
+        "sx": 1.33,
+        "sy": 1.45
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "cityTree",
+      "count": 0,
+      "vis": false,
+      "maxS": 0,
+      "closest": 1000000000,
+      "closestP": null,
+      "bigNear": 0
+    },
+    {
+      "name": "cityTree",
+      "count": 23,
+      "vis": true,
+      "maxS": 0.24,
+      "closest": 36.2,
+      "closestP": {
+        "x": 132,
+        "y": 0.8,
+        "z": -36,
+        "sx": 0.23,
+        "sy": 0.23
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "cityTree",
+      "count": 27,
+      "vis": true,
+      "maxS": 0.23,
+      "closest": 141.7,
+      "closestP": {
+        "x": 82,
+        "y": 0.8,
+        "z": -134,
+        "sx": 0.21,
+        "sy": 0.21
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "cityTree",
+      "count": 0,
+      "vis": false,
+      "maxS": 0,
+      "closest": 1000000000,
+      "closestP": null,
+      "bigNear": 0
+    },
+    {
+      "name": "cityTree",
+      "count": 4,
+      "vis": true,
+      "maxS": 0.26,
+      "closest": 69.7,
+      "closestP": {
+        "x": 74,
+        "y": 0.8,
+        "z": -44,
+        "sx": 0.23,
+        "sy": 0.23
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "cityTree",
+      "count": 11,
+      "vis": true,
+      "maxS": 0.27,
+      "closest": 150.5,
+      "closestP": {
+        "x": 78,
+        "y": 0.8,
+        "z": -142,
+        "sx": 0.27,
+        "sy": 0.27
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "terraceFlag",
+      "count": 3,
+      "vis": true,
+      "maxS": 4.97,
+      "closest": 110.7,
+      "closestP": {
+        "x": 35.3,
+        "y": 31.7,
+        "z": -60.4,
+        "sx": 1.45,
+        "sy": 4.97
+      },
+      "bigNear": 1
+    },
+    {
+      "name": "brazierSmoke",
+      "count": 115,
+      "vis": true,
+      "maxS": 1,
+      "closest": 68,
+      "closestP": {
+        "x": 60.1,
+        "y": 13.4,
+        "z": -3.7,
+        "sx": 1,
+        "sy": 1
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "southAveBoard",
+      "count": 60,
+      "vis": true,
+      "maxS": 12.34,
+      "closest": 405.1,
+      "closestP": {
+        "x": 120,
+        "y": 1.4,
+        "z": 405,
+        "sx": 7.01,
+        "sy": 9.57
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "fieldGrass",
+      "count": 319,
+      "vis": true,
+      "maxS": 1.45,
+      "closest": 178.8,
+      "closestP": {
+        "x": -13,
+        "y": 1.4,
+        "z": 110,
+        "sx": 0.3,
+        "sy": 0.39
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "hillTrees",
+      "count": 2878,
+      "vis": true,
+      "maxS": 16,
+      "closest": 485.8,
+      "closestP": {
+        "x": -252.3,
+        "y": 3.4,
+        "z": 302.3,
+        "sx": 5.03,
+        "sy": 2.63
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "pavilion_lod0",
+      "count": 0,
+      "vis": true,
+      "maxS": 0,
+      "closest": 1000000000,
+      "closestP": null,
+      "bigNear": 0
+    },
+    {
+      "name": "pavilion_lod1",
+      "count": 0,
+      "vis": true,
+      "maxS": 0,
+      "closest": 1000000000,
+      "closestP": null,
+      "bigNear": 0
+    },
+    {
+      "name": "pavilion_lod2",
+      "count": 0,
+      "vis": true,
+      "maxS": 0,
+      "closest": 1000000000,
+      "closestP": null,
+      "bigNear": 0
+    },
+    {
+      "name": "hall2_lod0",
+      "count": 0,
+      "vis": true,
+      "maxS": 0,
+      "closest": 1000000000,
+      "closestP": null,
+      "bigNear": 0
+    },
+    {
+      "name": "hall2_lod1",
+      "count": 0,
+      "vis": true,
+      "maxS": 0,
+      "closest": 1000000000,
+      "closestP": null,
+      "bigNear": 0
+    },
+    {
+      "name": "hall2_lod2",
+      "count": 0,
+      "vis": true,
+      "maxS": 0,
+      "closest": 1000000000,
+      "closestP": null,
+      "bigNear": 0
+    },
+    {
+      "name": "reedGlb",
+      "count": 32,
+      "vis": true,
+      "maxS": 11.5,
+      "closest": 62.6,
+      "closestP": {
+        "x": 160.1,
+        "y": 0.1,
+        "z": 53.7,
+        "sx": 2.34,
+        "sy": 9
+      },
+      "bigNear": 32
+    },
+    {
+      "name": "groveTree",
+      "count": 123,
+      "vis": true,
+      "maxS": 0.19,
+      "closest": 319.8,
+      "closestP": {
+        "x": 184.8,
+        "y": 1.2,
+        "z": 314.7,
+        "sx": 0.17,
+        "sy": 0.17
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "groveTree",
+      "count": 123,
+      "vis": true,
+      "maxS": 0.19,
+      "closest": 319.8,
+      "closestP": {
+        "x": 184.8,
+        "y": 1.2,
+        "z": 314.7,
+        "sx": 0.17,
+        "sy": 0.17
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "groveTree",
+      "count": 94,
+      "vis": true,
+      "maxS": 0.22,
+      "closest": 296,
+      "closestP": {
+        "x": 174.8,
+        "y": 1.3,
+        "z": 292.2,
+        "sx": 0.17,
+        "sy": 0.17
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "groveTree",
+      "count": 94,
+      "vis": true,
+      "maxS": 0.22,
+      "closest": 296,
+      "closestP": {
+        "x": 174.8,
+        "y": 1.3,
+        "z": 292.2,
+        "sx": 0.17,
+        "sy": 0.17
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "groveTree",
+      "count": 83,
+      "vis": true,
+      "maxS": 0.1,
+      "closest": 265.1,
+      "closestP": {
+        "x": 140.8,
+        "y": 1.7,
+        "z": 264.8,
+        "sx": 0.08,
+        "sy": 0.08
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "groveTree",
+      "count": 83,
+      "vis": true,
+      "maxS": 0.1,
+      "closest": 265.1,
+      "closestP": {
+        "x": 140.8,
+        "y": 1.7,
+        "z": 264.8,
+        "sx": 0.08,
+        "sy": 0.08
+      },
+      "bigNear": 0
+    },
+    {
+      "name": "fieldBoard",
+      "count": 1746,
+      "vis": true,
+      "maxS": 13.1,
+      "closest": 180.2,
+      "closestP": {
+        "x": 270.6,
+        "y": 1.3,
+        "z": 110.2,
+        "sx": 9.13,
+        "sy": 11.17
+      },
+      "bigNear": 3
+    }
+  ],
+  "shots": [
+    {
+      "name": "far200",
+      "city": {
+        "draws": 3,
+        "spots": 55
+      },
+      "vis": [
+        "groveBoard:3008",
+        "cityTree:5",
+        "cityTree:41",
+        "cityTree:14",
+        "southAveBoard:60",
+        "hillTrees:2878",
+        "pavilion_lod0:0",
+        "pavilion_lod1:0",
+        "pavilion_lod2:0",
+        "hall2_lod0:0",
+        "hall2_lod1:0",
+        "hall2_lod2:0",
+        "fieldBoard:1746"
+      ],
+      "bytes": 62961
+    },
+    {
+      "name": "far120",
+      "city": {
+        "draws": 4,
+        "spots": 55
+      },
+      "vis": [
+        "groveBoard:3008",
+        "cityTree:14",
+        "cityTree:34",
+        "cityTree:3",
+        "cityTree:12",
+        "southAveBoard:60",
+        "hillTrees:2878",
+        "pavilion_lod0:0",
+        "pavilion_lod1:0",
+        "pavilion_lod2:0",
+        "hall2_lod0:0",
+        "hall2_lod1:0",
+        "hall2_lod2:0",
+        "fieldBoard:1746"
+      ],
+      "bytes": 21127
+    },
+    {
+      "name": "trees",
+      "city": {
+        "draws": 5,
+        "spots": 55
+      },
+      "vis": [
+        "groveBoard:3008",
+        "cityTree:5",
+        "cityTree:23",
+        "cityTree:21",
+        "cityTree:6",
+        "cityTree:10",
+        "southAveBoard:60",
+        "hillTrees:2878",
+        "pavilion_lod0:0",
+        "pavilion_lod1:0",
+        "pavilion_lod2:0",
+        "hall2_lod0:0",
+        "hall2_lod1:0",
+        "hall2_lod2:0",
+        "fieldBoard:1746"
+      ],
+      "bytes": 22626
+    },
+    {
+      "name": "out",
+      "city": {
+        "draws": 6,
+        "spots": 55
+      },
+      "vis": [
+        "groveBoard:3008",
+        "cityTree:6",
+        "cityTree:24",
+        "cityTree:19",
+        "cityTree:1",
+        "cityTree:7",
+        "cityTree:9",
+        "southAveBoard:60",
+        "hillTrees:2878",
+        "pavilion_lod0:0",
+        "pavilion_lod1:0",
+        "pavilion_lod2:0",
+        "hall2_lod0:0",
+        "hall2_lod1:0",
+        "hall2_lod2:0",
+        "fieldBoard:1746"
+      ],
+      "bytes": 26818
+    },
+    {
+      "name": "near",
+      "city": {
+        "draws": 5,
+        "spots": 55
+      },
+      "vis": [
+        "groveBoard:3008",
+        "cityTree:3",
+        "cityTree:23",
+        "cityTree:22",
+        "cityTree:5",
+        "cityTree:10",
+        "southAveBoard:60",
+        "hillTrees:2878",
+        "pavilion_lod0:0",
+        "pavilion_lod1:0",
+        "pavilion_lod2:0",
+        "hall2_lod0:0",
+        "hall2_lod1:0",
+        "hall2_lod2:0",
+        "fieldBoard:1746"
+      ],
+      "bytes": 23853
+    }
+  ]
+}

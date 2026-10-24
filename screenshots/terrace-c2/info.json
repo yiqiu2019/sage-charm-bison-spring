@@ -1,0 +1,287 @@
+{
+  "ready": true,
+  "phone": false,
+  "rows": [
+    {
+      "id": "ws-dian",
+      "kind": "changdian",
+      "wall": "西城南墙",
+      "x": 48,
+      "z": 23.9,
+      "yaw": 0,
+      "scale": 1.02,
+      "plat": 10.2,
+      "wallDist": 17,
+      "top": 18.36,
+      "need": 14.44,
+      "exposed": 3.92,
+      "turned": false,
+      "box": {
+        "x0": 30.7,
+        "x1": 65.3,
+        "z0": 13,
+        "z1": 34.8
+      }
+    },
+    {
+      "id": "ws-lou",
+      "kind": "louge",
+      "wall": "西城南墙",
+      "x": 188,
+      "z": 34.4,
+      "yaw": 0,
+      "scale": 0.96,
+      "plat": 12.4,
+      "wallDist": 28,
+      "top": 24.4,
+      "need": 15.95,
+      "exposed": 8.45,
+      "turned": false,
+      "box": {
+        "x0": 174.7,
+        "x1": 201.3,
+        "z0": 24,
+        "z1": 44.9
+      }
+    },
+    {
+      "id": "ww-wang",
+      "kind": "wanglou",
+      "wall": "西城西墙",
+      "x": 37.5,
+      "z": 62,
+      "yaw": -1.571,
+      "scale": 1.05,
+      "plat": 13.5,
+      "wallDist": 32,
+      "top": 30.3,
+      "need": 16.5,
+      "exposed": 13.8,
+      "turned": false,
+      "box": {
+        "x0": 28,
+        "x1": 46.9,
+        "z0": 52.5,
+        "z1": 71.5
+      }
+    },
+    {
+      "id": "ww-lou",
+      "kind": "louge",
+      "wall": "西城西墙",
+      "x": 28.3,
+      "z": 116,
+      "yaw": -1.571,
+      "scale": 0.94,
+      "plat": 12,
+      "wallDist": 22,
+      "top": 23.75,
+      "need": 15.13,
+      "exposed": 8.63,
+      "turned": false,
+      "box": {
+        "x0": 18,
+        "x1": 38.6,
+        "z0": 102.9,
+        "z1": 129.1
+      }
+    },
+    {
+      "id": "wn-lou",
+      "kind": "louge",
+      "wall": "西城北墙",
+      "x": 58,
+      "z": 184.3,
+      "yaw": 1.571,
+      "scale": 1,
+      "plat": 13.2,
+      "wallDist": 26,
+      "top": 25.7,
+      "need": 15.68,
+      "exposed": 10.02,
+      "turned": true,
+      "box": {
+        "x0": 47.3,
+        "x1": 68.7,
+        "z0": 170.6,
+        "z1": 198
+      }
+    },
+    {
+      "id": "nw-wang",
+      "kind": "wanglou",
+      "wall": "北城西墙",
+      "x": 131.2,
+      "z": 308,
+      "yaw": -1.571,
+      "scale": 1,
+      "plat": 13.2,
+      "wallDist": 36,
+      "top": 29.2,
+      "need": 17.05,
+      "exposed": 12.15,
+      "turned": false,
+      "box": {
+        "x0": 122,
+        "x1": 140.4,
+        "z0": 298.8,
+        "z1": 317.2
+      }
+    },
+    {
+      "id": "nn-dian",
+      "kind": "changdian",
+      "wall": "北城北墙",
+      "x": 156,
+      "z": 354.9,
+      "yaw": 3.142,
+      "scale": 1.06,
+      "plat": 9.6,
+      "wallDist": 18,
+      "top": 18.08,
+      "need": 14.58,
+      "exposed": 3.5,
+      "turned": false,
+      "box": {
+        "x0": 138.2,
+        "x1": 173.8,
+        "z0": 343.7,
+        "z1": 366
+      }
+    },
+    {
+      "id": "nn-wang",
+      "kind": "wanglou",
+      "wall": "北城北墙",
+      "x": 214,
+      "z": 326.4,
+      "yaw": 3.142,
+      "scale": 1.08,
+      "plat": 14.2,
+      "wallDist": 48,
+      "top": 31.48,
+      "need": 18.7,
+      "exposed": 12.78,
+      "turned": false,
+      "box": {
+        "x0": 204.4,
+        "x1": 223.6,
+        "z0": 316.8,
+        "z1": 336
+      }
+    },
+    {
+      "id": "ee-lou",
+      "kind": "louge",
+      "wall": "东城东墙",
+      "x": 319.8,
+      "z": 36,
+      "yaw": 1.571,
+      "scale": 0.92,
+      "plat": 11.6,
+      "wallDist": 24,
+      "top": 23.1,
+      "need": 15.4,
+      "exposed": 7.7,
+      "turned": false,
+      "box": {
+        "x0": 309.7,
+        "x1": 330,
+        "z0": 23.1,
+        "z1": 48.9
+      }
+    },
+    {
+      "id": "ee-dian",
+      "kind": "changdian",
+      "wall": "东城东墙",
+      "x": 327.3,
+      "z": 94,
+      "yaw": 1.571,
+      "scale": 1,
+      "plat": 10.5,
+      "wallDist": 16,
+      "top": 18.5,
+      "need": 14.3,
+      "exposed": 4.2,
+      "turned": false,
+      "box": {
+        "x0": 316.5,
+        "x1": 338,
+        "z0": 77,
+        "z1": 111
+      }
+    }
+  ],
+  "galleries": [
+    {
+      "id": "g-west",
+      "len": 31.4,
+      "y0": 13.5,
+      "y1": 12
+    },
+    {
+      "id": "g-north",
+      "len": 41.8,
+      "y0": 9.6,
+      "y1": 14.2
+    },
+    {
+      "id": "g-east",
+      "len": 28.1,
+      "y0": 11.6,
+      "y1": 10.5
+    }
+  ],
+  "braziers": 17,
+  "flags": 3,
+  "sizes": [
+    {
+      "name": "louge",
+      "size": [
+        19.42,
+        12.48,
+        13.37
+      ]
+    },
+    {
+      "name": "wanglou",
+      "size": [
+        10.43,
+        15.99,
+        10.35
+      ]
+    },
+    {
+      "name": "changdian",
+      "size": [
+        26.03,
+        7.99,
+        13.49
+      ]
+    }
+  ],
+  "meshNames": [
+    "terracePlaster",
+    "terraceEarth",
+    "terraceWood",
+    "terraceColumn",
+    "terraceDeck",
+    "terraceRail",
+    "terraceRoof",
+    "terraceFlag",
+    "terracePole",
+    "terraceBrazier",
+    "terraceFlame",
+    "terracelougelod0",
+    "terracelougelod1",
+    "terracelougelod2",
+    "terracewangloulod0",
+    "terracewangloulod1",
+    "terracewangloulod2",
+    "terracechangdianlod0",
+    "terracechangdianlod1",
+    "terracechangdianlod2"
+  ],
+  "keep": 23
+}

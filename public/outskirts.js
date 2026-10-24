@@ -1,6 +1,10 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
+import { blocksSouthTree, buildSouth, loadBoards, loadFarms, makeAvenueTrees } from "./south.js";
+import { attachGroveModels, buildGrove } from "./grove.js";
+import { blocksNorthTree, fieldBlockedNorth, westRoadPoints, westRoadDist, northSurfaceY } from "./north.js";
+import { installFields } from "./fields.js";
 
 export function bootOutskirts(ctx) {
   const {
@@ -19,51 +23,13 @@ export function bootOutskirts(ctx) {
   dress(redMat, texRed, 0.7, 0, true, false, true);
   const bronze = new THREE.MeshStandardMaterial({ color: 0x8a6a3e, metalness: 0.45, roughness: 0.52 });
   const dirt = new THREE.MeshStandardMaterial({ color: 0x8d6b45, roughness: 0.96, metalness: 0 });
+  const padMat = new THREE.MeshStandardMaterial({ color: 0x7e7058, roughness: 0.97, metalness: 0 });
   const straw = new THREE.MeshStandardMaterial({ color: 0xc6a15a, roughness: 0.94, metalness: 0 });
   const thatch = new THREE.MeshStandardMaterial({ color: 0xb49762, roughness: 0.95, metalness: 0 });
   const potMat = new THREE.MeshStandardMaterial({ color: 0x6a4632, roughness: 0.88, metalness: 0 });
   const matMat = new THREE.MeshStandardMaterial({ color: 0xcbb892, roughness: 0.95, metalness: 0 });
   const bucketMat = new THREE.MeshStandardMaterial({ color: 0x6e5840, roughness: 0.8, metalness: 0.05 });
   const stoneMat = new THREE.MeshStandardMaterial({ color: 0x6a675f, roughness: 0.92, metalness: 0 });
-  const leafMat = new THREE.MeshStandardMaterial({ color: 0x5c7340, roughness: 0.9, metalness: 0 });
-  const broadU = { value: 0 };
-  leafMat.onBeforeCompile = (shader) => {
-    shader.uniforms.uTime = broadU;
-    shader.vertexShader = shader.vertexShader
-      .replace("#include <common>", "#include <common>\nuniform float uTime;")
-      .replace("#include <begin_vertex>", `#include <begin_vertex>
-      float kk = smoothstep(-0.2, 0.9, position.y);
-      transformed.x += sin(uTime * 1.15 + position.x * 0.7) * 0.12 * kk;
-      transformed.z += cos(uTime * 0.86 + position.z) * 0.08 * kk;`);
-  };
-  leafMat.customProgramCacheKey = () => "broadleaf2";
-
-  const farMats = [];
-  function farMat(hex, atmo) {
-    const m = new THREE.ShaderMaterial({
-      fog: false,
-      side: THREE.DoubleSide,
-      uniforms: {
-        uBase: { value: new THREE.Color(hex) },
-        uFog: { value: new THREE.Color(0xc98448) },
-        uAtmo: { value: atmo },
-        uNight: { value: 0 },
-        uMist: { value: 0 },
-      },
-      vertexShader: "void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
-      fragmentShader: `
-        uniform vec3 uBase; uniform vec3 uFog; uniform float uAtmo; uniform float uNight; uniform float uMist;
-        void main() {
-          float at = clamp(mix(uAtmo, 0.86, uMist), 0.0, 0.94);
-          vec3 col = mix(uBase, uFog, at);
-          col = mix(col, vec3(0.04, 0.05, 0.08), clamp(uNight, 0.0, 0.86));
-          gl_FragColor = vec4(col, 1.0);
-        }`,
-    });
-    farMats.push(m);
-    return m;
-  }
-
   const smokeU = { uTime: { value: 0 }, uOpacity: { value: 0.22 } };
   const smokeMat = new THREE.ShaderMaterial({
     transparent: true,
@@ -169,26 +135,13 @@ export function bootOutskirts(ctx) {
     { name: "yardC", cx: 160, cz: -128, hx: 18, hz: 14.6, rot: -Math.PI / 2, mirror: false, wings: [13.3, 14.8], tree: [-7.2, 5.5], seed: 47, annex: true },
   ];
 
+  const yardTrees = [];
+
   function localToSpec(rot, cx, cz, lx, lz) {
     const c = Math.cos(rot), s = Math.sin(rot);
     const wx = lx * c + lz * s;
     const wzl = -lx * s + lz * c;
     return [cx + wx, cz - wzl];
-  }
-
-  function makeTree(h, seed) {
-    const rng = mulberry32(seed);
-    const g = new THREE.Group();
-    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.34, h * 0.42, 6), woodMat);
-    trunk.position.y = h * 0.2;
-    g.add(trunk);
-    for (let i = 0; i < 8; i++) {
-      const s = h * (0.18 + rng() * 0.14);
-      const leaf = new THREE.Mesh(new THREE.IcosahedronGeometry(s, 0), leafMat);
-      leaf.position.set((rng() - 0.5) * h * 0.62, h * (0.48 + rng() * 0.42), (rng() - 0.5) * h * 0.62);
-      g.add(leaf);
-    }
-    return g;
   }
 
   function addCourtyard(cfg) {
@@ -204,7 +157,7 @@ export function bootOutskirts(ctx) {
     g.position.set(cfg.cx, yMax, wz(cfg.cz));
     g.rotation.y = cfg.rot;
     const mx = cfg.mirror ? -1 : 1;
-    const pad = new THREE.Mesh(new THREE.BoxGeometry(cfg.hx * 2 + 0.4, 0.4, cfg.hz * 2 + 0.4), dirt);
+    const pad = new THREE.Mesh(new THREE.BoxGeometry(cfg.hx * 2 + 0.4, 0.4, cfg.hz * 2 + 0.4), padMat);
     pad.position.y = -0.14;
     g.add(pad);
     const { hx, hz } = cfg;
@@ -239,9 +192,8 @@ export function bootOutskirts(ctx) {
     anchor.scale.setScalar(14.3 * (0.9 + rng() * 0.2));
     g.add(anchor);
     hallAnchors.push(anchor);
-    const tree = makeTree(8.6 + rng() * 1.1, cfg.seed + 3);
-    tree.position.set(mx * cfg.tree[0], 0, cfg.tree[1]);
-    g.add(tree);
+    const [tx, tz] = localToSpec(cfg.rot, cfg.cx, cfg.cz, mx * cfg.tree[0], cfg.tree[1]);
+    yardTrees.push({ x: tx, z: tz, y: yMax });
     box(g, matMat, 0, 0.04, -hz + 11.4, 2.2, 0.05, 1.3);
     box(g, woodMat, 0.4, 0.2, -hz + 11.2, 0.7, 0.32, 1.15);
     root.add(g);
@@ -258,7 +210,7 @@ export function bootOutskirts(ctx) {
     const g = new THREE.Group();
     g.position.set(152, groundY(152, -101), wz(-101));
     const hw = 8, hd = 6;
-    box(g, dirt, 0, -0.1, 0, hw * 2, 0.3, hd * 2);
+    box(g, padMat, 0, -0.1, 0, hw * 2, 0.3, hd * 2);
     addWallX(g, hd, -hw, hw);
     addWallX(g, -hd, -hw, -1.4);
     addWallX(g, -hd, 1.4, hw);
@@ -267,56 +219,11 @@ export function bootOutskirts(ctx) {
     root.add(g);
   })();
 
-  (function roadAndPosts() {
-    const z0 = -73, z1 = -400, step = 8;
-    const n = Math.ceil((z0 - z1) / step);
-    const pos = [], idx = [];
-    const rpos = [], ridx = [];
-    function yAt(z) {
-      const gy = groundY(128, z) + 0.035;
-      if (z > -84) {
-        const t = Math.max(0, Math.min(1, (z + 84) / 11));
-        return gy * (1 - t) + 0.82 * t;
-      }
-      return gy;
-    }
-    for (let i = 0; i <= n; i++) {
-      const z = Math.max(z1, z0 - i * step);
-      const y = yAt(z);
-      pos.push(124, y, wz(z), 132, y, wz(z));
-      const yr = y + 0.012;
-      rpos.push(127.05, yr, wz(z), 127.42, yr, wz(z), 128.58, yr, wz(z), 128.95, yr, wz(z));
-    }
-    for (let i = 0; i < n; i++) {
-      const a = i * 2, b = a + 1, c = a + 2, d = a + 3;
-      idx.push(a, c, b, b, c, d);
-      const ra = i * 4;
-      ridx.push(ra, ra + 4, ra + 1, ra + 1, ra + 4, ra + 5);
-      ridx.push(ra + 2, ra + 6, ra + 3, ra + 3, ra + 6, ra + 7);
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-    geo.setIndex(idx);
-    geo.computeVertexNormals();
-    const mesh = new THREE.Mesh(geo, rammed);
-    mesh.name = "avenue";
-    root.add(mesh);
-    const rg = new THREE.BufferGeometry();
-    rg.setAttribute("position", new THREE.Float32BufferAttribute(rpos, 3));
-    rg.setIndex(ridx);
-    rg.computeVertexNormals();
-    root.add(new THREE.Mesh(rg, rammedDark));
-    const postGeo = new THREE.CylinderGeometry(0.07, 0.09, 1.2, 5);
-    postGeo.translate(0, 0.6, 0);
-    for (let z = -102; z >= -400; z -= 30) {
-      for (const x of [122.35, 133.65]) {
-        if (polyEdgeDist(x, z, outerPoly) < 20) continue;
-        const p = new THREE.Mesh(postGeo, woodMat);
-        p.position.set(x, groundY(x, z), wz(z));
-        root.add(p);
-      }
-    }
-  })();
+  const south = buildSouth({
+    root, isPhone, groundY, polyEdgeDist, outerPoly, outsideLand, wz, mulberry32,
+  });
+  loadBoards(south.boards, { scene, wz, isPhone });
+  const grovePlan = buildGrove({ scene, isPhone, groundY, wz, rammed });
 
   function stripeTex(paint) {
     const c = document.createElement("canvas");
@@ -363,9 +270,92 @@ export function bootOutskirts(ctx) {
   const stubbleMat = new THREE.MeshStandardMaterial({ map: stubbleMap, roughness: 0.96, metalness: 0 });
   const fallowMat = new THREE.MeshStandardMaterial({ map: fallowMap, roughness: 0.97, metalness: 0 });
   const fieldKind = { millet: milletMat, stubble: stubbleMat, fallow: fallowMat };
+  const tillMap = stripeTex((d, n) => {
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+      const line = Math.pow(Math.sin(y * 1.15), 6) * 16;
+      const v = 72 + line + (hash2(x * 0.35, y * 0.4) - 0.5) * 12;
+      const i = (y * n + x) * 4;
+      d[i] = v + 16; d[i + 1] = v * 0.7; d[i + 2] = v * 0.4; d[i + 3] = 255;
+    }
+  });
+  const tillMat = new THREE.MeshStandardMaterial({ map: tillMap, roughness: 0.98, metalness: 0, color: 0xc8b8a4 });
+  const edgeTreeJobs = [];
+  const coveredFields = [];
+  const VILLAGES = [{ x: -142, z: 86 }, { x: -158, z: 332 }];
+  const GROVES = [{ x: -208, z: 40, r: 22 }, { x: -232, z: 296, r: 22 }];
+  function yardOuter(v, x, z) {
+    const ang = Math.atan2(z - v.z, x - v.x);
+    return 30 + 30 * hash2(Math.cos(ang) * 4 + v.x * 0.02, Math.sin(ang) * 4 + v.z * 0.02);
+  }
+  function inYard(x, z) {
+    for (const v of VILLAGES) {
+      if (Math.hypot(x - v.x, z - v.z) < yardOuter(v, x, z)) return true;
+    }
+    return false;
+  }
+  function inGrove(x, z) {
+    for (const g of GROVES) if (Math.hypot(x - g.x, z - g.z) < g.r) return true;
+    return false;
+  }
+  function hillHAt(x, z) {
+    const dx = x - 175, dz = z - 190;
+    const r = Math.hypot(dx, dz) || 1;
+    let az = Math.atan2(dx, dz) * 180 / Math.PI;
+    if (az < 0) az += 360;
+    if (az < 210 || az > 330 || r < 600 || r > 850) return 0;
+    const u = (az - 210) / 120;
+    const v = (r - 600) / 250;
+    const eu = Math.sin(Math.PI * Math.max(0, Math.min(1, u)));
+    const ev = Math.sin(Math.PI * Math.max(0, Math.min(1, v)));
+    const dome = Math.pow(eu, 0.85) * Math.pow(ev, 1.5);
+    const nse = 0.5 + 0.5 * (
+      Math.sin(az * 0.045 + 0.7) * 0.55
+      + Math.sin(az * 0.11 + r * 0.008) * 0.25
+      + Math.sin(r * 0.02 - 1.4) * 0.2
+    );
+    const sm = (a, b, t) => {
+      const u2 = Math.max(0, Math.min(1, (t - a) / ((b - a) || 1)));
+      return u2 * u2 * (3 - 2 * u2);
+    };
+    const fade = Math.max(1 - sm(-480, -400, x), 1 - sm(-250, -180, z), sm(480, 550, z));
+    return Math.min(35, (9 + nse * 26) * dome) * fade;
+  }
+  function hillBand(x, z) {
+    const h = hillHAt(x, z);
+    if (h > 0.7) return "slope";
+    const dx = x - 175, dz = z - 190;
+    const r = Math.hypot(dx, dz) || 1;
+    if (hillHAt(x + (dx / r) * 30, z + (dz / r) * 30) > 1.4 && h < 0.5) return "shrub";
+    return "plain";
+  }
+  function inWestTask(x, z) {
+    if (z < -190 || z > 630 || x > 55 || x < -560) return false;
+    if (x > -40 && z < 280) return false;
+    return true;
+  }
+  function coveredAt(x, z) {
+    for (let i = 0; i < coveredFields.length; i++) {
+      const c = coveredFields[i];
+      if (x > c.x0 - 1.2 && x < c.x1 + 1.2 && z > c.z0 - 1.2 && z < c.z1 + 1.2) return true;
+    }
+    return false;
+  }
+  function canBig(x, z) {
+    if (!inWestTask(x, z)) return false;
+    if (!outsideLand(x, z)) return false;
+    if (polyEdgeDist(x, z, outerPoly) < 18) return false;
+    if (inYard(x, z) || inGrove(x, z)) return false;
+    if (hillBand(x, z) === "slope") return false;
+    if (fieldBlockedNorth(x, z)) return false;
+    if (westRoadDist(x, z) < 2.7) return false;
+    if (blocksNorthTree(x, z)) return false;
+    if (coveredAt(x, z)) return false;
+    return true;
+  }
 
-  const mulberryPts = [];
   (function fields() {
+    window.__westPlain = { covered: 0, yards: 0, edgeQueued: 0, shader: true };
+    return;
     const rng = mulberry32(77);
     const buckets = { millet: [], stubble: [], fallow: [], path: [] };
     let xEast = -70;
@@ -379,13 +369,15 @@ export function bootOutskirts(ctx) {
         const z1 = zSouth + ch;
         zSouth = z1;
         const cx = (x0 + xEast) / 2, cz = (z0 + z1) / 2;
-        if (Math.hypot(cx + 140, cz - 80) < 28 || Math.hypot(cx + 160, cz - 330) < 26) continue;
+        if ([[cx, cz], [x0, z0], [xEast, z0], [xEast, z1], [x0, z1]].some(([px, pz]) => inYard(px, pz))) continue;
+        if (fieldBlockedNorth(cx, cz)) continue;
         const corners = [[x0, z0], [xEast, z0], [xEast, z1], [x0, z1]];
         if (corners.some(([px, pz]) => !outsideLand(px, pz) || polyEdgeDist(px, pz, outerPoly) < 20)) continue;
         const inset = 0.85;
         const fx0 = x0 + inset, fx1 = xEast - inset, fz0 = z0 + inset, fz1 = z1 - inset;
         const nse = Math.sin(cx * 0.02 + 0.4) * Math.cos(cz * 0.017 - 0.2);
         const kind = nse > 0.28 ? "millet" : nse > -0.05 ? "stubble" : nse > -0.38 ? "fallow" : "mulberry";
+        coveredFields.push({ x0, x1: xEast, z0, z1 });
         const pathPack = buckets._path || (buckets._path = { pos: [], uv: [], idx: [] });
         const segs = 3;
         const build = (xa, xb, za, zb, lift, into) => {
@@ -411,17 +403,6 @@ export function bootOutskirts(ctx) {
         if (kind === "mulberry") {
           const fall = buckets._fallow || (buckets._fallow = { pos: [], uv: [], idx: [] });
           build(fx0, fx1, fz0, fz1, 0.04, fall);
-          const rows = 3 + Math.floor(rng() * 2);
-          for (let r = 0; r < rows; r++) {
-            const rx = fx0 + 2 + ((fx1 - fx0 - 4) * r) / Math.max(1, rows - 1);
-            for (let tz = fz0 + 2; tz < fz1 - 1.5; tz += 4.4) {
-              if (isPhone && ((r + Math.floor(tz)) & 1)) continue;
-              if (mulberryPts.length > (isPhone ? 220 : 460)) break;
-              const rx0 = rx + Math.sin(tz * 0.047) * 2.8;
-              const tz0 = tz + Math.sin(rx * 0.041) * 2.8;
-              mulberryPts.push({ x: rx0 + (rng() - 0.5) * 0.4, z: tz0, s: 0.85 + rng() * 0.3 });
-            }
-          }
         } else {
           const key = "_" + kind;
           if (!buckets[key]) buckets[key] = { pos: [], uv: [], idx: [] };
@@ -430,6 +411,152 @@ export function bootOutskirts(ctx) {
       }
       xEast -= cw;
     }
+    function warpQuad(into, corners, lift) {
+      const segs = 2;
+      const row = segs + 1;
+      const base = into.pos.length / 3;
+      for (let j = 0; j <= segs; j++) {
+        for (let i = 0; i <= segs; i++) {
+          const u = i / segs, v = j / segs;
+          const x = corners[0][0] * (1 - u) * (1 - v) + corners[1][0] * u * (1 - v)
+            + corners[2][0] * u * v + corners[3][0] * (1 - u) * v;
+          const z = corners[0][1] * (1 - u) * (1 - v) + corners[1][1] * u * (1 - v)
+            + corners[2][1] * u * v + corners[3][1] * (1 - u) * v;
+          const xx = x + Math.sin(z * 0.047) * 0.6;
+          const zz = z + Math.sin(x * 0.041) * 0.6;
+          into.pos.push(xx, groundY(xx, zz) + lift, wz(zz));
+          into.uv.push(u * 3, v * 2);
+        }
+      }
+      for (let j = 0; j < segs; j++) for (let i = 0; i < segs; i++) {
+        const a = base + j * row + i;
+        into.idx.push(a, a + 1, a + row, a + 1, a + row + 1, a + row);
+      }
+    }
+    function warpPush(into, xa, xb, za, zb, lift, amp) {
+      const wob = amp == null ? 2.8 : amp;
+      const segs = 3;
+      const row = segs + 1;
+      const base = into.pos.length / 3;
+      for (let j = 0; j <= segs; j++) {
+        for (let i = 0; i <= segs; i++) {
+          const x = xa + ((xb - xa) * i) / segs;
+          const z = za + ((zb - za) * j) / segs;
+          const xx = x + Math.sin(z * 0.047) * wob;
+          const zz = z + Math.sin(x * 0.041) * wob;
+          into.pos.push(xx, groundY(xx, zz) + lift, wz(zz));
+          into.uv.push((x - xa) / 5, (z - za) / 5);
+        }
+      }
+      for (let j = 0; j < segs; j++) for (let i = 0; i < segs; i++) {
+        const a = base + j * row + i;
+        into.idx.push(a, a + 1, a + row, a + 1, a + row + 1, a + row);
+      }
+    }
+    function packFor(kind) {
+      const key = "_" + kind;
+      if (!buckets[key]) buckets[key] = { pos: [], uv: [], idx: [] };
+      return buckets[key];
+    }
+    function queueEdges(x0, x1, z0, z1) {
+      const edges = [[x0, z0, x1, z0], [x0, z0, x0, z1]];
+      for (const [ax, az, bx, bz] of edges) {
+        const len = Math.hypot(bx - ax, bz - az);
+        if (len < 12) continue;
+        const n = Math.max(1, Math.round(len / 16));
+        for (let i = 0; i < n; i++) {
+          const u = (i + 0.35) / n;
+          const x = ax + (bx - ax) * u;
+          const z = az + (bz - az) * u;
+          if (hash2(x * 0.7, z * 0.7) < 0.18) continue;
+          edgeTreeJobs.push({ x, z });
+        }
+      }
+    }
+    function emitBig(x0, x1, z0, z1, amp) {
+      if (x1 - x0 < 10 || z1 - z0 < 10) return;
+      const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
+      const inset = 0.8;
+      const nse = Math.sin(cx * 0.02 + 0.4) * Math.cos(cz * 0.017 - 0.2);
+      const kind = nse > 0.28 ? "millet" : nse > -0.05 ? "stubble" : "fallow";
+      const pathPack = buckets._path || (buckets._path = { pos: [], uv: [], idx: [] });
+      if (hash2(cx + 4.2, cz) > 0.34 && westRoadDist(cx, z0) > 2.4) {
+        warpPush(pathPack, x0, x1, z0, z0 + 1.4, 0.025, amp);
+      }
+      warpPush(packFor(kind), x0 + inset, x1 - inset, z0 + inset, z1 - inset, 0.05, amp);
+      coveredFields.push({ x0, x1, z0, z1 });
+      if (Math.min(x1 - x0, z1 - z0) > 14) queueEdges(x0, x1, z0, z1);
+    }
+    function tryCell(x0, x1, z0, z1, depth) {
+      if (x1 - x0 < 11 || z1 - z0 < 11) return;
+      const pts = [
+        [(x0 + x1) / 2, (z0 + z1) / 2],
+        [x0 + 1, z0 + 1], [x1 - 1, z0 + 1], [x1 - 1, z1 - 1], [x0 + 1, z1 - 1],
+      ];
+      let ok = 0;
+      for (const [x, z] of pts) if (canBig(x, z)) ok++;
+      if (ok === 5) { emitBig(x0, x1, z0, z1); return; }
+      if (ok === 0 || depth >= 3) return;
+      const mx = (x0 + x1) / 2, mz = (z0 + z1) / 2;
+      tryCell(x0, mx, z0, mz, depth + 1);
+      tryCell(mx, x1, z0, mz, depth + 1);
+      tryCell(x0, mx, mz, z1, depth + 1);
+      tryCell(mx, x1, mz, z1, depth + 1);
+    }
+    {
+      const rngG = mulberry32(901);
+      let xEast = -34;
+      while (xEast > -548) {
+        const cw = 34 + rngG() * 16;
+        const x0 = xEast - cw;
+        let zSouth = -176;
+        while (zSouth < 616) {
+          const ch = 30 + rngG() * 16;
+          const z1 = Math.min(616, zSouth + ch);
+          tryCell(x0, xEast, zSouth, z1, 0);
+          zSouth = z1;
+        }
+        xEast -= cw;
+      }
+      for (let x = -536; x < 46; x += 18) {
+        for (let z = -170; z < 612; z += 18) {
+          const x1 = x + 16.6, z1 = z + 16.6;
+          const pts = [[(x + x1) / 2, (z + z1) / 2], [x + 1, z + 1], [x1 - 1, z + 1], [x1 - 1, z1 - 1], [x + 1, z1 - 1]];
+          if (pts.every(([px, pz]) => canBig(px, pz))) emitBig(x, x1, z, z1, 0.7);
+        }
+      }
+    }
+    let yardN = 0;
+    const till = { pos: [], uv: [], idx: [] };
+    for (const v of VILLAGES) {
+      const yaw = 0.18 + hash2(v.x, v.z) * 0.55;
+      const co = Math.cos(yaw), si = Math.sin(yaw);
+      for (let ix = -6; ix <= 6; ix++) {
+        for (let iz = -7; iz <= 7; iz++) {
+          const lx = ix * 16.2;
+          const lz = iz * 11.2;
+          const x = v.x + lx * co - lz * si;
+          const z = v.z + lx * si + lz * co;
+          const d = Math.hypot(x - v.x, z - v.z);
+          if (d < 26 || d > yardOuter(v, x, z) - 1) continue;
+          if (!outsideLand(x, z) || polyEdgeDist(x, z, outerPoly) < 16) continue;
+          if (westRoadDist(x, z) < 2.8 || fieldBlockedNorth(x, z) || inGrove(x, z)) continue;
+          if (hillBand(x, z) === "slope") continue;
+          const hx = 7.5, hz = 5;
+          const corn = [[-hx, -hz], [hx, -hz], [hx, hz], [-hx, hz]];
+          const w = corn.map(([px, pz]) => [x + px * co - pz * si, z + px * si + pz * co]);
+          warpQuad(till, w, 0.06);
+          yardN++;
+        }
+      }
+      for (let k = 0; k < 18; k++) {
+        const ang = (k / 18) * Math.PI * 2 + 0.2;
+        const r = yardOuter(v, v.x + Math.cos(ang) * 40, v.z + Math.sin(ang) * 40);
+        if (hash2(v.x + k, v.z) < 0.45) continue;
+        edgeTreeJobs.push({ x: v.x + Math.cos(ang) * (r + 1.5), z: v.z + Math.sin(ang) * (r + 1.5) });
+      }
+    }
+    buckets._till = till;
     function commit(pack, mat, name) {
       if (!pack || !pack.pos.length) return;
       const geo = new THREE.BufferGeometry();
@@ -445,6 +572,89 @@ export function bootOutskirts(ctx) {
     commit(buckets._stubble, stubbleMat, "stubble");
     commit(buckets._fallow, fallowMat, "fallow");
     commit(buckets._path, dirt, "paths");
+    commit(buckets._till, tillMat, "yardTill");
+    window.__westPlain = { covered: coveredFields.length, yards: yardN, edgeQueued: edgeTreeJobs.length };
+  })();
+
+  (function westRoad() {
+    const pts = westRoadPoints();
+    if (pts.length < 2) return;
+    const roadMat = dirt.clone();
+    roadMat.side = THREE.DoubleSide;
+    roadMat.color = new THREE.Color(0x7e7058);
+    const prevRoad = roadMat.onBeforeCompile;
+    roadMat.onBeforeCompile = (shader) => {
+      if (prevRoad) prevRoad(shader);
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "diffuseColor.rgb *= alb * uTint * uGain;",
+        "diffuseColor.rgb = vec3(0.494, 0.439, 0.345) * (0.82 + 0.36 * clamp(dot(alb, vec3(0.30, 0.59, 0.11)), 0.0, 1.0));",
+      );
+    };
+    roadMat.customProgramCacheKey = () => "west-road-o1";
+    const rutMat = dirt.clone();
+    rutMat.color = new THREE.Color(0x5a4636);
+    const prevRut = rutMat.onBeforeCompile;
+    rutMat.onBeforeCompile = (shader) => {
+      if (prevRut) prevRut(shader);
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "diffuseColor.rgb *= alb * uTint * uGain;",
+        "diffuseColor.rgb = vec3(0.396, 0.345, 0.267) * (0.86 + 0.28 * clamp(dot(alb, vec3(0.30, 0.59, 0.11)), 0.0, 1.0));",
+      );
+    };
+    rutMat.customProgramCacheKey = () => "west-rut-o1";
+    rutMat.polygonOffset = true;
+    rutMat.polygonOffsetFactor = -3;
+    rutMat.polygonOffsetUnits = -3;
+    rutMat.side = THREE.DoubleSide;
+    function ribbon(offset, half, lift, mat, name) {
+      const pos = [];
+      const uv = [];
+      const idx = [];
+      let dist = 0;
+      const left = [];
+      const right = [];
+      for (let i = 0; i < pts.length; i++) {
+        const p0 = pts[Math.max(0, i - 1)];
+        const p1 = pts[Math.min(pts.length - 1, i + 1)];
+        let tx = p1.x - p0.x, tz = p1.z - p0.z;
+        const len = Math.hypot(tx, tz) || 1;
+        tx /= len; tz /= len;
+        const nx = -tz, nz = tx;
+        const cx = pts[i].x + nx * offset;
+        const cz = pts[i].z + nz * offset;
+        left.push([cx + nx * half, cz + nz * half, dist]);
+        right.push([cx - nx * half, cz - nz * half, dist]);
+        if (i) dist += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z);
+      }
+      const yAt = (x, z) => {
+        const n = northSurfaceY(x, z);
+        const g = groundY(x, z);
+        return (n == null ? g : Math.max(g, n)) + lift;
+      };
+      for (let i = 0; i < pts.length; i++) {
+        pos.push(left[i][0], yAt(left[i][0], left[i][1]), wz(left[i][1]));
+        pos.push(right[i][0], yAt(right[i][0], right[i][1]), wz(right[i][1]));
+        uv.push(0, left[i][2] / 4, 1, right[i][2] / 4);
+      }
+      for (let i = 0; i < pts.length - 1; i++) {
+        const a = i * 2, b = a + 1, c = a + 2, d = a + 3;
+        idx.push(a, c, b, b, c, d);
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+      geo.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+      geo.setIndex(idx);
+      geo.computeVertexNormals();
+      const m = new THREE.Mesh(geo, mat);
+      m.name = name;
+      m.castShadow = false;
+      m.receiveShadow = false;
+      root.add(m);
+    }
+    ribbon(0, 1.5, 0.08, roadMat, "westRoad");
+    ribbon(0.55, 0.16, 0.09, rutMat, "westRut");
+    ribbon(-0.55, 0.16, 0.09, rutMat, "westRut");
+    if (window.__westPlain) window.__westPlain.road = pts.length;
   })();
 
   function shadoof(x, z) {
@@ -579,89 +789,6 @@ export function bootOutskirts(ctx) {
     addSmoke(x, z, groundY(x, z) + 3.5, i * 1.7);
   }
 
-  (function mountains() {
-    function ridge(specX, z0, z1, amp, atmo, phase) {
-      const step = 32;
-      const pos = [], idx = [];
-      const zs = [];
-      for (let z = z0; z <= z1; z += step) zs.push(z);
-      zs.forEach((z, i) => {
-        const n = Math.sin(z * 0.007 + phase) * 0.55 + Math.sin(z * 0.018 + phase * 1.4) * 0.45;
-        let h = (78 + (n * 0.5 + 0.5) * 90) * amp;
-        const saddle = Math.exp(-Math.pow((z + 230) / 130, 2));
-        h = h * (1 - 0.32 * saddle) + 186 * amp * saddle;
-        const x = specX + Math.sin(z * 0.012 + phase) * 40;
-        pos.push(x, -30, wz(z), x, h, wz(z));
-        if (i) {
-          const a = (i - 1) * 2;
-          idx.push(a, a + 1, a + 3, a, a + 3, a + 2);
-        }
-      });
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-      geo.setIndex(idx);
-      geo.computeVertexNormals();
-      const mesh = new THREE.Mesh(geo, farMat(0x667892, atmo));
-      mesh.name = "taihang";
-      mesh.frustumCulled = false;
-      root.add(mesh);
-    }
-    ridge(-900, -620, 860, 1, 0.5, 0.4);
-    ridge(-1040, -700, 940, 0.78, 0.68, 1.8);
-    ridge(-1180, -760, 1000, 0.55, 0.84, 3.1);
-  })();
-
-  (function dabeicheng() {
-    const cx = 690, cz = 710;
-    const g = new THREE.Group();
-    g.position.set(cx, 0, wz(cz));
-    g.rotation.y = Math.PI / 4;
-    const wallMat = farMat(0x5c5146, 0.38);
-    const t1 = farMat(0x7a6a56, 0.52);
-    const t2 = farMat(0x6a5c4c, 0.56);
-    const t3 = farMat(0x5c5146, 0.6);
-    const woodF = farMat(0x4a4038, 0.5);
-    box(g, wallMat, 0, 16, 8, 520, 32, 10);
-    box(g, t1, -40, 3.5, -30, 48, 7, 36);
-    box(g, t2, -40, 10, -30, 34, 6, 24);
-    box(g, t3, -40, 15.5, -30, 22, 5, 16);
-    box(g, woodF, -40, 21.2, -30, 12, 6.2, 8);
-    addCap(g, -40, 24.4, -30, 14, 10, 3.2, false, woodF);
-    g.traverse((o) => { if (o.isMesh && o.material && farMats.includes(o.material)) o.frustumCulled = false; });
-    g.frustumCulled = false;
-    root.add(g);
-    for (let i = 0; i < 4; i++) addSmoke(cx - 20 + i * 36, cz + 18, 22, 2.2 + i, 56, 14);
-  })();
-
-  if (mulberryPts.length) {
-    const trunkGeo = new THREE.CylinderGeometry(0.08, 0.12, 1.15, 5);
-    trunkGeo.translate(0, 0.55, 0);
-    const crown = new THREE.IcosahedronGeometry(0.62, 0);
-    crown.translate(0, 1.45, 0);
-    const wind = new Float32Array(crown.attributes.position.count);
-    wind.fill(0.85);
-    crown.setAttribute("aWind", new THREE.BufferAttribute(wind, 1));
-    const tWind = new Float32Array(trunkGeo.attributes.position.count);
-    trunkGeo.setAttribute("aWind", new THREE.BufferAttribute(tWind, 1));
-    const crownMat = plantMat({ key: "mulberry", color: 0xffffff, amp: 0.1, freq: 1.15 });
-    const trunks = new THREE.InstancedMesh(trunkGeo, woodMat, mulberryPts.length);
-    const crowns = new THREE.InstancedMesh(crown, crownMat, mulberryPts.length);
-    trunks.frustumCulled = crowns.frustumCulled = false;
-    const d = new THREE.Object3D();
-    const col = new THREE.Color();
-    mulberryPts.forEach((p, i) => {
-      d.position.set(p.x, groundY(p.x, p.z), wz(p.z));
-      d.rotation.set(0, p.x * 0.2, 0);
-      d.scale.setScalar(p.s);
-      d.updateMatrix();
-      trunks.setMatrixAt(i, d.matrix);
-      crowns.setMatrixAt(i, d.matrix);
-      col.setRGB(0.28 + ((i * 17) % 7) * 0.015, 0.4 + ((i * 13) % 5) * 0.02, 0.2);
-      crowns.setColorAt(i, col);
-    });
-    root.add(trunks, crowns);
-  }
-
   const batches = [];
   const dummy = new THREE.Object3D();
   function lodOf(dist) {
@@ -751,21 +878,156 @@ export function bootOutskirts(ctx) {
     freq: (Math.PI * 2) / 4.8,
   }];
 
-  function tick(time, camera) {
-    broadU.value = time;
-    smokeU.uTime.value = time;
-    const night = window.__night || 0;
-    const mist = window.__mist || 0;
-    smokeU.uOpacity.value = 0.24 * (1 - night * 0.62);
-    if (scene.fog) {
-      for (const m of farMats) {
-        m.uniforms.uFog.value.copy(scene.fog.color);
-        m.uniforms.uNight.value = night;
-        m.uniforms.uMist.value = mist;
+  const treeTime = { value: 0 };
+  const treeChunks = [];
+  const treeSpots = [];
+  const rngT = mulberry32(0x71ee);
+  function pushTree(kind, x, z, baseScale, yOverride) {
+    if (x > 440 && x < 590 && z > -55 && z < 170) return false;
+    if (!outsideLand(x, z)) return false;
+    if (blocksSouthTree(x, z)) return false;
+    if (blocksNorthTree(x, z)) return false;
+    if (polyEdgeDist(x, z, outerPoly) < 6) return false;
+    for (let i = 0; i < treeSpots.length; i++) {
+      const o = treeSpots[i];
+      if (Math.hypot(o.x - x, o.z - z) < 3.2) return false;
+    }
+    treeSpots.push({
+      kind, x, z,
+      y: yOverride != null ? yOverride : groundY(x, z),
+      yaw: rngT() * Math.PI * 2,
+      s: baseScale * (0.85 + rngT() * 0.3),
+    });
+    return true;
+  }
+  for (const p of yardTrees) pushTree("t0", p.x, p.z, 0.13, p.y);
+  function villageTrees(cx, cz, nBig, nShrub) {
+    for (let i = 0; i < nBig; i++) {
+      const ang = rngT() * Math.PI * 2;
+      const rad = 12 + rngT() * 16;
+      const kind = rngT() < 0.5 ? "t0" : "t1";
+      pushTree(kind, cx + Math.cos(ang) * rad, cz + Math.sin(ang) * rad, kind === "t0" ? 0.13 : 0.14);
+    }
+    for (let i = 0; i < nShrub; i++) {
+      const ang = rngT() * Math.PI * 2;
+      const rad = 8 + rngT() * 18;
+      pushTree("t2", cx + Math.cos(ang) * rad, cz + Math.sin(ang) * rad, 0.12 + rngT() * 0.04);
+    }
+  }
+  function grove(cx, cz, rows, cols) {
+    const gap = 5.2 + rngT() * 0.8;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = cx + (c - (cols - 1) / 2) * gap + (rngT() - 0.5) * 1.2;
+        const z = cz + (r - (rows - 1) / 2) * gap + (rngT() - 0.5) * 1.2 + (c % 2) * 0.9;
+        pushTree("t2", x, z, 4 / 28.3);
       }
     }
+  }
+  if (isPhone) {
+    villageTrees(-142, 86, 2, 2);
+    villageTrees(-158, 332, 2, 1);
+    grove(-210, 46, 4, 3);
+    grove(-230, 300, 4, 3);
+  } else {
+    villageTrees(-142, 86, 3, 3);
+    villageTrees(-158, 332, 3, 3);
+    grove(-208, 40, 5, 4);
+    grove(-232, 296, 5, 4);
+  }
+  let fieldGot = 0;
+  const fieldWant = isPhone ? 8 : 18;
+  for (let i = 0; i < 120 && fieldGot < fieldWant; i++) {
+    const x = -95 - rngT() * 270;
+    const z = -170 + rngT() * 580;
+    if (Math.hypot(x + 142, z - 86) < 34 || Math.hypot(x + 158, z - 332) < 32) continue;
+    if (Math.hypot(x + 208, z - 40) < 30 || Math.hypot(x + 232, z - 296) < 30) continue;
+    if (polyEdgeDist(x, z, outerPoly) < 26) continue;
+    const kind = rngT() < 0.55 ? "t1" : "t2";
+    if (pushTree(kind, x, z, kind === "t1" ? 0.14 : 0.12 + rngT() * 0.04)) fieldGot++;
+  }
+  let edgeGot = 0;
+  for (let i = 0; i < edgeTreeJobs.length; i++) {
+    const j = edgeTreeJobs[i];
+    if (isPhone && (i % 2 === 1)) continue;
+    if (hillBand(j.x, j.z) !== "plain") continue;
+    if (westRoadDist(j.x, j.z) < 5.5) continue;
+    if (fieldBlockedNorth(j.x, j.z)) continue;
+    const jx = j.x + (hash2(j.x, j.z + 2) - 0.5) * 2.6;
+    const jz = j.z + (hash2(j.z, j.x + 2) - 0.5) * 2.4;
+    const kind = hash2(j.x + 3, j.z) < 0.22 ? "t0" : "t1";
+    if (pushTree(kind, jx, jz, kind === "t0" ? 0.13 : 0.14)) edgeGot++;
+  }
+  if (window.__westPlain) {
+    window.__westPlain.edgeGot = edgeGot;
+    window.__westPlain.edgeQueued = edgeTreeJobs.length;
+  }
+  function bankOut(ax, az, bx, bz) {
+    const dx = bx - ax, dz = bz - az;
+    const len = Math.hypot(dx, dz) || 1;
+    let ox = dz / len, oz = -dx / len;
+    const mx = (ax + bx) * 0.5, mz = (az + bz) * 0.5;
+    if (!outsideLand(mx + ox * 3, mz + oz * 3)) { ox = -ox; oz = -oz; }
+    return { ux: dx / len, uz: dz / len, ox, oz, len };
+  }
+  function nearBridge(x, z) {
+    const cz = Math.max(-80, Math.min(-6, z));
+    if (Math.hypot(x - 128, z - cz) < 40) return true;
+    if (Math.hypot(x - 170, z + 17) < 40) return true;
+    if (Math.hypot(x - 194, z + 85) < 40) return true;
+    return false;
+  }
+  let bankGot = 0;
+  const bankWant = isPhone ? 22 : 48;
+  const bankWhy = { edge: 0, bridge: 0, dist: 0, push: 0, ok: 0 };
+  let walked = 0;
+  let nextAt = 24 + rngT() * 20;
+  for (let i = 0; i < outerPoly.length && bankGot < bankWant; i++) {
+    const a = outerPoly[i], b = outerPoly[(i + 1) % outerPoly.length];
+    const e = bankOut(a[0], a[1], b[0], b[1]);
+    if (e.len < 0.4) continue;
+    for (let s = 0; s < e.len && bankGot < bankWant; s += 3) {
+      walked += 3;
+      if (walked < nextAt) continue;
+      const ex = a[0] + e.ux * Math.min(s, e.len);
+      const ez = a[1] + e.uz * Math.min(s, e.len);
+      const north = ez > 340;
+      if (north && rngT() > 0.3) { nextAt = walked + 50 + rngT() * 40; continue; }
+      const nCl = north ? 1 : 2 + (rngT() * 2 | 0);
+      let placed = 0;
+      for (let k = 0; k < nCl && bankGot < bankWant; k++) {
+        const along = (rngT() - 0.5) * 8;
+        const dist = 8 + rngT() * 22;
+        const px = ex + e.ux * along + e.ox * dist;
+        const pz = ez + e.uz * along + e.oz * dist;
+        if (nearBridge(px, pz)) { bankWhy.bridge++; continue; }
+        const ed = polyEdgeDist(px, pz, outerPoly);
+        if (ed < 8 || ed > 30) { bankWhy.dist++; continue; }
+        const kind = !north && rngT() < 0.16 ? "t0" : "t1";
+        if (pushTree(kind, px, pz, kind === "t0" ? 0.13 : 0.14)) { bankGot++; placed++; bankWhy.ok++; }
+        else bankWhy.push++;
+      }
+      nextAt = walked + (placed ? 40 + rngT() * 80 : 18);
+    }
+  }
+
+  function tick(time, camera) {
+    if (window.__tickFields) {
+      try { window.__tickFields(time, camera); } catch (err) { window.__fieldTickErr = String(err && err.message || err); }
+    }
+    treeTime.value = time;
+    smokeU.uTime.value = time;
+    const night = window.__night || 0;
+    smokeU.uOpacity.value = 0.24 * (1 - night * 0.62);
     if (!camera) return;
     const cx = camera.position.x, cz = camera.position.z;
+    for (const ch of treeChunks) {
+      const d = Math.hypot(cx - ch.cx, cz - ch.cz);
+      for (const part of ch.parts) {
+        const show = d < part.far + 20 + ch.rad && (part.near <= 0 || d > part.near - 20 - ch.rad);
+        if (part.mesh.visible !== show) part.mesh.visible = show;
+      }
+    }
     for (const b of batches) {
       const buckets = b.meshes.map(() => []);
       for (const e of b.entries) {
@@ -808,6 +1070,19 @@ export function bootOutskirts(ctx) {
 
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
+  try {
+    installFields({
+      scene, isPhone, groundY, polyEdgeDist, outerPoly, outsideLand, wz,
+      treeSpots, south, groveModels: grovePlan.models,
+    });
+  } catch (err) {
+    window.__bootErr = "fields " + String(err && err.stack || err);
+    console.error(err);
+  }
+  loadFarms(loader, south.farmSpots, { scene, wz, isPhone }).catch((err) => {
+    window.__bootErr = "farm " + (err && err.message ? err.message : err);
+    console.error(err);
+  });
   const names = ["hut", "hall", "barrack", "cow", "guard", "guard2"];
   const files = isPhone ? ["lod1", "lod2"] : ["lod0", "lod1", "lod2"];
   const jobs = [];
@@ -908,7 +1183,7 @@ export function bootOutskirts(ctx) {
       guards: guardA.length + guardB.length,
       officers: officer.length,
       halls: hallEntries.length,
-      mulberry: mulberryPts.length,
+      trees: treeSpots.length,
       shore: shoreNotes,
       posts: guardA.concat(guardB).map((e) => ({
         kind: "guard", x: e.x, y: e.y, z: e.z, yaw: +e.yaw.toFixed(3), s: +e.sy.toFixed(3),
@@ -927,4 +1202,221 @@ export function bootOutskirts(ctx) {
   });
 
   window.__outskirts = { ready: false };
+
+  const treeLods = isPhone
+    ? [["lod1", 0, 50], ["lod2", 50, 400]]
+    : [["lod0", 0, 60], ["lod1", 60, 200], ["lod2", 200, 600]];
+  const treeNames = ["t0", "t1", "t2"];
+  const treeJobs = [];
+  for (const name of treeNames) for (const [lv] of treeLods) treeJobs.push(loadTree(name, lv));
+  function loadTree(name, lv) {
+    return new Promise((resolve, reject) => {
+      const rel = "models/" + name + "_" + lv + ".glb";
+      const url = (window.__glb && window.__glb[rel]) || ("/" + rel);
+      loader.load(url, resolve, undefined, reject);
+    }).then((gltf) => ({ name, lv, prep: prepTree(gltf) }));
+  }
+  function prepTree(gltf) {
+    gltf.scene.updateMatrixWorld(true);
+    const parts = [];
+    gltf.scene.traverse((o) => {
+      if (!o.isMesh) return;
+      const g = o.geometry.clone();
+      const floatAttr = (attr) => {
+        if (!attr) return null;
+        if (attr.array instanceof Float32Array && !attr.normalized) return attr;
+        const item = attr.itemSize;
+        const f = new Float32Array(attr.count * item);
+        for (let i = 0; i < attr.count; i++) {
+          if (item >= 1) f[i * item] = attr.getX(i);
+          if (item >= 2) f[i * item + 1] = attr.getY(i);
+          if (item >= 3) f[i * item + 2] = attr.getZ(i);
+          if (item >= 4) f[i * item + 3] = attr.getW(i);
+        }
+        return new THREE.BufferAttribute(f, item);
+      };
+      const posF = floatAttr(g.getAttribute("position"));
+      const nrmF = floatAttr(g.getAttribute("normal"));
+      if (posF) g.setAttribute("position", posF);
+      if (nrmF) g.setAttribute("normal", nrmF);
+      g.applyMatrix4(o.matrixWorld);
+      const src = Array.isArray(o.material) ? o.material[0] : o.material;
+      const role = src && src.name === "leaves" ? "leaves" : "branches";
+      parts.push({ g, src, role, sx: +o.matrixWorld.elements[0].toFixed(3), sy: +o.matrixWorld.elements[5].toFixed(3) });
+    });
+    let minY = Infinity, maxY = -Infinity, maxR = 1;
+    for (const p of parts) {
+      p.g.computeBoundingBox();
+      const bb = p.g.boundingBox;
+      minY = Math.min(minY, bb.min.y);
+      maxY = Math.max(maxY, bb.max.y);
+      maxR = Math.max(maxR, Math.hypot(bb.min.x, bb.min.z), Math.hypot(bb.max.x, bb.max.z), Math.hypot(bb.min.x, bb.max.z), Math.hypot(bb.max.x, bb.min.z));
+    }
+    if (!isFinite(minY)) minY = 0;
+    for (const p of parts) p.g.translate(0, -minY, 0);
+    return { parts, height: Math.max(1, maxY - minY), radius: maxR };
+  }
+  function dressTree(src, role, near, far, treeH, treeR) {
+    const mat = src.clone();
+    mat.side = THREE.DoubleSide;
+    if (mat.specularIntensity !== undefined) mat.specularIntensity = 0.5;
+    if (role === "leaves") {
+      mat.vertexColors = true;
+      mat.alphaTest = Math.max(mat.alphaTest || 0, 0.45);
+      if (!isPhone) mat.alphaToCoverage = true;
+    }
+    const amp = role === "leaves" ? 0.085 : 0.012;
+    mat.customProgramCacheKey = () => "autree-" + role + "-" + near + "-" + far + (isPhone ? "p" : "d");
+    mat.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = treeTime;
+      shader.uniforms.uWind = { value: new THREE.Vector2(1, 0.7) };
+      shader.uniforms.uNear = { value: near };
+      shader.uniforms.uFar = { value: far };
+      shader.uniforms.uTreeH = { value: Math.max(treeH, 1) };
+      shader.uniforms.uTreeR = { value: Math.max(treeR, 1) };
+      shader.uniforms.uAmp = { value: amp };
+      shader.vertexShader = shader.vertexShader
+        .replace("#include <common>", `#include <common>
+uniform float uTime;
+uniform vec2 uWind;
+uniform float uNear;
+uniform float uFar;
+uniform float uTreeH;
+uniform float uTreeR;
+uniform float uAmp;
+varying float vKeep;`)
+        .replace("#include <begin_vertex>", `#include <begin_vertex>
+#ifdef USE_INSTANCING
+  vec3 root = vec3(instanceMatrix[3].x, instanceMatrix[3].y, instanceMatrix[3].z);
+  float hh = clamp(position.y / max(uTreeH, 1e-4), 0.0, 1.0);
+  float radN = clamp(length(position.xz) / max(uTreeR, 1e-4), 0.0, 1.25);
+  float phase = fract(sin(dot(root.xz, vec2(127.1, 311.7))) * 43758.5453);
+  float wlen = max(length(uWind), 1e-4);
+  vec2 wdir = uWind / wlen;
+  float gust = 0.38 + 0.62 * pow(max(sin(uTime * 0.23 + root.x * 0.011 + root.z * 0.008), 0.0), 0.5);
+  float th = uTime * 1.25 + phase * 6.2831853 - dot(root.xz, wdir) * 0.12;
+  float wave = sin(th) * 0.72 + sin(th * 0.57 + phase) * 0.28;
+  float bend = hh * hh * (uAmp > 0.03 ? (0.3 + 0.7 * radN) : 0.55);
+  float sway = bend * gust * wave * uAmp * uTreeH;
+  transformed.x += wdir.x * sway;
+  transformed.z += wdir.y * sway;
+  float distR = distance(root.xz, cameraPosition.xz);
+  float band = 20.0;
+  float lo = uNear <= 0.5 ? 1.0 : smoothstep(uNear - band, uNear + band, distR);
+  float hi = 1.0 - smoothstep(max(uFar - band, 0.0), uFar + band, distR);
+  vKeep = clamp(lo * hi, 0.0, 1.0);
+#else
+  vKeep = 1.0;
+#endif`);
+      shader.fragmentShader = shader.fragmentShader
+        .replace("#include <common>", `#include <common>
+varying float vKeep;`)
+        .replace("#include <alphatest_fragment>", `
+  if (vKeep < 0.995) {
+    float dith = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
+    if (dith > max(vKeep, 0.0)) discard;
+  }
+  #include <alphatest_fragment>`);
+    };
+    return mat;
+  }
+  function shellGeo(base, sphere) {
+    const g = new THREE.BufferGeometry();
+    for (const k in base.attributes) g.setAttribute(k, base.attributes[k]);
+    if (base.index) g.setIndex(base.index);
+    g.boundingSphere = sphere;
+    return g;
+  }
+  Promise.all(treeJobs).then((list) => {
+    const by = {};
+    for (const it of list) {
+      by[it.name] = by[it.name] || {};
+      by[it.name][it.lv] = it.prep;
+    }
+    const buckets = new Map();
+    for (const s of treeSpots) {
+      const key = (Math.floor(s.x / 60)) + "_" + (Math.floor(s.z / 60));
+      let listS = buckets.get(key);
+      if (!listS) { listS = []; buckets.set(key, listS); }
+      listS.push(s);
+    }
+    const dummyT = new THREE.Object3D();
+    let meshes = 0;
+    for (const spots of buckets.values()) {
+      let minX = Infinity, minY = Infinity, minZ = Infinity;
+      let maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity;
+      for (const s of spots) {
+        const pz = wz(s.z);
+        const prep0 = by[s.kind] && by[s.kind][treeLods[0][0]];
+        const h = (prep0 ? prep0.height : 80) * s.s;
+        if (s.x - 2 < minX) minX = s.x - 2;
+        if (s.x + 2 > maxX) maxX = s.x + 2;
+        if (s.y - 1 < minY) minY = s.y - 1;
+        if (s.y + h > maxY) maxY = s.y + h;
+        if (pz - 2 < minZ) minZ = pz - 2;
+        if (pz + 2 > maxZ) maxZ = pz + 2;
+      }
+      const cx = (minX + maxX) * 0.5, cy = (minY + maxY) * 0.5, cz = (minZ + maxZ) * 0.5;
+      const rad = Math.hypot(maxX - minX, maxY - minY, maxZ - minZ) * 0.5 + 1;
+      const sphere = new THREE.Sphere(new THREE.Vector3(cx, cy, cz), Math.max(rad, 2));
+      const chunk = { cx, cz, rad, parts: [] };
+      const kinds = ["t0", "t1", "t2"];
+      for (const kind of kinds) {
+        const mine = spots.filter((s) => s.kind === kind);
+        if (!mine.length || !by[kind]) continue;
+        for (const [lv, near, far] of treeLods) {
+          const prep = by[kind][lv];
+          if (!prep) continue;
+          for (const part of prep.parts) {
+            const geo = shellGeo(part.g, sphere);
+            const mat = dressTree(part.src, part.role, near, far, prep.height, prep.radius);
+            const mesh = new THREE.InstancedMesh(geo, mat, mine.length);
+            mesh.name = "autumnTree";
+            mesh.count = mine.length;
+            mesh.frustumCulled = true;
+            mesh.castShadow = !isPhone && lv === "lod0";
+            mesh.receiveShadow = false;
+            mine.forEach((s, i) => {
+              dummyT.position.set(s.x, s.y, wz(s.z));
+              dummyT.rotation.set(0, s.yaw, 0);
+              dummyT.scale.set(s.s, s.s, s.s);
+              dummyT.updateMatrix();
+              mesh.setMatrixAt(i, dummyT.matrix);
+            });
+            mesh.instanceMatrix.needsUpdate = true;
+            scene.add(mesh);
+            chunk.parts.push({ mesh, near, far });
+            meshes++;
+          }
+        }
+      }
+      treeChunks.push(chunk);
+    }
+    const kinds = { t0: 0, t1: 0, t2: 0 };
+    for (const s of treeSpots) kinds[s.kind]++;
+    const sample = by.t0 && by.t0[treeLods[0][0]];
+    window.__trees = {
+      count: treeSpots.length,
+      kinds,
+      chunks: treeChunks.length,
+      meshes,
+      phone: isPhone,
+      height: sample ? +sample.height.toFixed(2) : 0,
+      scales: sample ? sample.parts.map((p) => [p.role, p.sx, p.sy]) : [],
+      bank: bankGot,
+      field: fieldGot,
+      bankWhy,
+    };
+    if (window.__plants) window.__plants.trees = treeSpots.length;
+    const aveLods = isPhone
+      ? [["lod1", 0, 140], ["lod2", 140, 420]]
+      : [["lod0", 0, 60], ["lod1", 60, 200], ["lod2", 200, 600]];
+    makeAvenueTrees({
+      scene, wz, spots: south.avenueGLB, by, aveLods, dressTree, isPhone,
+    });
+    attachGroveModels({ scene, wz, isPhone, by, dressTree, models: grovePlan.models });
+  }).catch((err) => {
+    window.__bootErr = "trees " + (err && err.message ? err.message : err);
+    console.error(err);
+  });
 }

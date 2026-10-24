@@ -1,0 +1,1064 @@
+{
+ "refl": {
+  "w": 400,
+  "h": 256,
+  "n": 12800,
+  "mean": [
+   0,
+   0,
+   0
+  ],
+  "blueFrac": 0,
+  "grayFrac": 0,
+  "calls": [
+   {
+    "override": "",
+    "autoClear": false,
+    "camY": 7.5,
+    "waterY": 0,
+    "below": false
+   },
+   {
+    "override": "MeshNormalMaterial",
+    "autoClear": false,
+    "camY": 7.5,
+    "waterY": 0,
+    "below": false
+   },
+   {
+    "override": "",
+    "autoClear": false,
+    "camY": 7.5,
+    "waterY": 0,
+    "below": false
+   },
+   {
+    "override": "MeshNormalMaterial",
+    "autoClear": false,
+    "camY": 7.5,
+    "waterY": 0,
+    "below": false
+   }
+  ]
+ },
+ "reflAfterSkip": {
+  "mean": [
+   0,
+   0,
+   0
+  ]
+ },
+ "aoDiff": {
+  "n": 0,
+  "box": null
+ },
+ "suspects": [
+  {
+   "name": "gateFloor",
+   "type": "Mesh",
+   "geo": "BufferGeometry",
+   "fn": "buildSouthGate",
+   "dist": 4.1,
+   "c": [
+    128,
+    0.8,
+    4.1
+   ],
+   "size": [
+    17.9,
+    0.04,
+    7.55
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "gateFloor",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 43.7,
+   "c": [
+    168,
+    0.6,
+    -17.5
+   ],
+   "size": [
+    8,
+    0.3,
+    11
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 103.8,
+   "c": [
+    152,
+    1.1,
+    -101
+   ],
+   "size": [
+    16,
+    0.3,
+    12
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 108.1,
+   "c": [
+    97.8,
+    2.3,
+    -103.7
+   ],
+   "size": [
+    0.34,
+    0.6,
+    14.2
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 108.1,
+   "c": [
+    97.8,
+    3.7,
+    -103.7
+   ],
+   "size": [
+    0.28,
+    2.9,
+    14.2
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 108.6,
+   "c": [
+    104.9,
+    3.5,
+    -106.2
+   ],
+   "size": [
+    5.05,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 110.2,
+   "c": [
+    97.8,
+    2,
+    -106
+   ],
+   "size": [
+    2.32,
+    0.05,
+    5.96
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 112.5,
+   "c": [
+    90.7,
+    3.5,
+    -106.2
+   ],
+   "size": [
+    5.05,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 115.7,
+   "c": [
+    161.3,
+    1.8,
+    -110.8
+   ],
+   "size": [
+    0.34,
+    0.6,
+    14.8
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 115.7,
+   "c": [
+    161.3,
+    3.2,
+    -110.8
+   ],
+   "size": [
+    0.28,
+    2.9,
+    14.8
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 116.1,
+   "c": [
+    153.9,
+    3,
+    -113.2
+   ],
+   "size": [
+    4.85,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 117.8,
+   "c": [
+    161.3,
+    1.5,
+    -113
+   ],
+   "size": [
+    2.23,
+    0.05,
+    6.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 120.2,
+   "c": [
+    168.7,
+    3,
+    -113.2
+   ],
+   "size": [
+    4.85,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 128,
+   "c": [
+    0,
+    0,
+    0
+   ],
+   "size": [
+    0.6,
+    0.03,
+    6
+   ],
+   "vis": false,
+   "trans": true,
+   "depthWrite": false,
+   "opacity": 0.35,
+   "mat": "MeshBasicMaterial",
+   "order": 0,
+   "count": 23
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 136.1,
+   "c": [
+    103.3,
+    3.5,
+    -133.8
+   ],
+   "size": [
+    4.85,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 137.6,
+   "c": [
+    96.7,
+    2,
+    -134
+   ],
+   "size": [
+    2.23,
+    0.05,
+    5.5
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 139.1,
+   "c": [
+    90.1,
+    3.5,
+    -133.8
+   ],
+   "size": [
+    4.85,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 139.7,
+   "c": [
+    96.7,
+    2.3,
+    -136.2
+   ],
+   "size": [
+    0.34,
+    0.6,
+    13.1
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 139.7,
+   "c": [
+    96.7,
+    3.7,
+    -136.2
+   ],
+   "size": [
+    0.28,
+    2.9,
+    13.1
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 145.1,
+   "c": [
+    153.6,
+    3,
+    -142.8
+   ],
+   "size": [
+    5.05,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 146.6,
+   "c": [
+    160.2,
+    1.5,
+    -143
+   ],
+   "size": [
+    2.32,
+    0.05,
+    5.59
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 148,
+   "c": [
+    166.8,
+    3,
+    -142.8
+   ],
+   "size": [
+    5.05,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 148.8,
+   "c": [
+    160.2,
+    1.8,
+    -145.3
+   ],
+   "size": [
+    0.34,
+    0.6,
+    13.3
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 148.8,
+   "c": [
+    160.2,
+    3.2,
+    -145.3
+   ],
+   "size": [
+    0.28,
+    2.9,
+    13.3
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 162.8,
+   "c": [
+    95.7,
+    2.5,
+    -159.5
+   ],
+   "size": [
+    0.34,
+    0.6,
+    12.2
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 162.8,
+   "c": [
+    95.7,
+    3.9,
+    -159.5
+   ],
+   "size": [
+    0.28,
+    2.9,
+    12.2
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 164,
+   "c": [
+    101.8,
+    3.7,
+    -161.8
+   ],
+   "size": [
+    4.85,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 164.9,
+   "c": [
+    95.7,
+    2.2,
+    -161.7
+   ],
+   "size": [
+    2.23,
+    0.05,
+    5.12
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 166.3,
+   "c": [
+    89.6,
+    3.7,
+    -161.8
+   ],
+   "size": [
+    4.85,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "PlaneGeometry",
+   "fn": "",
+   "dist": 177.8,
+   "c": [
+    180,
+    0.3,
+    170
+   ],
+   "size": [
+    560,
+    620,
+    0
+   ],
+   "vis": false,
+   "trans": true,
+   "depthWrite": false,
+   "opacity": 1,
+   "mat": "ShaderMaterial",
+   "order": 2,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "PlaneGeometry",
+   "fn": "",
+   "dist": 177.8,
+   "c": [
+    180,
+    1.1,
+    170
+   ],
+   "size": [
+    560,
+    620,
+    0
+   ],
+   "vis": false,
+   "trans": true,
+   "depthWrite": false,
+   "opacity": 1,
+   "mat": "ShaderMaterial",
+   "order": 2,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "PlaneGeometry",
+   "fn": "",
+   "dist": 177.8,
+   "c": [
+    180,
+    1.7,
+    170
+   ],
+   "size": [
+    560,
+    620,
+    0
+   ],
+   "vis": false,
+   "trans": true,
+   "depthWrite": false,
+   "opacity": 1,
+   "mat": "ShaderMaterial",
+   "order": 2,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 189.6,
+   "c": [
+    104.3,
+    3.7,
+    -188.2
+   ],
+   "size": [
+    5.05,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "innerGround",
+   "type": "Mesh",
+   "geo": "ShapeGeometry",
+   "fn": "",
+   "dist": 190.4,
+   "c": [
+    175,
+    0.8,
+    184.5
+   ],
+   "size": [
+    350,
+    0,
+    391
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 190.9,
+   "c": [
+    96.8,
+    2.2,
+    -188.3
+   ],
+   "size": [
+    2.32,
+    0.05,
+    6.34
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 192.1,
+   "c": [
+    89.3,
+    3.7,
+    -188.2
+   ],
+   "size": [
+    5.05,
+    3.1,
+    0.22
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 193.1,
+   "c": [
+    96.8,
+    2.5,
+    -190.6
+   ],
+   "size": [
+    0.34,
+    0.6,
+    15.1
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 193.1,
+   "c": [
+    96.8,
+    3.9,
+    -190.6
+   ],
+   "size": [
+    0.28,
+    2.9,
+    15.1
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 262.6,
+   "c": [
+    -118,
+    2.1,
+    92
+   ],
+   "size": [
+    7.5,
+    0.06,
+    0.06
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  },
+  {
+   "name": "",
+   "type": "Mesh",
+   "geo": "BoxGeometry",
+   "fn": "",
+   "dist": 262.6,
+   "c": [
+    -118,
+    1.7,
+    92
+   ],
+   "size": [
+    7.5,
+    0.05,
+    0.05
+   ],
+   "vis": true,
+   "trans": false,
+   "depthWrite": true,
+   "opacity": 1,
+   "mat": "MeshStandardMaterial",
+   "order": 0,
+   "count": 1
+  }
+ ],
+ "shots": {
+  "bridge": {
+   "grayN": 1496,
+   "box": [
+    220,
+    67,
+    580,
+    151
+   ],
+   "W": 800,
+   "H": 450
+  },
+  "side": {
+   "grayN": 1058,
+   "box": [
+    40,
+    67,
+    364,
+    163
+   ],
+   "W": 800,
+   "H": 450
+  },
+  "yaw": {
+   "grayN": 1611,
+   "box": [
+    44,
+    67,
+    756,
+    191
+   ],
+   "W": 800,
+   "H": 450
+  },
+  "inside": {
+   "grayN": 3702,
+   "box": [
+    120,
+    67,
+    676,
+    219
+   ],
+   "W": 800,
+   "H": 450
+  }
+ },
+ "bootErr": null
+}

@@ -29,7 +29,7 @@ function Home() {
   }, []);
 
   return (
-    <main className="fixed inset-0 bg-[#2a2118]">
+    <main className="fixed inset-0 bg-[#0E1314]">
       <iframe
         ref={frame}
         title="赵王城 · 黄昏第一版"

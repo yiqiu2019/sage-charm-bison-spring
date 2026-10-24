@@ -1,0 +1,65 @@
+{
+  "bench": {
+    "bench": {
+      "ms": 13.65,
+      "fps": 73,
+      "calls": 230,
+      "tris": 11616648
+    },
+    "fields": {
+      "ready": true,
+      "keptOutskirts": 120,
+      "beforeTrees": 540,
+      "avenue": 60,
+      "boards": 60,
+      "grove": 300,
+      "added": 1746,
+      "models": 676,
+      "near": 363,
+      "far": 1383,
+      "grass": 222,
+      "shrubs": 32,
+      "paths": 4,
+      "yards": [
+        {
+          "x": 486,
+          "z": 60,
+          "from": {
+            "x": 470,
+            "z": 60
+          },
+          "shifted": true
+        },
+        {
+          "x": 500,
+          "z": 280,
+          "from": {
+            "x": 500,
+            "z": 280
+          },
+          "shifted": false
+        }
+      ],
+      "farms": {
+        "a": 3,
+        "b": 3,
+        "h": 9
+      },
+      "draws": 13,
+      "treeH": 11.39,
+      "totalOutdoor": 2286
+    },
+    "names": {
+      "outerGround": 1,
+      "southFields": 1,
+      "westRoad": 1,
+      "fieldFence": 1,
+      "fieldGrass": 1,
+      "fieldFarm": 6,
+      "fieldTree": 4,
+      "fieldBoard": 1
+    },
+    "err": null
+  },
+  "errs": []
+}

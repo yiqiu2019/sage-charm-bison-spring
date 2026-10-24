@@ -1,0 +1,26 @@
+import { chromium } from "playwright";
+import fs from "fs";
+const out = "/workspace/artifacts/ripples";
+fs.mkdirSync(out, { recursive: true });
+const browser = await chromium.launch({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--ignore-gpu-blocklist"] });
+const logs = [];
+const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+page.on("console", (m) => { if (m.type() === "error" || m.type() === "warning") logs.push(m.text().slice(0, 240)); });
+page.on("pageerror", (e) => logs.push("PAGE " + e.message));
+const cdp = await page.context().newCDPSession(page);
+await page.goto("http://127.0.0.1:8080/zhaowangcheng.html?fps=1", { waitUntil: "domcontentloaded", timeout: 90000 });
+await page.waitForFunction(() => window.__debug && window.__debug.soak && !document.getElementById("boot"), { timeout: 40000 });
+const info = await page.evaluate(() => {
+  document.getElementById("hud").style.display = "none";
+  window.__debug.pose(90, -28, Math.PI / 2);
+  const soaked = window.__debug.soak(2.4, ["KeyW"]);
+  const s = window.__debug.state();
+  window.__debug.look(s.x + 2.2, 2.2, s.z - 4.2, s.x - 0.4, 0.05, s.z + 0.2);
+  return soaked;
+});
+console.log(JSON.stringify(info));
+await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+const { data } = await cdp.send("Page.captureScreenshot", { format: "png" });
+fs.writeFileSync(out + "/dusk-run.png", Buffer.from(data, "base64"));
+console.log("shot", logs.join(" | ") || "ok");
+await browser.close();

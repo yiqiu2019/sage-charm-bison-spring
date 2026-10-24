@@ -1,0 +1,1602 @@
+{
+  "n": 642,
+  "big": [
+    {
+      "name": "gatePassage",
+      "d": 4.1,
+      "r": 10.9,
+      "x": 128,
+      "y": 5.3,
+      "z": -4.1,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "gate-wall-fade1",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "gateFloor",
+      "d": 4.1,
+      "r": 9.7,
+      "x": 128,
+      "y": 0.8,
+      "z": -4.1,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "gate-floor-fade1",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "gateWood",
+      "d": 3.8,
+      "r": 10.6,
+      "x": 128,
+      "y": 5.3,
+      "z": -3.8,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "gate-wood-fade1",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "gateDoor",
+      "d": 5,
+      "r": 10,
+      "x": 128,
+      "y": 5.2,
+      "z": -5,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "gate-door-backfade1",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 0,
+      "d": 6.2,
+      "x": 128,
+      "y": 0.8,
+      "z": 6.2,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 1,
+      "d": 6.5,
+      "x": 128,
+      "y": 0.9,
+      "z": 6.5,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 2,
+      "d": 6.8,
+      "x": 128,
+      "y": 0.9,
+      "z": 6.8,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 3,
+      "d": 7.1,
+      "x": 128,
+      "y": 1,
+      "z": 7.1,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 4,
+      "d": 7.4,
+      "x": 128,
+      "y": 1.1,
+      "z": 7.4,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 5,
+      "d": 7.7,
+      "x": 128,
+      "y": 1.1,
+      "z": 7.7,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 6,
+      "d": 8,
+      "x": 128,
+      "y": 1.2,
+      "z": 8,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 7,
+      "d": 8.3,
+      "x": 128,
+      "y": 1.3,
+      "z": 8.3,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 8,
+      "d": 8.6,
+      "x": 128,
+      "y": 1.4,
+      "z": 8.6,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 9,
+      "d": 8.9,
+      "x": 128,
+      "y": 1.4,
+      "z": 8.9,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 10,
+      "d": 9.3,
+      "x": 128,
+      "y": 1.5,
+      "z": 9.3,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 11,
+      "d": 9.6,
+      "x": 128,
+      "y": 1.6,
+      "z": 9.6,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 12,
+      "d": 9.9,
+      "x": 128,
+      "y": 1.6,
+      "z": 9.9,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 13,
+      "d": 10.2,
+      "x": 128,
+      "y": 1.7,
+      "z": 10.2,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 14,
+      "d": 10.5,
+      "x": 128,
+      "y": 1.8,
+      "z": 10.5,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 15,
+      "d": 10.8,
+      "x": 128,
+      "y": 1.9,
+      "z": 10.8,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 16,
+      "d": 11.1,
+      "x": 128,
+      "y": 1.9,
+      "z": 11.1,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 17,
+      "d": 11.4,
+      "x": 128,
+      "y": 2,
+      "z": 11.4,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 18,
+      "d": 11.7,
+      "x": 128,
+      "y": 2.1,
+      "z": 11.7,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 19,
+      "d": 12,
+      "x": 128,
+      "y": 2.1,
+      "z": 12,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 20,
+      "d": 12.3,
+      "x": 128,
+      "y": 2.2,
+      "z": 12.3,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 21,
+      "d": 12.6,
+      "x": 128,
+      "y": 2.3,
+      "z": 12.6,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 22,
+      "d": 12.9,
+      "x": 128,
+      "y": 2.4,
+      "z": 12.9,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 23,
+      "d": 13.2,
+      "x": 128,
+      "y": 2.4,
+      "z": 13.2,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 24,
+      "d": 13.5,
+      "x": 128,
+      "y": 2.5,
+      "z": 13.5,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 25,
+      "d": 13.9,
+      "x": 128,
+      "y": 2.6,
+      "z": 13.9,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 26,
+      "d": 14.2,
+      "x": 128,
+      "y": 2.6,
+      "z": 14.2,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 27,
+      "d": 14.5,
+      "x": 128,
+      "y": 2.7,
+      "z": 14.5,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 28,
+      "d": 14.8,
+      "x": 128,
+      "y": 2.8,
+      "z": 14.8,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 29,
+      "d": 15.1,
+      "x": 128,
+      "y": 2.9,
+      "z": 15.1,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 30,
+      "d": 15.4,
+      "x": 128,
+      "y": 2.9,
+      "z": 15.4,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 31,
+      "d": 15.7,
+      "x": 128,
+      "y": 3,
+      "z": 15.7,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 32,
+      "d": 16,
+      "x": 128,
+      "y": 3.1,
+      "z": 16,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 33,
+      "d": 16.3,
+      "x": 128,
+      "y": 3.1,
+      "z": 16.3,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 34,
+      "d": 16.6,
+      "x": 128,
+      "y": 3.2,
+      "z": 16.6,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 35,
+      "d": 16.9,
+      "x": 128,
+      "y": 3.3,
+      "z": 16.9,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 36,
+      "d": 17.2,
+      "x": 128,
+      "y": 3.4,
+      "z": 17.2,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 37,
+      "d": 17.5,
+      "x": 128,
+      "y": 3.4,
+      "z": 17.5,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 38,
+      "d": 17.8,
+      "x": 128,
+      "y": 3.5,
+      "z": 17.8,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 39,
+      "d": 18.2,
+      "x": 128,
+      "y": 3.5,
+      "z": 18.2,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 40,
+      "d": 18.6,
+      "x": 128,
+      "y": 3.5,
+      "z": 18.6,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 41,
+      "d": 18.9,
+      "x": 128,
+      "y": 3.5,
+      "z": 18.9,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 42,
+      "d": 19.2,
+      "x": 128,
+      "y": 3.5,
+      "z": 19.2,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 43,
+      "d": 19.5,
+      "x": 128,
+      "y": 3.5,
+      "z": 19.5,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 44,
+      "d": 19.8,
+      "x": 128,
+      "y": 3.5,
+      "z": 19.8,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 45,
+      "d": 20.1,
+      "x": 128,
+      "y": 3.5,
+      "z": 20.1,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 46,
+      "d": 20.4,
+      "x": 128,
+      "y": 3.5,
+      "z": 20.4,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 47,
+      "d": 20.8,
+      "x": 128,
+      "y": 3.5,
+      "z": 20.8,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 48,
+      "d": 21.1,
+      "x": 128,
+      "y": 3.5,
+      "z": 21.1,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 49,
+      "d": 21.4,
+      "x": 128,
+      "y": 3.5,
+      "z": 21.4,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 50,
+      "d": 21.7,
+      "x": 128,
+      "y": 3.5,
+      "z": 21.7,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 51,
+      "d": 22,
+      "x": 128,
+      "y": 3.5,
+      "z": 22,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 52,
+      "d": 22.3,
+      "x": 128,
+      "y": 3.5,
+      "z": 22.3,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 53,
+      "d": 22.6,
+      "x": 128,
+      "y": 3.5,
+      "z": 22.6,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 54,
+      "d": 23,
+      "x": 128,
+      "y": 3.5,
+      "z": 23,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 55,
+      "d": 23.3,
+      "x": 128,
+      "y": 3.5,
+      "z": 23.3,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 56,
+      "d": 23.6,
+      "x": 128,
+      "y": 3.5,
+      "z": 23.6,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 57,
+      "d": 23.9,
+      "x": 128,
+      "y": 3.5,
+      "z": 23.9,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 58,
+      "d": 24.2,
+      "x": 128,
+      "y": 3.5,
+      "z": 24.2,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 59,
+      "d": 24.5,
+      "x": 128,
+      "y": 3.5,
+      "z": 24.5,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 60,
+      "d": 24.9,
+      "x": 128,
+      "y": 3.5,
+      "z": 24.9,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 61,
+      "d": 25.2,
+      "x": 128,
+      "y": 3.5,
+      "z": 25.2,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 62,
+      "d": 25.5,
+      "x": 128,
+      "y": 3.5,
+      "z": 25.5,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 63,
+      "d": 25.8,
+      "x": 128,
+      "y": 3.5,
+      "z": 25.8,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 64,
+      "d": 26.1,
+      "x": 128,
+      "y": 3.5,
+      "z": 26.1,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 65,
+      "d": 26.4,
+      "x": 128,
+      "y": 3.5,
+      "z": 26.4,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 66,
+      "d": 26.7,
+      "x": 128,
+      "y": 3.5,
+      "z": 26.7,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 67,
+      "d": 27.1,
+      "x": 128,
+      "y": 3.5,
+      "z": 27.1,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 68,
+      "d": 27.4,
+      "x": 128,
+      "y": 3.5,
+      "z": 27.4,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 69,
+      "d": 27.7,
+      "x": 128,
+      "y": 3.5,
+      "z": 27.7,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 70,
+      "d": 28,
+      "x": 128,
+      "y": 3.5,
+      "z": 28,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 71,
+      "d": 28.3,
+      "x": 128,
+      "y": 3.5,
+      "z": 28.3,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 72,
+      "d": 28.6,
+      "x": 128,
+      "y": 3.5,
+      "z": 28.6,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 73,
+      "d": 28.9,
+      "x": 128,
+      "y": 3.5,
+      "z": 28.9,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 74,
+      "d": 29.3,
+      "x": 128,
+      "y": 3.5,
+      "z": 29.3,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    },
+    {
+      "name": "brPlank",
+      "i": 75,
+      "d": 29.6,
+      "x": 128,
+      "y": 3.5,
+      "z": 29.6,
+      "sx": 12.4,
+      "sy": 0.12,
+      "flags": {
+        "tr": false,
+        "dw": true,
+        "dt": true,
+        "at": 0,
+        "op": 1,
+        "atc": false,
+        "key": "bridge-age-bridgeH",
+        "type": "MeshStandardMaterial"
+      }
+    }
+  ],
+  "cam": [
+    188,
+    7.5,
+    34
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "shown": {
+    "ms": 22.18,
+    "fps": 45,
+    "calls": 510,
+    "tris": 4893010
+  },
+  "hidden": {
+    "ms": 19.97,
+    "fps": 50,
+    "calls": 498,
+    "tris": 4452846
+  },
+  "deltaCalls": 12,
+  "deltaTris": 440164,
+  "air": {
+    "shown": {
+      "ms": 41.02,
+      "fps": 24,
+      "calls": 767,
+      "tris": 6817702
+    },
+    "hidden": {
+      "ms": 36.45,
+      "fps": 27,
+      "calls": 755,
+      "tris": 6181878
+    },
+    "deltaCalls": 12,
+    "deltaTris": 635824
+  },
+  "visible": 6,
+  "city": {
+    "spots": 55,
+    "kinds": {
+      "t0": 40,
+      "t1": 15
+    },
+    "cities": {
+      "W": 25,
+      "E": 12,
+      "N": 18
+    },
+    "bins": 17,
+    "phone": false,
+    "raw": 55,
+    "blocked": 12,
+    "violations": [],
+    "modelH": {
+      "t0": 83.69,
+      "t1": 71.69
+    },
+    "crown": {
+      "t0": 34.25,
+      "t1": 26.7
+    },
+    "meshes": 6,
+    "draws": 6
+  }
+}

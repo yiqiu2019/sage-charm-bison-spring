@@ -1,0 +1,20 @@
+{
+  "moat": {
+    "ms": 18.32,
+    "fps": 55,
+    "calls": 546,
+    "tris": 3621332
+  },
+  "ave": {
+    "ms": 7.4,
+    "fps": 135,
+    "calls": 243,
+    "tris": 4527504
+  },
+  "names": {
+    "southAveBoard": 1,
+    "autumnTree": 290,
+    "southAveTree": 10
+  },
+  "grove": null
+}

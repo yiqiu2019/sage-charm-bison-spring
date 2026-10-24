@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "ready": true,
+    "skipped": null,
+    "guards": [
+      {
+        "name": "guardGe",
+        "x": 120.3,
+        "z": -2.5,
+        "yaw": 10,
+        "scale": 1.793,
+        "head": 1.72,
+        "rawHead": 0.959,
+        "rawTop": 1.096,
+        "minY": 0
+      },
+      {
+        "name": "guardSword",
+        "x": 135.7,
+        "z": -2.5,
+        "yaw": -10,
+        "scale": 1.542,
+        "head": 1.72,
+        "rawHead": 1.115,
+        "rawTop": 1.136,
+        "minY": 0
+      }
+    ]
+  },
+  "guards": [
+    {
+      "name": "guardGe",
+      "pos": [
+        120.3,
+        0.8,
+        2.5
+      ],
+      "yaw": 10,
+      "min": [
+        119.589,
+        0.8,
+        2.207
+      ],
+      "max": [
+        120.545,
+        2.766,
+        2.831
+      ],
+      "matInfo": {
+        "type": "MeshPhysicalMaterial",
+        "side": 0,
+        "shadowSide": 0,
+        "spec": 0.5,
+        "metal": 1,
+        "rough": 1,
+        "aniso": 4
+      }
+    },
+    {
+      "name": "guardSword",
+      "pos": [
+        135.7,
+        0.8,
+        2.5
+      ],
+      "yaw": -10,
+      "min": [
+        135.389,
+        0.8,
+        2.217
+      ],
+      "max": [
+        136.032,
+        2.551,
+        2.829
+      ],
+      "matInfo": {
+        "type": "MeshPhysicalMaterial",
+        "side": 0,
+        "shadowSide": 0,
+        "spec": 0.5,
+        "metal": 1,
+        "rough": 1,
+        "aniso": 4
+      }
+    }
+  ]
+}
